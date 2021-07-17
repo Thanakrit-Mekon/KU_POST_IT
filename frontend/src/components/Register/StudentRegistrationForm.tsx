@@ -3,27 +3,12 @@ import {
   TextField,
   Grid,
   Button,
-  makeStyles,
-  createStyles,
-  Theme,
   Box,
   Checkbox,
   Link,
 } from "@material-ui/core";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-        width: "25ch",
-      },
-    },
-  })
-);
-
 function StudentRegistrationForm(): JSX.Element {
-  const classes = useStyles();
   return (
     <>
       <Typography

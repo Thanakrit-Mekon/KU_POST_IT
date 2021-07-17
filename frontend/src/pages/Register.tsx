@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
-import RegistrationCard from "../components/RegistrationCard";
+import RegistrationCard from "../components/Register/RegistrationCard";
 
 const useStyles = makeStyles(() =>
   createStyles({

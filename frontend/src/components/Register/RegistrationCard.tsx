@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Grid, Box, Typography, AppBar, Tabs, Tab } from "@material-ui/core";
+import { Grid, Box, AppBar, Tabs, Tab } from "@material-ui/core";
 import StudentRegistrationForm from "./StudentRegistrationForm";
+import TeacherRegistrationForm from "./TeacherRegistrationForm";
+import CompanyRegistrationForm from "./CompanyRegistrationForm";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -47,7 +49,7 @@ const useStyles = makeStyles(() =>
       height: "100%",
       overflow: "hidden",
       "& img": {
-        width: "80%",
+        width: "100%",
         objectFit: "cover",
       },
     },
@@ -90,10 +92,10 @@ function RegistrationCard(): JSX.Element {
               <StudentRegistrationForm />
             </TabPanel>
             <TabPanel value={tabIndex} index={1}>
-              <Typography>Tab 2</Typography>
+              <TeacherRegistrationForm />
             </TabPanel>
             <TabPanel value={tabIndex} index={2}>
-              <Typography>Tab 3</Typography>
+              <CompanyRegistrationForm/>
             </TabPanel>
           </Box>
         </Grid>
@@ -103,10 +105,7 @@ function RegistrationCard(): JSX.Element {
             boxShadow={6}
             className={classes.content}
           >
-            <img
-              src="https://stickershop.line-scdn.net/stickershop/v1/product/4141/IOS/main_animation@2x.png"
-              alt="capoo"
-            />
+            <img src="/img/mascot.png" alt="capoo" />
           </Box>
         </Grid>
       </Grid>
