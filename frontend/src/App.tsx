@@ -10,7 +10,7 @@ function App() {
             <Register />
           </Route>
           <Route path="/login"></Route>
-          <Route path="/sta"></Route>
+          <Route path="/ta"></Route>
           <Route path="/project-coop"></Route>
           <Route path="/internship"></Route>
           <Route path="/posts/new"></Route>
