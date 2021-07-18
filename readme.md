@@ -1,3 +1,0 @@
-# KU POST IT
-
-KU POST IT
