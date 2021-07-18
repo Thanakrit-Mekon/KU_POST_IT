@@ -55,12 +55,12 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-function a11yProps(index: any) {
-  return {
-    id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
-  };
-}
+// function a11yProps(index: any) {
+//   return {
+//     id: `full-width-tab-${index}`,
+//     "aria-controls": `full-width-tabpanel-${index}`,
+//   };
+// }
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -83,7 +83,7 @@ function Register() {
   };
 
   const classesCard = useStylesCard();
-  const bull = <span className={classesCard.bullet}>•</span>;
+  // const bull = <span className={classesCard.bullet}>•</span>;
 
   return (
         <div>
