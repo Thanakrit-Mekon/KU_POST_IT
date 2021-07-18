@@ -49,7 +49,7 @@ const useStyles = makeStyles(() =>
       height: "100%",
       overflow: "hidden",
       "& img": {
-        width: "100%",
+        width: "80%",
         objectFit: "cover",
       },
     },
@@ -105,7 +105,8 @@ function RegistrationCard(): JSX.Element {
             boxShadow={6}
             className={classes.content}
           >
-            <img src="/img/mascot.png" alt="capoo" />
+            <img src="/img/mascot.png" alt="mascot"/>
+            <img src="/img/logo.png" alt="logo"/>
           </Box>
         </Grid>
       </Grid>
