@@ -1,6 +1,7 @@
 import Register from "./pages/Register";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import MyProfile from "./pages/MyProfile";
 
 const theme = createTheme({
   palette: {
@@ -20,6 +21,9 @@ function App() {
               <Register />
             </Route>
             <Route path="/login"></Route>
+            <Route path="/myprofile">
+              <MyProfile />
+            </Route>
             <Route path="/ta"></Route>
             <Route path="/project-coop"></Route>
             <Route path="/internship"></Route>
