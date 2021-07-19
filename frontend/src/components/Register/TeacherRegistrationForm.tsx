@@ -7,9 +7,9 @@ import {
   Checkbox,
   Link,
   MenuItem,
-} from "@material-ui/core";
-import { useFormik } from "formik";
-import * as yup from "yup";
+} from '@material-ui/core';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -17,25 +17,25 @@ const validationSchema = yup.object({
   confirmPassword: yup
     .string()
     .min(8)
-    .oneOf([yup.ref("password"), null])
+    .oneOf([yup.ref('password'), null])
     .required(),
   firstName: yup.string().required(),
   lastName: yup.string().required(),
 });
 
-const faculties = ["k", "u", "p"];
-const departments = ["p", "a", "b"];
+const faculties = ['k', 'u', 'p'];
+const departments = ['p', 'a', 'b'];
 
 function TeacherRegistrationForm(): JSX.Element {
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-      firstName: "",
-      lastName: "",
+      email: '',
+      password: '',
+      confirmPassword: '',
+      firstName: '',
+      lastName: '',
     },
-    validationSchema: validationSchema,
+    validationSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
     },
@@ -47,13 +47,12 @@ function TeacherRegistrationForm(): JSX.Element {
         align="center"
         variant="h4"
         color="primary"
-        style={{ paddingBottom: "1rem" }}
-      >
+        style={{ paddingBottom: '1rem' }}>
         <Box fontWeight="fontWeightBold">Create Account</Box>
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item sm={6} style={{ marginBottom: '1rem' }}>
             <TextField
               size="small"
               label="First Name"
@@ -67,7 +66,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item sm={6} style={{ marginBottom: '1rem' }}>
             <TextField
               size="small"
               label="Last Name"
@@ -81,7 +80,7 @@ function TeacherRegistrationForm(): JSX.Element {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item sm={12} style={{ marginBottom: '1rem' }}>
             <TextField
               size="small"
               label="Email"
@@ -94,7 +93,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item sm={12} style={{ marginBottom: '1rem' }}>
             <TextField
               size="small"
               type="password"
@@ -107,7 +106,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item sm={12} style={{ marginBottom: '1rem' }}>
             <TextField
               size="small"
               type="password"
@@ -124,14 +123,13 @@ function TeacherRegistrationForm(): JSX.Element {
             />
           </Grid>
           <Grid container spacing={2}>
-            <Grid item sm={7} style={{ marginBottom: "1rem" }}>
+            <Grid item sm={7} style={{ marginBottom: '1rem' }}>
               <TextField
                 size="small"
                 select
                 fullWidth
                 variant="outlined"
-                label="Faculty"
-              >
+                label="Faculty">
                 {faculties.map((faculty, index) => {
                   return (
                     <MenuItem key={index} value={faculty}>
@@ -141,14 +139,13 @@ function TeacherRegistrationForm(): JSX.Element {
                 })}
               </TextField>
             </Grid>
-            <Grid item sm={5} style={{ marginBottom: "1rem" }}>
+            <Grid item sm={5} style={{ marginBottom: '1rem' }}>
               <TextField
                 size="small"
                 select
                 fullWidth
                 variant="outlined"
-                label="department"
-              >
+                label="department">
                 {departments.map((department, index) => {
                   return (
                     <MenuItem key={index} value={department}>
@@ -163,16 +160,15 @@ function TeacherRegistrationForm(): JSX.Element {
             <Grid
               item
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <Checkbox color="primary" />
               <Typography variant="body1">
                 <Box fontSize={15}>
                   I accept the terms of the offer of &nbsp;
-                  <Link href="#" color="primary">
+                  <Link href="/" color="primary">
                     the privacy policy
                   </Link>
                 </Box>
@@ -185,12 +181,11 @@ function TeacherRegistrationForm(): JSX.Element {
             fullWidth
             color="primary"
             type="submit"
-            style={{ marginBottom: "1rem" }}
-          >
+            style={{ marginBottom: '1rem' }}>
             Register
           </Button>
           <Grid container justifyContent="center">
-            <Link href="#" style={{ textDecoration: "none" }} color="primary">
+            <Link href="/" style={{ textDecoration: 'none' }} color="primary">
               I already have an account
             </Link>
           </Grid>

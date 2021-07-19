@@ -1,22 +1,22 @@
-import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-import RegistrationCard from "../components/Register/RegistrationCard";
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+import RegistrationCard from '../components/Register/RegistrationCard';
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
     },
     row: {
       flexGrow: 1,
     },
     bgTeal: {
-      backgroundColor: "#5E9EA0",
+      backgroundColor: '#5E9EA0',
     },
     fullHeight: {
-      height: "100%",
+      height: '100%',
     },
   })
 );
