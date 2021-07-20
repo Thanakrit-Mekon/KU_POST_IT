@@ -1,0 +1,117 @@
+A00,Undeclared,A,B
+A99,Declared,A,B
+A01,Department of Farm Mechanics,A,B
+A02,Department of Entomology,A,B
+A03,Department of Plant Pathology,A,B
+A04,Department of Soil Science,A,B
+A05,Department of Agronomy,A,B
+A06,Department of Horticulture,A,B
+A07,Department of Animal Husbandry,A,B
+A08,Department of Home Economics,A,B
+A11,Department of Agricultural Extension and Communication,A,B
+B00,Undeclared,B,B
+B01,Department of Fishery Management,B,B
+B02,Department of Fishery Biology,B,B
+B03,Department of Aquaculture,B,B
+B04,Department of Fishery Product,B,B
+B05,Department of Marine Science,B,B
+C00,Undeclared,C,B
+XC00,Department of Interdisciplinary,C,B
+C01,Department of Forest Management,C,B
+C03,Department of Forest Products,C,B
+C05,Department of Forest Engineering,C,B
+C02,Department of Forest Biology,C,B
+XC05,Department of Silviculture,C,B
+XC02,Department of Conservation,C,B
+D00,Undeclared,D,B
+XD00,Department of Interdisciplinary,D,B
+D01,Science Program in Mathematics,D,B
+D02,Science Program in Chemistry,D,B
+D04,Science Program in Statistics,D,B
+D06,Science Program in Nuclear Science,D,B
+D07,Science Program in Physics,D,B
+D08,Science Program in General Science,D,B
+D09,Science Program in Microbiology,D,B
+D10,Science Program in Genetics,D,B
+D11,Science Program in Botany,D,B
+D12,Science Program in Zoology,D,B
+D13,Science Program in Biochemistry,D,B
+D14,Science Program in Computer Science,D,B
+D15,Science Program in Environment,D,B
+E00,Undeclared,E,B
+XE66,Graduate Program in Safety Engineering,E,B
+E01,Department of Civil-Water Resources Engineering,E,B
+E02,Department of Agricultural Engineering,E,B
+E03,Department of Mechanical Engineering,E,B
+E04,Department of Civil Engineering - Irrigation,E,B
+E05,Department of Electrical Engineering,E,B
+E06,Department of Civil Engineering,E,B
+E08,Department of Industrial Engineering,E,B
+E09,Department of Computer Engineering,E,B
+E10,Department of Chemical Engineering,E,B
+E12,Department of Food Engineering,E,B
+E13,Department ofAerospace Engineering,E,B
+E14,Department of Environmental Engineering,E,B
+E16,Department of Material Engineering,E,B
+F00,Undeclared,F,B
+F01,Education Program in Education,F,B
+F04,Education Program in Education technology,F,B
+XF11,Educational Program in Psychology and Guidance,F,B
+F31,Education Program in Agricultural,F,B
+F35,Education Program in Physical Education,F,B
+XF15,Science Program in Sports and Exercise Science,F,B
+XF19,Educational Program in Vocational Education,F,B
+G00,Undeclared,G,B
+G01,Economics Program in Economics,G,B
+G02,Economics Program in Agricultural and Resource Economics,G,B
+G03,Economics Program in Cooperatives Economics,G,B
+H00,Undeclared,H,B
+H01,Department of Sociology and Anthropology,H,B
+H02,Department of Psychology,H,B
+H03,Department of Political Science and Public Administration,H,B
+H04,Department of Geography and Geo-Informatrics,H,B
+H06,Department of Law,H,B
+H07,Department of History,H,B
+I00,Undeclared,I,B
+I01,Department of Veterinary Anatomy,I,B
+I02,Department of Veterinary Pathology,I,B
+I03,Department of Veterinary Pharmacology and Toxicology,I,B
+I04,Department of Veterinary Physiology,I,B
+I05,Department of Veterinary Medicine,I,B
+I06,Department ofVeterinary Surgery,I,B
+I07,Department of Veterinary Farm Resources and Production Medicine,I,B
+I08,Department of Veterinary Public Health,I,B
+I09,Department of Veterinary Microbiology,I,B
+I12,Department of Veterinary Parasitology,I,B
+K00,Undeclared,K,B
+K01,Department of Packing and Materials Technology,K,B
+K02,Department of Biotechnology,K,B
+K03,Department of Argo-Industrial Product Development,K,B
+K04,Department of Food Science and Technology,K,B
+K05,Department of Textile Science and Technology,K,B
+L00,Undeclared,L,B
+L01,Department of Library and Information Science,L,B
+L02,Department of Philosophy and Religion,L,B
+L03,Department of Foreign Language,L,B
+L04,Department of Linguistics,L,B
+L05,Department of Litrature,L,B
+L06,Department of Tourism and Hospitality Industry,L,B
+L07,Department of Western Music,L,B
+L80,Department of Communicative Thai Language,L,B
+N00,Undeclared,N,B
+XN00,Department of Interdisciplinary,N,B
+N01,Department of Finance,N,B
+N02,Department of Business Management,N,B
+N03,Department of Operations Management,N,B
+N04,Department of Marketing,N,B
+N05,Department of Accounting,N,B
+R01,Architecture,R,B
+P00,Faculty of Veterinary Technology,P,B
+M00,Irrigation College,M,B
+S00,Sriracha Campus,S,B
+W00,Boromarajonani College of Nursing Nopparat Vajira,W,B
+XY00,Interdisciplinary Graduate Program,X,B
+XA00,International Program,X,B
+F34,Vocational Education,F,B
+F36,Vocational Education,F,B
+A10,Department of Tropical Agriculture(International Program),A,B
