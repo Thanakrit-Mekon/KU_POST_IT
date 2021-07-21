@@ -1,13 +1,22 @@
-import Register from "./pages/Register";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import CreatePost from "./pages/CreatePost";
+import { BrowserRouter, Switch, Route } from "react-router-dom"
+import { createTheme } from "@material-ui/core/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#5E9EA0",
+    },
+  },
+});
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/register">
-            <Register />
+          <Route path="/createpost">
+            <CreatePost />
           </Route>
           <Route path="/login"></Route>
           <Route path="/sta"></Route>
