@@ -1,6 +1,7 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Register from './pages/Register';
+import CreatePost from './pages/CreatePost';
 
 const theme = createTheme({
   palette: {
@@ -23,7 +24,9 @@ function App(): JSX.Element {
             <Route path="/ta" />
             <Route path="/project-coop" />
             <Route path="/internship" />
-            <Route path="/posts/new" />
+            <Route path="/posts/new">
+              <CreatePost />
+            </Route>
             <Route path="/posts" />
             <Route path="/posts/:postId" />
             <Route path="/posts/:postId/edit" />
