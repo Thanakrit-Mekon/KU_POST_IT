@@ -29,7 +29,7 @@ function App(): JSX.Element {
             </Route>
             <Route path="/posts" />
             <Route path="/posts/:postId" />
-            <Route path="/posts/:postId/edit" />
+            <Route path="/posts/:postId/table" />
             <Route path="/" exact />
           </Switch>
         </div>
