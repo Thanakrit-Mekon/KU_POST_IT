@@ -1,43 +1,28 @@
-import CreateAccountStudent from "../components/CreateAccountStudent";
-import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import SwipeableViews from "react-swipeable-views";
-import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
-import React from "react";
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+import RegistrationCard from '../components/Register/RegistrationCard';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: any;
-  value: any;
-}
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    row: {
+      flexGrow: 1,
+    },
+    bgTeal: {
+      backgroundColor: '#5E9EA0',
+    },
+    fullHeight: {
+      height: '100%',
+    },
+  })
+);
 
-const useStylesCard = makeStyles({
-  root: {
-    minWidth: 275,
-    maxWidth: "100%",
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
+function Register(): JSX.Element {
+  const classes = useStyles();
   return (
     <div
       role="tabpanel"
