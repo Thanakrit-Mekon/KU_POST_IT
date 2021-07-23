@@ -38,10 +38,10 @@ function ProfileImage(): JSX.Element {
                 }}
             >
             <img src="/img/mascot.png" alt="capoo" />
-                <input
+                {/* <input
                     type="file"
                     hidden
-                />
+                /> */}
             </Button>
             </Grid>
         </Grid>

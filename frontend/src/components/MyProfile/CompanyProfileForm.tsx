@@ -7,7 +7,7 @@ import {
     Checkbox,
   } from "@material-ui/core";
   
-  function ProfileForm(): JSX.Element {
+  function CompanyProfileForm(): JSX.Element {
     return (
       <>
         <Typography
@@ -18,23 +18,11 @@ import {
           <Box fontWeight="fontWeightBold">Information</Box>
         </Typography>
         <Grid container spacing={2}>
-            <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+            <Grid item sm={12} style={{ marginBottom: "1rem" }}>
                 <TextField
-                    disabled
                     size="small"
-                    label="First Name"
+                    label="Company Name"
                     variant="outlined"
-                    value="thanakrit"
-                    fullWidth
-                />
-            </Grid>
-            <Grid item sm={6} style={{ marginBottom: "1rem" }}>
-                <TextField
-                    disabled
-                    size="small"
-                    label="Last Name"
-                    variant="outlined"
-                    value="Mek-on"
                     fullWidth
                 />
             </Grid>
@@ -56,43 +44,25 @@ import {
                     fullWidth
                 />
             </Grid>
-            <Grid item sm={7} style={{ marginBottom: "1rem" }}>
+            <Grid item sm={12} style={{ marginBottom: "1rem" }}>
                 <TextField
-                    disabled
                     size="small"
-                    select
-                    fullWidth
+                    label="More Contact (Such as website , facebook etc.)"
                     variant="outlined"
-                    label="Faculty"
-                />
-                </Grid>
-                <Grid item sm={5} style={{ marginBottom: "1rem" }}>
-                <TextField
-                    disabled
-                    size="small"
-                    select
+                    multiline
+                    rows={2}
+                    rowsMax={4}
                     fullWidth
-                    variant="outlined"
-                    label="Department"
                 />
             </Grid>
-            <Grid item sm={3} style={{ marginBottom: "1rem" }}>
+            <Grid item sm={12} style={{ marginBottom: "1rem" }}>
                 <TextField
-                    disabled
                     size="small"
-                    select
-                    fullWidth
+                    label="About Company"
                     variant="outlined"
-                    label="Year"
-                />
-                </Grid>
-                <Grid item sm={9}>
-                <TextField
-                    disabled
-                    size="small"
-                    label="Student ID"
-                    variant="outlined"
-                    placeholder="bxxxxxxxxxx"
+                    multiline
+                    rows={2}
+                    rowsMax={4}
                     fullWidth
                 />
             </Grid>
@@ -132,20 +102,6 @@ import {
                 fullWidth
                 />
             </Grid>
-            <Grid
-                item sm={12}
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                }}
-                >
-                <Checkbox color="primary" />
-                <Typography variant="body1">
-                    <Box fontSize={15}>
-                    Stop recieving notification mail from us.
-                    </Box>
-                </Typography>
-            </Grid>
         </Grid>
         <Box 
             style={{
@@ -175,5 +131,5 @@ import {
     );
   }
   
-  export default ProfileForm;
+  export default CompanyProfileForm;
   

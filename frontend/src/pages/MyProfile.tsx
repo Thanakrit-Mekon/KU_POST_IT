@@ -1,6 +1,8 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Box } from "@material-ui/core";
-import ProfileForm from "../components/MyProfile/ProfileForm";
+import StudentProfileForm from "../components/MyProfile/StudentProfileForm";
+import TeacherProfileForm from "../components/MyProfile/TeacherProfileForm";
+import CompanyProfileForm from "../components/MyProfile/CompanyProfileForm";
 import ProfileImage from "../components/MyProfile/ProfileImage";
 
 const useStyles = makeStyles(() =>
@@ -50,10 +52,12 @@ function MyProfile(): JSX.Element {
         </Grid>
         <Grid item sm={7} md={6}>
           <Box px={5}>
-          <ProfileForm />
+          <StudentProfileForm />
           </Box>
         </Grid>
         <Grid item sm={1} md={2}/>
+      </Grid>
+      <Grid container className={classes.row}>
       </Grid>
     </div>
   );
