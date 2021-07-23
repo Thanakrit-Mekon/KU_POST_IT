@@ -22,7 +22,7 @@ const useStyles = makeStyles(() =>
 );
 
 function Register(): JSX.Element {
-  const classes = useStyles(){
+  const classes = useStyles();
   return (
     <div className={classes.root}>
       <Grid container className={classes.row}>
