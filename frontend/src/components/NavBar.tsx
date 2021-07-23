@@ -1,7 +1,6 @@
-import { Paper, Tabs, Tab, Avatar, Grid, Theme } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import React from "react";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { Paper, Tabs, Tab, Avatar, Grid, Theme } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,10 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function NavBar() {
   const classes = useStyles();
-//   const [value, setValue] = React.useState(0);
-//   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-//     setValue(newValue);
-//   };
   return (
     <Paper className={classes.root} square>
       <Grid
@@ -33,8 +28,7 @@ function NavBar() {
         className={classes.pad}
         direction="row"
         justifyContent="space-between"
-        alignItems="center"
-      >
+        alignItems="center">
         <Grid item>
           <img alt="logo" />
         </Grid>
@@ -44,8 +38,7 @@ function NavBar() {
             // value={value}
             // onChange={handleChange}
             indicatorColor="primary"
-            centered
-          >
+            centered>
             <Tab label="TA" to="/register" component={Link} />
             <Tab label="Project co-op" to="/" component={Link} />
             <Tab label="Internship" to="/" component={Link} />
