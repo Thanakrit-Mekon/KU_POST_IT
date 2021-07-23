@@ -2,6 +2,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Register from './pages/Register';
 import CreatePost from './pages/CreatePost';
+import MyPost from './pages/MyPost';
 
 const theme = createTheme({
   palette: {
@@ -27,7 +28,9 @@ function App(): JSX.Element {
             <Route path="/posts/new">
               <CreatePost />
             </Route>
-            <Route path="/posts" />
+            <Route path="/posts">
+              <MyPost />
+            </Route>
             <Route path="/posts/:postId" />
             <Route path="/posts/:postId/table" />
             <Route path="/" exact />
