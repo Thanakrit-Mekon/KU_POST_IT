@@ -1,8 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { createStyles, makeStyles, MenuItem, Paper, Theme, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -11,10 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexWrap: 'wrap',
         },
-        textField: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-            width: '25ch',
+        box: {
+            height: 140,
+            // width: '100%',
         },
     }),
 );
@@ -137,17 +134,17 @@ export default function Detail() {
             </Grid>
         </Grid>
         
-        <Grid container >
+        {/* <Paper className={classes.box}> */}
             <Grid item xs={12}>
                 <TextField
                     id="outlined-textarea"
                     fullWidth
-                    label="more detail"
+                    label="More Detail"
                     multiline
                     variant="outlined"
                 />
             </Grid>
-        </Grid>
+        {/* </Paper> */}
 
         </React.Fragment>
     );

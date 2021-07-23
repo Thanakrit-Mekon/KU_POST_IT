@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Detail from './Detial';
+import { Button, ButtonGroup } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -12,13 +13,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up(600 + theme.spacing(2) * 10)]: {
       width: 600,
       margin: 'auto'
-      // marginLeft: theme.spacing(10)
     },
   },
   paper: {
-    width: 700,
+    width: 600,
     height: 600,
-    // marginLeft: theme.spacing(0.5),
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(3),
     padding: theme.spacing(2),
@@ -32,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
   buttons: {
     display: 'flex',
     justifyContent: 'flex-end',
+    alignItems: 'flex-start'
   },
   button: {
     marginTop: theme.spacing(3),
@@ -47,9 +47,17 @@ export default function PostForm() {
     <React.Fragment>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="left" color="primary">
-            Create Post
-          </Typography>
+            <Typography component="h1" variant="h4" color="primary">
+              Create Post
+            </Typography>
+            <div className={classes.buttons}>
+              <Button variant="contained" color="primary" href="#contained-buttons" className={classes.button}>
+                Post
+              </Button>
+              <Button variant="outlined" color="secondary" aria-label="outlined secondary button group" className={classes.button}>
+                Cancel
+              </Button>
+            </div>
           <Detail />
         </Paper>
       </main>
