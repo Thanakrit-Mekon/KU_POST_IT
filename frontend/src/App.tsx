@@ -1,4 +1,4 @@
-import Register from "./pages/Register";
+import Login from "./pages/Login";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -6,8 +6,8 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/register">
-            <Register />
+          <Route path="/login">
+            <Login />
           </Route>
           <Route path="/login"></Route>
           <Route path="/sta"></Route>
