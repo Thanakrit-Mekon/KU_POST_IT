@@ -3,6 +3,8 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Register from './pages/Register';
 import CreatePost from './pages/CreatePost';
 import MyProfile from './pages/MyProfile';
+import CsvTable from './pages/csvTable';
+
 
 const theme = createTheme({
   palette: {
@@ -33,7 +35,8 @@ function App(): JSX.Element {
             </Route>
             <Route path="/posts" />
             <Route path="/posts/:postId" />
-            <Route path="/posts/:postId/table" />
+            <Route path="/posts/:postId/table" ></Route>
+              <CsvTable />
             <Route path="/" exact />
           </Switch>
         </div>
