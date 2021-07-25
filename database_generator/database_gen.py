@@ -43,8 +43,8 @@ def insert_department():
     for row in list_of_rows:
         insert_list.append({
                             "department_name":row[1],
-                            "faculty_code":row[0],
-                            "department_code":row[2]
+                            "faculty_code":row[2],
+                            "department_code":row[0]
                             })
     # insert to mongodb
     x = department_collection.insert_many(insert_list)
