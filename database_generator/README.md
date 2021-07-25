@@ -9,5 +9,4 @@ Automatically create and fill your database tables with faculties and department
 
 ### How to use
 This code contains everything you need.  just run with the following commands.
- - **python** faculty_table.py
- - **python** dapartment_table.py
+ - **python** database_gen.py
