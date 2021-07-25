@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Register from './pages/Register';
 import CreatePost from './pages/CreatePost';
 import MyProfile from './pages/MyProfile';
+import Query from './pages/Query';
 
 const theme = createTheme({
   palette: {
@@ -31,7 +32,8 @@ function App(): JSX.Element {
             <Route path="/posts/new">
               <CreatePost />
             </Route>
-            <Route path="/posts" />
+            <Route path="/posts" ><Query/></Route>
+            
             <Route path="/posts/:postId" />
             <Route path="/posts/:postId/table" />
             <Route path="/" exact />
