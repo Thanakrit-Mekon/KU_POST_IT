@@ -4,12 +4,12 @@ from csv import reader
 
 ####################### config database ###########################
 client = MongoClient("mongodb://localhost:27017/")
-mydb = client["ku_post_it"]
+mydb = client["kupostit"]
 
 
 ###################### config collection ##########################
-department_collection = mydb["Department"]
-faculty_collection = mydb["Faculty"]
+department_collection = mydb["department"]
+faculty_collection = mydb["faculty"]
 
 
 ######################### insert faculty ##########################

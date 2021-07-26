@@ -25,7 +25,7 @@ import { PostsService } from './posts/posts.service';
     TypeOrmModule.forRoot({
       type: "mongodb",
       host: "localhost",
-      database: "ku_post_it",
+      database: "kupostit",
       entities: [Posts, Faculty, Department],
       synchronize: true,
     }),
