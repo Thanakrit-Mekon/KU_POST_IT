@@ -3,6 +3,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { join } from 'path';
+import { MailController } from './mail.controller';
 
 require("dotenv").config()
 
@@ -31,8 +32,9 @@ require("dotenv").config()
       },
     }),
   ],
+  controllers: [MailController],
   providers: [MailService],
-  exports: [MailService], 
+  //exports: [MailService], 
 })
 export class MailModule {}
 
