@@ -1,16 +1,12 @@
-import { ObjectID } from "mongodb";
-import { Column, Entity, ObjectIdColumn } from "typeorm";
+import * as mongoose from 'mongoose'
 
-@Entity()
-export class Faculty {
-    @ObjectIdColumn()
-    Id?:ObjectID;
+export const FacultySchema = new mongoose.Schema({
+    faculty_code: { type: String, required: true},
+    faculty_name: { type: String, required: true},
+});
 
-    @Column()
+export interface Faculty extends mongoose.Document {
+    id: string;
     faculty_code: string;
-
-    @Column()
     faculty_name: string;
 }
-
-export default Faculty;

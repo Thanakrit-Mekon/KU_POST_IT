@@ -1,20 +1,35 @@
-import { Controller, Get } from "@nestjs/common";
-import { DropdownsService } from "./dropdowns.service";
+import {
+    Controller,
+    Post,
+    Body,
+    Get,
+    Param,
+    Patch,
+    Delete,
+  } from '@nestjs/common';
+import { Faculty } from "./faculty.entity";
+import { DropdownsService } from './dropdowns.service';
 
-import Faculty from "./faculty.entity";
-import Department from "./department.entity";
-
-@Controller("dropdowns")
+@Controller('dropdowns')
 export class DropdownsController {
-    constructor(private dropdownsService: DropdownsService) {}
+    constructor(private dropdownService: DropdownsService) {}
 
-    @Get("faculties")
-    async findAllFaculties(): Promise<Faculty[]> {
-        return this.dropdownsService.findAllFaculties();
+    @Get('faculties')
+    async findallfaculty() {
+        const faculty = await this.dropdownService.findAllFaculties();
+        return faculty;
     }
 
-    @Get("departments")
-    async findAllDepartments(): Promise<Department[]> {
-        return this.dropdownsService.findAllDepartments();
+    @Get('alldepartment')
+    async findalldepartment() {
+        const department = await this.dropdownService.findAllDepartments();
+        return department;
+    }
+
+    @Get('department/:facu')
+    getProduct(@Param('facu') facucode: string) {
+      return this.dropdownService.getSingleFaculty(facucode);
     }
 }
+
+export default DropdownsController;
