@@ -8,6 +8,8 @@ import Faculty from './dropdowns/faculty.entity';
 import Department from './dropdowns/department.entity';
 
 import { DropdownsModule } from './dropdowns/dropdowns.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 import { MailModule } from './mail/mail.module';
 import { MailService } from './mail/mail.service';
@@ -31,6 +33,10 @@ import { PostsService } from './posts/posts.service';
     }),
 
     DropdownsModule,
+
+    AuthModule,
+
+    UsersModule,
 
     // for Feature for submodule
     TypeOrmModule.forFeature([Posts]),
