@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Register from './pages/Register';
 import CreatePost from './pages/CreatePost';
 import MyPost from './pages/MyPost';
+import MyProfile from './pages/MyProfile';
 
 const theme = createTheme({
   palette: {
@@ -20,6 +21,9 @@ function App(): JSX.Element {
           <Switch>
             <Route path="/register">
               <Register />
+            </Route>
+            <Route path="/myprofile">
+              <MyProfile />
             </Route>
             <Route path="/login" />
             <Route path="/ta" />

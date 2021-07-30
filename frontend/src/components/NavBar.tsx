@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function NavBar() {
+function NavBar(): JSX.Element {
   const classes = useStyles();
   return (
     <Paper className={classes.root} square>
@@ -35,8 +35,6 @@ function NavBar() {
         <Grid item>
           <Tabs
             className={classes.tab}
-            // value={value}
-            // onChange={handleChange}
             indicatorColor="primary"
             centered>
             <Tab label="TA" to="/register" component={Link} />
