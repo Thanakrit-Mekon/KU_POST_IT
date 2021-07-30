@@ -64,7 +64,7 @@ function MyPost(): JSX.Element {
                 <Card style={{ padding: 20 }}>
                   <Grid container direction="column" alignItems="center">
                     <Avatar />
-                    <Box>{obj.name}</Box>
+                    <Box style={{fontWeight:"bold",fontSize:"20px"}}>{obj.name}</Box>
                     <Box>TA {obj.subject}</Box>
                     <Box alignItems="center">
                       <FontAwesomeIcon icon={faUser} /> {obj.amount}{' '}
