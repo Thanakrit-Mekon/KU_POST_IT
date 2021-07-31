@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import {Link,Route,BrowserRouter as Router } from 'react-router-dom';
 
 const options = [
   'แก้ไขโปรไฟล์',
@@ -47,11 +48,9 @@ export default function LongMenu() {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
-          </MenuItem>
-        ))}
+        <MenuItem onClick={handleClose}><Link to="/myprofile">แก้ไขโปรไฟล์</Link></MenuItem>
+        <MenuItem onClick={handleClose}><Link to="/posts">ดูโพสที่สร้างไว้</Link></MenuItem>
+        <MenuItem onClick={handleClose}><Link to="/">ออกจากระบบ</Link></MenuItem>
       </Menu>
     </div>
   );
