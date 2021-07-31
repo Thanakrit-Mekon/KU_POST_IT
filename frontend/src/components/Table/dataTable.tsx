@@ -33,6 +33,12 @@ const columns: GridColDef[] = [
         params.getValue(params.id, 'lastName') || ''
       }`,
   },
+  {
+    field: 'information',
+    headerName: 'Information from question.',
+    sortable: false,
+
+  },
 ];
 
 const rows = [
