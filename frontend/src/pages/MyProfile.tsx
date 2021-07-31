@@ -4,13 +4,12 @@ import StudentProfileForm from "../components/MyProfile/StudentProfileForm";
 import TeacherProfileForm from "../components/MyProfile/TeacherProfileForm";
 import CompanyProfileForm from "../components/MyProfile/CompanyProfileForm";
 import ProfileImage from "../components/MyProfile/ProfileImage";
+import NavBar from '../components/NavBar';
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
       minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
     },
     row: {
       flexGrow: 1,
@@ -29,33 +28,35 @@ function MyProfile(): JSX.Element {
 
   return (
     <div className={classes.root}>
+      <NavBar />
       <Grid container className={classes.row}>
       </Grid>
       <Grid container className={classes.row}>
-        <Grid item xs={1}/>
-        <Grid item xs={10}>
+        <Grid item sm={1}/>
+        <Grid item sm={10}>
           <Typography
             align="left"
             variant="h4"
             color="primary"
-            style={{ paddingBottom: "1rem" }}
           >
-            <Box fontWeight="fontWeightBold">Information</Box>
+            <Box mt={6} fontWeight="fontWeightBold">My Profile</Box>
           </Typography>
         </Grid>
-        <Grid item xs={1}/>
+        <Grid item sm={1}/>
       </Grid>
       <Grid container>
-        <Grid item sm={1} md={2} />
-        <Grid item sm={3} md={2}>
-          <ProfileImage />
+        <Grid item sm={1} />
+        <Grid item sm={2}>
+          <Box pr={7}>
+            <ProfileImage />
+          </Box>
         </Grid>
-        <Grid item sm={7} md={6}>
+        <Grid item sm={6}>
           <Box px={5}>
           <StudentProfileForm />
           </Box>
         </Grid>
-        <Grid item sm={1} md={2}/>
+        <Grid item sm={2}/>
       </Grid>
       <Grid container className={classes.row}>
       </Grid>

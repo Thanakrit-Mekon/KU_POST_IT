@@ -52,7 +52,7 @@ import {
                     fullWidth
                 />
             </Grid>
-            <Grid item sm={7} style={{ marginBottom: "1rem" }}>
+            <Grid item sm={6} style={{ marginBottom: "1rem" }}>
                 <TextField
                     disabled
                     size="small"
@@ -62,7 +62,7 @@ import {
                     label="Faculty"
                 />
                 </Grid>
-                <Grid item sm={5} style={{ marginBottom: "1rem" }}>
+                <Grid item sm={6} style={{ marginBottom: "1rem" }}>
                 <TextField
                     disabled
                     size="small"

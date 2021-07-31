@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Grid, Box, AppBar, Tabs, Tab } from "@material-ui/core";
-import StudentRegistrationForm from "./StudentRegistrationForm";
-import TeacherRegistrationForm from "./TeacherRegistrationForm";
-import CompanyRegistrationForm from "./CompanyRegistrationForm";
+import { useState } from 'react';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Grid, Box, AppBar, Tabs, Tab } from '@material-ui/core';
+import StudentRegistrationForm from './StudentRegistrationForm';
+import TeacherRegistrationForm from './TeacherRegistrationForm';
+import CompanyRegistrationForm from './CompanyRegistrationForm';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -28,29 +28,29 @@ function TabPanel(props: TabPanelProps): JSX.Element {
 const useStyles = makeStyles(() =>
   createStyles({
     bgTeal: {
-      backgroundColor: "#5E9EA0",
+      backgroundColor: '#5E9EA0',
     },
     bgWhite: {
-      backgroundColor: "white",
+      backgroundColor: 'white',
     },
     leftCol: {
-      borderRadius: "4px 0 0 4px",
+      borderRadius: '4px 0 0 4px',
     },
     rightCol: {
-      borderRadius: "0 4px 4px 0",
+      borderRadius: '0 4px 4px 0',
     },
     content: {
-      position: "relative",
+      position: 'relative',
       zIndex: 10,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100%",
-      overflow: "hidden",
-      "& img": {
-        width: "100%",
-        objectFit: "cover",
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      overflow: 'hidden',
+      '& img': {
+        width: '80%',
+        objectFit: 'cover',
       },
     },
   })
@@ -71,8 +71,7 @@ function RegistrationCard(): JSX.Element {
           <Box
             borderRadius="4px 0 0 4px"
             boxShadow={4}
-            className={classes.content}
-          >
+            className={classes.content}>
             {/* Form */}
             <AppBar position="static" color="default">
               <Tabs
@@ -81,8 +80,7 @@ function RegistrationCard(): JSX.Element {
                 indicatorColor="primary"
                 textColor="primary"
                 variant="fullWidth"
-                aria-label="full width tabs example"
-              >
+                aria-label="full width tabs example">
                 <Tab wrapped label="Student" />
                 <Tab wrapped label="Teacher" />
                 <Tab wrapped label="Company" />
@@ -95,7 +93,7 @@ function RegistrationCard(): JSX.Element {
               <TeacherRegistrationForm />
             </TabPanel>
             <TabPanel value={tabIndex} index={2}>
-              <CompanyRegistrationForm/>
+              <CompanyRegistrationForm />
             </TabPanel>
           </Box>
         </Grid>
@@ -103,9 +101,9 @@ function RegistrationCard(): JSX.Element {
           <Box
             borderRadius="0 4px 4px 0"
             boxShadow={6}
-            className={classes.content}
-          >
-            <img src="/img/mascot.png" alt="capoo" />
+            className={classes.content}>
+            <img src="/img/mascot.png" alt="mascot" />
+            <img src="/img/logo.png" alt="logo" />
           </Box>
         </Grid>
       </Grid>
