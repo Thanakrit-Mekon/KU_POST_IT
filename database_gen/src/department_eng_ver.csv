@@ -1,0 +1,117 @@
+A00,Undeclared,A,B
+A99,Declared,A,B
+A01,Farm Mechanics,A,B
+A02,Entomology,A,B
+A03,Plant Pathology,A,B
+A04,Soil Science,A,B
+A05,Agronomy,A,B
+A06,Horticulture,A,B
+A07,Animal Husbandry,A,B
+A08,Home Economics,A,B
+A11,Agricultural Extension and Communication,A,B
+B00,Undeclared,B,B
+B01,Fishery Management,B,B
+B02,Fishery Biology,B,B
+B03,Aquaculture,B,B
+B04,Fishery Product,B,B
+B05,Marine Science,B,B
+C00,Undeclared,C,B
+XC00,Interdisciplinary,C,B
+C01,Forest Management,C,B
+C03,Forest Products,C,B
+C05,Forest Engineering,C,B
+C02,Forest Biology,C,B
+XC05,Silviculture,C,B
+XC02,DConservation,C,B
+D00,Undeclared,D,B
+XD00,Interdisciplinary,D,B
+D01,Mathematics,D,B
+D02,Chemistry,D,B
+D04,Statistics,D,B
+D06,Nuclear Science,D,B
+D07,Physics,D,B
+D08,General Science,D,B
+D09,Microbiology,D,B
+D10,Genetics,D,B
+D11,Botany,D,B
+D12,Zoology,D,B
+D13,Biochemistry,D,B
+D14,Computer Science,D,B
+D15,Environment,D,B
+E00,Undeclared,E,B
+XE66,Safety Engineering,E,B
+E01,Civil-Water Resources Engineering,E,B
+E02,Agricultural Engineering,E,B
+E03,Mechanical Engineering,E,B
+E04,Civil Engineering - Irrigation,E,B
+E05,Electrical Engineering,E,B
+E06,Civil Engineering,E,B
+E08,Industrial Engineering,E,B
+E09,Computer Engineering,E,B
+E10,Chemical Engineering,E,B
+E12,Food Engineering,E,B
+E13,Aerospace Engineering,E,B
+E14,Environmental Engineering,E,B
+E16,Material Engineering,E,B
+F00,Undeclared,F,B
+F01,Education,F,B
+F04,Education technology,F,B
+XF11,Psychology and Guidance,F,B
+F31,Agricultural,F,B
+F35,Physical Education,F,B
+XF15,Sports and Exercise Science,F,B
+XF19,Vocational Education,F,B
+G00,Undeclared,G,B
+G01,Economics,G,B
+G02,Agricultural and Resource Economics,G,B
+G03,Cooperatives Economics,G,B
+H00,Undeclared,H,B
+H01,Sociology and Anthropology,H,B
+H02,Psychology,H,B
+H03,Political Science and Public Administration,H,B
+H04,Geography and Geo-Informatrics,H,B
+H06,Law,H,B
+H07,History,H,B
+I00,Undeclared,I,B
+I01,Anatomy,I,B
+I02,Pathology,I,B
+I03,Pharmacology and Toxicology,I,B
+I04,Physiology,I,B
+I05,Medicine,I,B
+I06,Surgery,I,B
+I07,Farm Resources and Production Medicine,I,B
+I08,Public Health,I,B
+I09,Microbiology,I,B
+I12,Parasitology,I,B
+K00,Undeclared,K,B
+K01,Packing and Materials Technology,K,B
+K02,Biotechnology,K,B
+K03,Argo-Industrial Product Development,K,B
+K04,Food Science and Technology,K,B
+K05,Textile Science and Technology,K,B
+L00,Undeclared,L,B
+L01,Library and Information Science,L,B
+L02,Philosophy and Religion,L,B
+L03,Foreign Language,L,B
+L04,Linguistics,L,B
+L05,Litrature,L,B
+L06,Tourism and Hospitality Industry,L,B
+L07,Western Music,L,B
+L80,Communicative Thai Language,L,B
+N00,Undeclared,N,B
+XN00,Interdisciplinary,N,B
+N01,Finance,N,B
+N02,Business Management,N,B
+N03,Operations Management,N,B
+N04,Marketing,N,B
+N05,Accounting,N,B
+R01,Architecture,R,B
+P00,Veterinary Technology,P,B
+M00,Irrigation College,M,B
+S00,Sriracha Campus,S,B
+W00,Nursing Nopparat Vajira,W,B
+XY00,Graduate Program,X,B
+XA00,International Program,X,B
+F34,Vocational Education,F,B
+F36,Vocational Education,F,B
+A10,Tropical Agriculture,A,B

@@ -1,25 +1,49 @@
-import Login from "./pages/Login";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import Register from "./pages/Register";
+import CreatePost from "./pages/CreatePost";
+import MyPost from "./pages/MyPost";
+import MyProfile from "./pages/MyProfile";
+import Login from "./pages/Login";
 
-function App() {
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#5E9EA0",
+    },
+  },
+});
+
+function App(): JSX.Element {
   return (
     <BrowserRouter>
-      <div className="App">
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/login"></Route>
-          <Route path="/sta"></Route>
-          <Route path="/project-coop"></Route>
-          <Route path="/internship"></Route>
-          <Route path="/posts/new"></Route>
-          <Route path="/posts"></Route>
-          <Route path="/posts/:postId"></Route>
-          <Route path="/posts/:postId/edit"></Route>
-          <Route path="/" exact></Route>
-        </Switch>
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Switch>
+            <Route path="/register">
+              <Register />
+            </Route>
+            <Route path="/myprofile">
+              <MyProfile />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/ta" />
+            <Route path="/project-coop" />
+            <Route path="/internship" />
+            <Route path="/posts/new">
+              <CreatePost />
+            </Route>
+            <Route path="/posts">
+              <MyPost />
+            </Route>
+            <Route path="/posts/:postId" />
+            <Route path="/posts/:postId/table" />
+            <Route path="/" exact />
+          </Switch>
+        </div>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }
