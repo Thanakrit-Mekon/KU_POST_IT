@@ -1,3 +1,1 @@
-# KU POST IT
-
-KU POST IT
+# Hello World
