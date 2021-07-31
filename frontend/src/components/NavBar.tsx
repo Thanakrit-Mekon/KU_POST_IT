@@ -38,7 +38,7 @@ function NavBar(): JSX.Element {
             className={classes.tab}
             indicatorColor="primary"
             centered>
-            <Tab label="TA" to="/register" component={Link} />
+            <Tab label="TA" to="/ta" component={Link} />
             <Tab label="Project co-op" to="/project-coop" component={Link} />
             <Tab label="Internship" to="/internship" component={Link} />
           </Tabs>
