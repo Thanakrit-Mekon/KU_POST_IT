@@ -35,10 +35,13 @@ const columns: GridColDef[] = [
   },
   {
     field: 'information',
-    headerName: 'Information from question.',
+    headerName: 'Information',
+    description: 'Information from question.',
     sortable: false,
-
+    type: 'number',
+    width: 170,
   },
+
 ];
 
 const rows = [

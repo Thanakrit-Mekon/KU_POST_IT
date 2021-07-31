@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
 
     cooler:{
+        zindex: '-1',
         color: 'white',
         backgroundColor: '#F9A41A'
     },
