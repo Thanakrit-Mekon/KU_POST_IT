@@ -2,10 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import { Button } from '@material-ui/core';
-import Requirement from './Requirement';
-import { useFormik } from "formik";
-import * as yup from "yup";
+import FormCreatePost from './FormCreatePost';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -41,29 +38,7 @@ export default function PostForm(): JSX.Element {
     <>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" color="primary">
-            Create Post
-          </Typography>
-          {/* <form onSubmit={formik.handleSubmit}> */}
-            <div className={classes.buttons}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                href="#contained-buttons"
-                className={classes.button}>
-                Post
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                aria-label="outlined secondary button group"
-                className={classes.button}>
-                Cancel
-              </Button>
-            </div>
-          {/* </form> */}
-          <Requirement />
+          <FormCreatePost/>
         </Paper>
       </main>
     </>
