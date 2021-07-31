@@ -3,7 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
-import Detail from './Detial';
+import Requirement from './Requirement';
+import { useFormik } from "formik";
+import * as yup from "yup";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     width: 600,
-    height: 600,
+    height: 'auto',
     padding: theme.spacing(2),
     alignContent: 'center',
   },
@@ -42,23 +44,26 @@ export default function PostForm(): JSX.Element {
           <Typography component="h1" variant="h4" color="primary">
             Create Post
           </Typography>
-          <div className={classes.buttons}>
-            <Button
-              variant="contained"
-              color="primary"
-              href="#contained-buttons"
-              className={classes.button}>
-              Post
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              aria-label="outlined secondary button group"
-              className={classes.button}>
-              Cancel
-            </Button>
-          </div>
-          <Detail />
+          {/* <form onSubmit={formik.handleSubmit}> */}
+            <div className={classes.buttons}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                href="#contained-buttons"
+                className={classes.button}>
+                Post
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                aria-label="outlined secondary button group"
+                className={classes.button}>
+                Cancel
+              </Button>
+            </div>
+          {/* </form> */}
+          <Requirement />
         </Paper>
       </main>
     </>
