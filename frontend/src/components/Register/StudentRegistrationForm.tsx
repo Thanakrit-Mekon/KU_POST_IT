@@ -83,7 +83,6 @@ function StudentRegistrationForm(): JSX.Element {
 
   useEffect(() => {
     axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
-      // console.log(response.data);
       setFaculties(response.data);
     });
   }, []);
@@ -94,7 +93,6 @@ function StudentRegistrationForm(): JSX.Element {
         `http://localhost:3000/dropdowns/department/${formik.values.faculty}`
       )
       .then((response) => {
-        // console.log(response.data);
         setDepartments(response.data);
       });
   }, [formik.values.faculty]);
@@ -309,7 +307,7 @@ function StudentRegistrationForm(): JSX.Element {
             Register
           </Button>
           <Grid container justifyContent="center">
-            <Link href="/" style={{ textDecoration: "none" }} color="primary">
+            <Link href="/login" style={{ textDecoration: "none" }} color="primary">
               I already have an account
             </Link>
           </Grid>

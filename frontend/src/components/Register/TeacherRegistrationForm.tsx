@@ -260,7 +260,7 @@ function TeacherRegistrationForm(): JSX.Element {
             Register
           </Button>
           <Grid container justifyContent="center">
-            <Link href="/" style={{ textDecoration: "none" }} color="primary">
+            <Link href="/login" style={{ textDecoration: "none" }} color="primary">
               I already have an account
             </Link>
           </Grid>
