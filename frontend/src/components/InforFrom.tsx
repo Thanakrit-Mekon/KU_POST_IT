@@ -14,6 +14,7 @@ import {
     CardContent,
     TextField,
   } from "@material-ui/core";
+import { useFormik } from 'formik';
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -39,6 +40,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function PostForm(): JSX.Element {
+  const formik=useFormik({
+  initialValues: {
+    feedback: '',
+  },
+  onSubmit: (values) => {
+    
+    console.log(values)
+  },
+  });
+
   const classes = useStyles();
 //   const getColour = () => colours[Math.floor(Math.random() * colours.length)];
 
@@ -100,23 +111,24 @@ export default function PostForm(): JSX.Element {
             สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆสำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆสำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆ
 
         </Typography>
-        <TextField size="small" label="ตอบคำถามอาจารย์ & สิ่งที่อยากบอกอาจารย์" variant="outlined" multiline rows={10} fullWidth>
-
-        </TextField>
+        <form onSubmit={formik.handleSubmit}>
+        <TextField name="feedback" size="small" label="ตอบคำถามอาจารย์ & สิ่งที่อยากบอกอาจารย์" variant="outlined" multiline rows={10} fullWidth value={formik.values.feedback} onChange={formik.handleChange}/>
+        
         <Box mt={4}>
         <Grid container
               direction="row"
               justifyContent="center"
               alignItems="center"
               style={{paddingTop:"20"}}>
-        <Button variant="contained" color="primary" size="large">
+        <Button variant="contained" color="primary" size="large" type="submit">
             Submit
         </Button>
         </Grid>
         </Box>
+        </form>
         </Box>
         </Grid>
-
+        
         </Paper>
       </main>
     </>
