@@ -5,7 +5,7 @@ import CreatePost from "./pages/CreatePost";
 import MyPost from "./pages/MyPost";
 import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
-import CsvTable from './pages/csvTable';
+import CsvTable from "./pages/csvTable";
 
 const theme = createTheme({
   palette: {
@@ -40,8 +40,9 @@ function App(): JSX.Element {
               <MyPost />
             </Route>
             <Route path="/posts/:postId" />
-            <Route path="/posts/:postId/table" ></Route>
+            <Route path="/table">
               <CsvTable />
+            </Route>
             <Route path="/" exact />
           </Switch>
         </div>
