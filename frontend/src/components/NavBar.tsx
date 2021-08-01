@@ -1,6 +1,7 @@
 import { Paper, Tabs, Tab, Avatar, Grid, Theme } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Checkedbox from './Table/checkbox';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     pad: {
       paddingLeft: 50,
-      paddingRight: 50,
+      //paddingRight: 50,
     },
     tab: {
       color: theme.palette.primary.contrastText,
@@ -37,19 +38,22 @@ function NavBar(): JSX.Element {
             className={classes.tab}
             indicatorColor="primary"
             centered>
-            <Tab label="TA" to="/register" component={Link} />
-            <Tab label="Project co-op" to="/" component={Link} />
-            <Tab label="Internship" to="/" component={Link} />
+            <Tab label="TA" to="/ta" component={Link} />
+            <Tab label="Project co-op" to="/project-coop" component={Link} />
+            <Tab label="Internship" to="/internship" component={Link} />
           </Tabs>
         </Grid>
+  
         <Grid item>
           <Grid container direction="row" alignItems="center">
-            BungBung
+               BungBung
             <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+            <Checkedbox />
           </Grid>
         </Grid>
       </Grid>
     </Paper>
+    
   );
 }
 

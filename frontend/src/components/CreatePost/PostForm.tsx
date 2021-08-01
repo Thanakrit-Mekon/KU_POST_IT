@@ -2,8 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+<<<<<<< HEAD
 import { Button } from '@material-ui/core';
 import Detail from './Detial';
+=======
+import FormCreatePost from './FormCreatePost';
+>>>>>>> main
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -17,7 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     width: 600,
+<<<<<<< HEAD
     height: 600,
+=======
+    height: 'auto',
+>>>>>>> main
     padding: theme.spacing(2),
     alignContent: 'center',
   },
@@ -39,6 +47,7 @@ export default function PostForm(): JSX.Element {
     <>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
+<<<<<<< HEAD
           <Typography component="h1" variant="h4" color="primary">
             Create Post
           </Typography>
@@ -59,6 +68,9 @@ export default function PostForm(): JSX.Element {
             </Button>
           </div>
           <Detail />
+=======
+          <FormCreatePost/>
+>>>>>>> main
         </Paper>
       </main>
     </>
