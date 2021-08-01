@@ -70,6 +70,7 @@ function CompanyProfileForm(): JSX.Element {
                         variant="outlined"
                         name="companyName"
                         value={formik.values.companyName}
+                        onChange={formik.handleChange}
                         fullWidth
                         disabled
                     />
@@ -81,6 +82,7 @@ function CompanyProfileForm(): JSX.Element {
                         variant="outlined"
                         name="email"
                         value={formik.values.email}
+                        onChange={formik.handleChange}
                         fullWidth
                         disabled
                     />
