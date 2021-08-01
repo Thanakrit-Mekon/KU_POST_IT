@@ -65,25 +65,36 @@ function Query() {
     <div>
       <NavBar />
       <Container maxWidth="md">
-        <Typography variant="h4" color="primary">
+        <Grid
+              container
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+              >
+          <Grid item >
+          <Typography variant="h4" color="primary">
           <Box
             fontWeight="bold"
-            style={{ marginTop: 50, marginBottom: 50 }}
+            style={{ marginTop: 50, marginBottom: 5 }}
           >
-            Teacher Assistant - TA
-            <Grid
-            container
-            direction="row"
-            justifyContent="flex-end"
-            alignItems="center"
-            >
-            <Button className={classes.change} variant="contained" >
-              Create Post
-            </Button>
-            </Grid>
+             Teacher Assistant - TA
           </Box>
         </Typography>
-        
+        <Typography variant="subtitle1" >
+        <Box mb={5}>
+            สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้
+        </Box>
+        </Typography>
+        </Grid>
+        <Grid item  >
+
+          <Button className={classes.change} variant="contained" >
+              Create Post
+          </Button>
+        </Grid>
+        </Grid>
+            
+            
         <Grid container spacing={5}>
           {data.map((obj) => {
             return (
@@ -92,17 +103,19 @@ function Query() {
                   <Grid container direction="column" alignItems="center">
                       <Avatar />
                       <Box>{obj.name}</Box>
-                      <Box>TA {obj.subject}</Box>
+                      <Typography  color="primary">
+                        <Box fontWeight="bold" color="primary">TA {obj.subject}</Box>
+                      </Typography>
                       {/* <Icon className="fa fa-user" /> */}
-                    <Box alignItems="center"><FontAwesomeIcon icon={faUser} />  {obj.amount} </Box>
-                    <Grid container justifyContent="space-between" style={{marginTop:20}}>
+                    <Box alignItems="center" mb={7}><FontAwesomeIcon icon={faUser} />  ต้องการ {obj.amount} คน </Box>
+                    {/* <Grid container justifyContent="center" style={{marginTop:20}}>
                       <Button variant="contained" color="primary">
-                        View
+                        Register
                       </Button>
                       <Button variant="contained" color="secondary">
                         Close
                       </Button>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Card>
               </Grid>
