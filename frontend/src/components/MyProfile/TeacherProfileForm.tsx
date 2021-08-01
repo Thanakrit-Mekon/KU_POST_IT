@@ -69,6 +69,7 @@ function TeacherProfileForm(): JSX.Element {
                             variant="outlined"
                             name="firstName"
                             value={formik.values.firstName}
+                            onChange={formik.handleChange}
                             fullWidth
                             disabled
                         />
@@ -80,6 +81,7 @@ function TeacherProfileForm(): JSX.Element {
                             variant="outlined"
                             name="lastName"
                             value={formik.values.lastName}
+                            onChange={formik.handleChange}
                             fullWidth
                             disabled
                         />
@@ -91,6 +93,7 @@ function TeacherProfileForm(): JSX.Element {
                             variant="outlined"
                             name="email"
                             value={formik.values.email}
+                            onChange={formik.handleChange}
                             fullWidth
                             disabled
                         />
