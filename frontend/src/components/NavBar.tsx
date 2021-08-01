@@ -14,8 +14,11 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: 50,
       //paddingRight: 50,
     },
-    tab: {
+    tabs: {
       color: theme.palette.primary.contrastText,
+    },
+    tab: {
+      fontSize : '17px',
     },
   })
 );
@@ -31,23 +34,24 @@ function NavBar(): JSX.Element {
         justifyContent="space-between"
         alignItems="center">
         <Grid item>
-          <img alt="logo" />
+          <img height = "60" width = "100" src="/img/logo.png" alt="logo" />
         </Grid>
         <Grid item>
           <Tabs
-            className={classes.tab}
+            className={classes.tabs}
             indicatorColor="primary"
-            centered>
-            <Tab label="TA" to="/register" component={Link} />
-            <Tab label="Project co-op" to="/project-coop" component={Link} />
-            <Tab label="Internship" to="/internship" component={Link} />
+            centered
+          >
+            <Tab label="TA" to="/register" className={classes.tab} component={Link} />
+            <Tab label="Project co-op" to="/project-coop" className={classes.tab} component={Link} />
+            <Tab label="Internship" to="/internship" className={classes.tab} component={Link} />
           </Tabs>
         </Grid>
   
         <Grid item>
           <Grid container direction="row" alignItems="center">
-               BungBung
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+              BungBung
+              <Avatar alt="Travis Howard" src="/img/mascot.png" />
             <Checkedbox />
           </Grid>
         </Grid>
