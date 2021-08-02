@@ -6,6 +6,7 @@ import MyPost from "./pages/MyPost";
 import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
+import ChangePassword from "./pages/ChangePassword";
 
 const theme = createTheme({
   palette: {
@@ -26,6 +27,9 @@ function App(): JSX.Element {
             </Route>
             <Route path="/myprofile">
               <MyProfile />
+            </Route>
+            <Route path="/changepassword">
+              <ChangePassword />
             </Route>
             <Route path="/login">
               <Login />
