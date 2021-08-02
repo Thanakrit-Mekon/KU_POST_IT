@@ -59,7 +59,7 @@ const validationSchema = yup.object({
   more: yup.string(),
 });
 
-function FormCreatePost() {
+function FormEditPost() {
   const classes = useStyles();
 
   const [faculties, setFaculties] = useState<Faculty[]>([]);
@@ -143,7 +143,7 @@ function FormCreatePost() {
         style={{ marginBottom: 20 }}
       >
         <Typography component="h1" variant="h4" color="primary">
-          Create Post
+          Edit Post
         </Typography>
         <div className={classes.buttons}>
           <Button
@@ -152,7 +152,7 @@ function FormCreatePost() {
             color="primary"
             style={{ marginRight: 10 }}
           >
-            Post
+            Confirm
           </Button>
           <Button
             variant="outlined"
@@ -348,4 +348,4 @@ function FormCreatePost() {
   );
 }
 
-export default FormCreatePost;
+export default FormEditPost;

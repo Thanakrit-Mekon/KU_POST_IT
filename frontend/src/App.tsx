@@ -6,6 +6,7 @@ import MyPost from "./pages/MyPost";
 import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
+import EditPost from "./pages/EditPost";
 
 const theme = createTheme({
   palette: {
@@ -35,6 +36,9 @@ function App(): JSX.Element {
             <Route path="/internship" />
             <Route path="/posts/new">
               <CreatePost />
+            </Route>
+            <Route path="/posts/edit">
+              <EditPost />
             </Route>
             <Route path="/posts">
               <MyPost />
