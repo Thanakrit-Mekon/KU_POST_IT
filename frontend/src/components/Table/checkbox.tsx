@@ -3,17 +3,22 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {Link,Route,BrowserRouter as Router } from 'react-router-dom';
+import { Theme, Link, Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 
-const options = [
-  'แก้ไขโปรไฟล์',
-  'ดูโพสที่สร้างไว้',
-  'ออกจากระบบ',
-];
+const useStyles = makeStyles((theme: Theme) =>
+createStyles({
+    root: {
+      underline : 'hover',
+    },
+    
+  })
+);
 
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu() {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -45,12 +50,33 @@ export default function LongMenu() {
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
             width: '20ch',
+
           },
         }}
       >
-        <MenuItem onClick={handleClose}><Link to="/myprofile">แก้ไขโปรไฟล์</Link></MenuItem>
-        <MenuItem onClick={handleClose}><Link to="/posts">ดูโพสที่สร้างไว้</Link></MenuItem>
-        <MenuItem onClick={handleClose}><Link to="/">ออกจากระบบ</Link></MenuItem>
+        <MenuItem className={classes.root} onClick={handleClose}>
+          <Typography>    
+            <Link href="/myprofile"
+                  color= "inherit"
+            >
+              แก้ไขโปรไฟล์
+            </Link>
+          </Typography>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+            <Link href="/posts"
+                  color= "inherit"
+            >
+              ดูโพสที่สร้าง
+            </Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+            <Link href="/"
+                  color= "inherit"
+            >
+                  ออกจากระบบ
+              </Link>
+        </MenuItem>
       </Menu>
     </div>
   );
