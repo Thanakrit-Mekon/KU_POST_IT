@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
       background: "#e0e0e0",
       boxShadow:  "20px 20px 60px #bebebe-20px -20px 60px #ffffff",
     },
+    card: {
+      boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px',
+    }
   })
 );
 
@@ -78,7 +81,7 @@ function MyPost(): JSX.Element {
           {data.map((obj) => {
             return (
               <Grid item sm={4} key={obj.id}>
-                <Card style={{ padding: 20 }}>
+                <Card style={{ padding: 20 }} className={classes.card}>
                   <Grid container direction="column" alignItems="center">
                     <Avatar
                       alt="Travis Howard"
