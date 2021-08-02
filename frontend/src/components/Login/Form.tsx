@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import SimpleModal from "./Modal";
+import axios from "axios";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -48,6 +49,17 @@ function Form() {
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      axios
+        .post("/auth/login", {
+          username: values.email,
+          password: values.password,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   });
 
@@ -96,7 +108,7 @@ function Form() {
               />
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <SimpleModal/>
+                  <SimpleModal />
                 </Grid>
               </Grid>
             </Grid>

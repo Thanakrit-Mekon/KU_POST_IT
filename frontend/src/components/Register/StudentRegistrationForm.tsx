@@ -10,15 +10,16 @@ import {
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import axios from "../../axios";
+import { useHistory } from "react-router";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
   password: yup.string().min(8).required(),
   confirmPassword: yup
     .string()
-    .min(8)
+    // .min(8)
     .oneOf([yup.ref("password"), null])
     .required(),
   firstName: yup.string().required(),
@@ -47,6 +48,8 @@ function StudentRegistrationForm(): JSX.Element {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -74,20 +77,27 @@ function StudentRegistrationForm(): JSX.Element {
         phone: values.phone,
       };
       console.log(userData);
+      axios
+        .post("/user/student", userData)
+        .then(function (response) {
+          console.log(response);
+          history.push("/login");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   });
 
   useEffect(() => {
-    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
+    axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:3000/dropdowns/department/${formik.values.faculty}`
-      )
+      .get(`/dropdowns/department/${formik.values.faculty}`)
       .then((response) => {
         setDepartments(response.data);
       });
@@ -222,7 +232,7 @@ function StudentRegistrationForm(): JSX.Element {
               </TextField>
             </Grid>
           </Grid>
-          <Grid container spacing={2} style={{marginBottom:5}}>
+          <Grid container spacing={2} style={{ marginBottom: 5 }}>
             <Grid item sm={7}>
               <TextField
                 size="small"
@@ -283,7 +293,11 @@ function StudentRegistrationForm(): JSX.Element {
             Register
           </Button>
           <Grid container justifyContent="center">
-            <Link href="/login" style={{ textDecoration: "none" }} color="primary">
+            <Link
+              href="/login"
+              style={{ textDecoration: "none" }}
+              color="primary"
+            >
               I already have an account
             </Link>
           </Grid>
