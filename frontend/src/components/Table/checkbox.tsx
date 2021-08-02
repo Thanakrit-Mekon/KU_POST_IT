@@ -56,13 +56,13 @@ export default function LongMenu() {
         }}
       >
         <Link  href="/myprofile" style={{ textDecoration: 'none' ,color : 'black'}}>
-          <MenuItem style={{ paddingLeft: 13 }}>แก้ไขโปรไฟล์</MenuItem>
+          <MenuItem style={{ paddingLeft: 13 }}>edit profile</MenuItem>
         </Link>
         <Link href="/posts" style={{ textDecoration: 'none' ,color : 'black'}}>
-          <MenuItem style={{ paddingLeft: 13 }}>ดูโพสที่สร้างไว้</MenuItem>
+          <MenuItem style={{ paddingLeft: 13 }}>view my posts</MenuItem>
         </Link>
         <Link href="/" style={{ textDecoration: 'none' ,color : 'black'}}>
-          <MenuItem style={{ paddingLeft: 13 }}>ออกจากระบบ</MenuItem>
+          <MenuItem style={{ paddingLeft: 13 }}>sign out</MenuItem>
         </Link>
       </Menu>
     </div>
