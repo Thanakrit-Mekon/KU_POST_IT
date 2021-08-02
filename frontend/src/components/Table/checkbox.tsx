@@ -9,8 +9,11 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      textDecoration: "none",
+      '&:hover': {
+        textDecoration: "none",      
+      },
     },
+
   })
 );
 
@@ -52,23 +55,15 @@ export default function LongMenu() {
           },
         }}
       >
-        <MenuItem className={classes.root} onClick={handleClose}>
-          <Typography>
-            <Link href="/myprofile" color="inherit">
-              แก้ไขโปรไฟล์
-            </Link>
-          </Typography>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link href="/posts" color="inherit">
-            ดูโพสที่สร้าง
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link href="/" color="inherit">
-            ออกจากระบบ
-          </Link>
-        </MenuItem>
+        <Link  href="/myprofile" style={{ textDecoration: 'none' ,color : 'black'}}>
+          <MenuItem style={{ paddingLeft: 13 }}>แก้ไขโปรไฟล์</MenuItem>
+        </Link>
+        <Link href="/posts" style={{ textDecoration: 'none' ,color : 'black'}}>
+          <MenuItem style={{ paddingLeft: 13 }}>ดูโพสที่สร้างไว้</MenuItem>
+        </Link>
+        <Link href="/" style={{ textDecoration: 'none' ,color : 'black'}}>
+          <MenuItem style={{ paddingLeft: 13 }}>ออกจากระบบ</MenuItem>
+        </Link>
       </Menu>
     </div>
   );
