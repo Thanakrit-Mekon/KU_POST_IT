@@ -6,10 +6,22 @@ import {
   Card,
   Avatar,
   Button,
+  makeStyles,
+  createStyles,
+  Theme,
 } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import NavBar from '../components/NavBar';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    icon: {
+      height : '100px',
+      width : '100px'
+    },
+  })
+);
 
 function MyPost(): JSX.Element {
   const data = [
@@ -63,11 +75,21 @@ function MyPost(): JSX.Element {
               <Grid item sm={4} key={obj.id}>
                 <Card style={{ padding: 20 }}>
                   <Grid container direction="column" alignItems="center">
-                    <Avatar />
-                    <Box style={{fontWeight:"bold",fontSize:"20px"}}>{obj.name}</Box>
-                    <Box>TA {obj.subject}</Box>
-                    <Box alignItems="center">
-                      <FontAwesomeIcon icon={faUser} /> {obj.amount}{' '}
+                    <Avatar alt="Travis Howard" src="/img/mascot.png" />
+                    <Box style={{ marginTop: 10, marginBottom: 7 }}>{obj.name}</Box>
+                    <Box 
+                      fontWeight="bold"
+                      fontSize="15px"
+                      color="primary.main"
+                      style={{ marginBottom: 7 }}
+                    >
+                      TA {obj.subject}
+                    </Box>
+                    <Box alignItems="center" color="primary.main" className="icon">
+                      <i className="fas fa-camera fa-lg" style={{ marginBottom: 7, marginRight: 10}}>
+                        <FontAwesomeIcon icon={faUser} /> 
+                      </i>
+                      {obj.amount}{' '}
                     </Box>
                     <Grid
                       container
