@@ -10,6 +10,8 @@ import {
   FormControlLabel,
   Radio,
   Fab,
+  withStyles,
+  RadioProps,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -39,6 +41,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
   },
 }));
+
+const GreenRadio = withStyles({
+  root: {
+    color: '#5E9EA0',
+    "&$checked": {
+      color: '#5E9EA0',
+    },
+  },
+  checked: {},
+})((props: RadioProps) => <Radio color="default" {...props} />);
 
 const validationSchema = yup.object({
   title: yup.string().required(),
@@ -180,6 +192,7 @@ function FormCreatePost() {
         value={formik.values.type}
         onChange={formik.handleChange}
         row
+        color="primary"
         style={{
           justifyContent: "space-between",
           alignItems: "center",
@@ -189,12 +202,12 @@ function FormCreatePost() {
         <div>
           <FormControlLabel
             value="any"
-            control={<Radio />}
+            control={<GreenRadio />}
             label="All Faculties"
           />
           <FormControlLabel
             value="specific"
-            control={<Radio />}
+            control={<GreenRadio />}
             label="Specific Faculty"
           />
         </div>

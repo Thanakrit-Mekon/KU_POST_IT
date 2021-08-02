@@ -7,6 +7,7 @@ import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
 import ChangePassword from "./pages/ChangePassword";
+import "@fontsource/roboto";
 
 const theme = createTheme({
   palette: {

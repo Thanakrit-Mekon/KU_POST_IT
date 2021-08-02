@@ -13,8 +13,6 @@ import * as yup from "yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const years = [1, 2, 3, 4];
-
 const validationSchema = yup.object({
   email: yup.string().email().required(),
   password: yup.string().min(8).required(),
@@ -59,7 +57,6 @@ function StudentRegistrationForm(): JSX.Element {
       studentId: "",
       faculty: "",
       department: "",
-      year: "",
       phone: "",
     },
     validationSchema,
@@ -73,7 +70,6 @@ function StudentRegistrationForm(): JSX.Element {
         student_id: values.studentId,
         faculty_code: values.faculty,
         department_code: values.department,
-        year: values.year,
         get_notify: true,
         phone: values.phone,
       };
@@ -226,28 +222,8 @@ function StudentRegistrationForm(): JSX.Element {
               </TextField>
             </Grid>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item sm={2} style={{ marginBottom: "1rem" }}>
-              <TextField
-                size="small"
-                select
-                fullWidth
-                variant="outlined"
-                label="Year"
-                value={formik.values.year}
-                onChange={formik.handleChange}
-                name="year"
-              >
-                {years.map((year, index) => {
-                  return (
-                    <MenuItem key={index} value={year}>
-                      {year}
-                    </MenuItem>
-                  );
-                })}
-              </TextField>
-            </Grid>
-            <Grid item sm={5}>
+          <Grid container spacing={2} style={{marginBottom:5}}>
+            <Grid item sm={7}>
               <TextField
                 size="small"
                 label="Student ID"

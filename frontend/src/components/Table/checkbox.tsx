@@ -1,19 +1,26 @@
-import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import {Link,Route,BrowserRouter as Router } from 'react-router-dom';
+import React from "react";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Theme, Link, Typography } from "@material-ui/core";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 
-const options = [
-  'แก้ไขโปรไฟล์',
-  'ดูโพสที่สร้างไว้',
-  'ออกจากระบบ',
-];
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '&:hover': {
+        textDecoration: "none",      
+      },
+    },
+
+  })
+);
 
 const ITEM_HEIGHT = 48;
 
 export default function LongMenu() {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -44,13 +51,19 @@ export default function LongMenu() {
         PaperProps={{
           style: {
             maxHeight: ITEM_HEIGHT * 4.5,
-            width: '20ch',
+            width: "20ch",
           },
         }}
       >
-        <MenuItem onClick={handleClose}><Link to="/myprofile">แก้ไขโปรไฟล์</Link></MenuItem>
-        <MenuItem onClick={handleClose}><Link to="/posts">ดูโพสที่สร้างไว้</Link></MenuItem>
-        <MenuItem onClick={handleClose}><Link to="/">ออกจากระบบ</Link></MenuItem>
+        <Link  href="/myprofile" style={{ textDecoration: 'none' ,color : 'black'}}>
+          <MenuItem style={{ paddingLeft: 13 }}>edit profile</MenuItem>
+        </Link>
+        <Link href="/posts" style={{ textDecoration: 'none' ,color : 'black'}}>
+          <MenuItem style={{ paddingLeft: 13 }}>view my posts</MenuItem>
+        </Link>
+        <Link href="/" style={{ textDecoration: 'none' ,color : 'black'}}>
+          <MenuItem style={{ paddingLeft: 13 }}>sign out</MenuItem>
+        </Link>
       </Menu>
     </div>
   );
