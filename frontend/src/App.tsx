@@ -7,6 +7,9 @@ import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
 import ChangePassword from "./pages/ChangePassword";
+import "@fontsource/roboto";
+import { useEffect, useState } from "react";
+import axios from "./axios";
 
 const theme = createTheme({
   palette: {
@@ -16,7 +19,35 @@ const theme = createTheme({
   },
 });
 
+export interface User {
+  profile_url: string;
+  first_name?: string;
+  last_name?: string;
+  email: string;
+  phone: string;
+  student_id?: string;
+  faculty_code?: string;
+  department_code?: string;
+  get_notify: boolean;
+  name?: string;
+  location?: string;
+  contact?: string;
+  about_me?: string;
+}
+
 function App(): JSX.Element {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      axios.get("/user/getuser").then((response) => {
+        setUser(response.data[0]);
+      });
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
@@ -32,7 +63,7 @@ function App(): JSX.Element {
               <ChangePassword />
             </Route>
             <Route path="/login">
-              <Login />
+              <Login setUser={setUser} />
             </Route>
             <Route path="/ta" />
             <Route path="/project-coop" />
@@ -41,7 +72,7 @@ function App(): JSX.Element {
               <CreatePost />
             </Route>
             <Route path="/posts">
-              <MyPost />
+              <MyPost user={user} setUser={setUser} />
             </Route>
             <Route path="/posts/:postId" />
             <Route path="/table">

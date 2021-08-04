@@ -10,10 +10,12 @@ import {
   FormControlLabel,
   Radio,
   Fab,
+  withStyles,
+  RadioProps,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
+import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
@@ -39,6 +41,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
   },
 }));
+
+const GreenRadio = withStyles({
+  root: {
+    color: '#5E9EA0',
+    "&$checked": {
+      color: '#5E9EA0',
+    },
+  },
+  checked: {},
+})((props: RadioProps) => <Radio color="default" {...props} />);
 
 const validationSchema = yup.object({
   title: yup.string().required(),
@@ -75,14 +87,14 @@ function FormCreatePost() {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
+    axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/dropdowns/alldepartment`)
+      .get(`/dropdowns/alldepartment`)
       .then((response) => {
         setDepartments(response.data);
       });
@@ -180,6 +192,7 @@ function FormCreatePost() {
         value={formik.values.type}
         onChange={formik.handleChange}
         row
+        color="primary"
         style={{
           justifyContent: "space-between",
           alignItems: "center",
@@ -189,12 +202,12 @@ function FormCreatePost() {
         <div>
           <FormControlLabel
             value="any"
-            control={<Radio />}
+            control={<GreenRadio />}
             label="All Faculties"
           />
           <FormControlLabel
             value="specific"
-            control={<Radio />}
+            control={<GreenRadio />}
             label="Specific Faculty"
           />
         </div>
