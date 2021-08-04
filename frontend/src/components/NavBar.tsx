@@ -1,7 +1,8 @@
-import { Paper, Tabs, Tab, Avatar, Grid, Theme } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Checkedbox from './Table/checkbox';
+import { Paper, Tabs, Tab, Avatar, Grid, Theme } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+import Checkedbox from "./checkbox";
+import { User } from "../App";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,12 +19,17 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.contrastText,
     },
     tab: {
-      fontSize : '17px',
+      fontSize: "17px",
     },
   })
 );
 
-function NavBar(): JSX.Element {
+interface NavBarProps {
+  user?: User | null;
+  setUser?: (user: User | null) => void;
+}
+
+function NavBar({ user, setUser }: NavBarProps): JSX.Element {
   const classes = useStyles();
   return (
     <Paper className={classes.root} square>
@@ -32,32 +38,38 @@ function NavBar(): JSX.Element {
         className={classes.pad}
         direction="row"
         justifyContent="space-between"
-        alignItems="center">
+        alignItems="center"
+      >
         <Grid item>
-          <img height = "60" width = "100" src="/img/logo.png" alt="logo" />
+          <img height="60" width="100" src="/img/logo.png" alt="logo" />
         </Grid>
         <Grid item>
-          <Tabs
-            className={classes.tabs}
-            indicatorColor="primary"
-            centered
-          >
+          <Tabs className={classes.tabs} indicatorColor="primary" centered>
             <Tab label="TA" to="/ta" className={classes.tab} component={Link} />
-            <Tab label="Project co-op" to="/project-coop" className={classes.tab} component={Link} />
-            <Tab label="Internship" to="/internship" className={classes.tab} component={Link} />
+            <Tab
+              label="Project co-op"
+              to="/project-coop"
+              className={classes.tab}
+              component={Link}
+            />
+            <Tab
+              label="Internship"
+              to="/internship"
+              className={classes.tab}
+              component={Link}
+            />
           </Tabs>
         </Grid>
-  
+
         <Grid item>
           <Grid container direction="row" alignItems="center">
-              BungBung
-              <Avatar alt="Travis Howard" src="/img/mascot.png" />
-            <Checkedbox />
+            {user ? user.first_name || user.name : "anonymous"}
+            <Avatar alt="Travis Howard" src="/img/mascot.png" />
+            <Checkedbox setUser={setUser} />
           </Grid>
         </Grid>
       </Grid>
     </Paper>
-    
   );
 }
 

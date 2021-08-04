@@ -8,10 +8,11 @@ import {
   Link,
   MenuItem,
 } from "@material-ui/core";
-import axios from "axios";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import * as yup from "yup";
+import axios from "../../axios";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -43,6 +44,8 @@ function TeacherRegistrationForm(): JSX.Element {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -64,24 +67,30 @@ function TeacherRegistrationForm(): JSX.Element {
         last_name: values.lastName,
         faculty_code: values.faculty,
         department_code: values.department,
-        get_notify: true,
         phone: values.phone,
       };
       console.log(userData);
+      axios
+        .post("/user/teacher",userData)
+        .then(function (response) {
+          console.log(response);
+          history.push("/login");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   });
 
   useEffect(() => {
-    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
+    axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:3000/dropdowns/department/${formik.values.faculty}`
-      )
+      .get(`/dropdowns/department/${formik.values.faculty}`)
       .then((response) => {
         setDepartments(response.data);
       });
@@ -260,7 +269,11 @@ function TeacherRegistrationForm(): JSX.Element {
             Register
           </Button>
           <Grid container justifyContent="center">
-            <Link href="/login" style={{ textDecoration: "none" }} color="primary">
+            <Link
+              href="/login"
+              style={{ textDecoration: "none" }}
+              color="primary"
+            >
               I already have an account
             </Link>
           </Grid>
