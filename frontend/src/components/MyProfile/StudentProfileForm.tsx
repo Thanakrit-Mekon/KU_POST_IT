@@ -10,6 +10,8 @@ import {
   } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useEffect } from "react";
+import axios from "../../axios";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
@@ -42,7 +44,9 @@ const useStyles = makeStyles(() =>
   })
 );
 
+
 function StudentProfileForm(): JSX.Element {
+
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
@@ -58,19 +62,28 @@ function StudentProfileForm(): JSX.Element {
         validationSchema,
         onSubmit: (values) => {
             const userData = {
-                profile_url: "url_link",
                 first_name: values.firstName,
                 last_name: values.lastName,
-                email: values.email,
                 phone: values.phone,
-                student_id: values.studentId,
-                faculty_code: values.faculty,
-                department_code: values.department,
                 get_notify: values.getNotify,
             };
             console.log(userData);
+            axios
+                .patch("/user/updateuser", userData)
+                .then(function (response) {
+                console.log(response);
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
         },
     });
+
+    useEffect(() => {
+        axios.get("/user/getuser").then((response) => {
+            console.log(response.data);
+        });
+    }, []);
 
     return (
         <>

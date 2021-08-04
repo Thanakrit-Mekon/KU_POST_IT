@@ -10,6 +10,8 @@ import {
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useEffect } from "react";
+import axios from "../../axios";
 
 const validationSchema = yup.object({
     name: yup.string().required(),
@@ -56,17 +58,30 @@ function CompanyProfileForm(): JSX.Element {
         validationSchema,
         onSubmit: (values) => {
             const userData = {
-                profile_url: "url_link",
                 name: values.name,
-                email: values.email,
                 location: values.location,
                 contact: values.contact,
                 about_me: values.aboutme,
                 phone: values.phone,
             };
             console.log(userData);
+            axios
+                .patch("/user/updateuser", userData)
+                .then(function (response) {
+                console.log(response);
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
         },
     });
+
+    useEffect(() => {
+        axios.get("/user/getuser").then((response) => {
+            console.log(response.data);
+        });
+    }, []);
+
     return (
         <>
             <Typography

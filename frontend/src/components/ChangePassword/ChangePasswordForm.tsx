@@ -9,9 +9,10 @@ import {
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "../../axios";
 
 const validationSchema = yup.object({
-    currentPassword: yup.string().min(8).required(),
+    oldPassword: yup.string().min(8).required(),
     newPassword: yup
         .string()
         .min(8)
@@ -53,18 +54,25 @@ function ChangePasswordForm(): JSX.Element {
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
-            currentPassword: "",
+            oldPassword: "",
             newPassword: "",
             confirmNewPassword: "",
         },
         validationSchema,
         onSubmit: (values) => {
             const userPassword = {
-                current_password: values.currentPassword,
+                old_password: values.oldPassword,
                 new_password: values.newPassword,
-                confirm_new_password: values.confirmNewPassword,
             };
             console.log(userPassword);
+            axios
+                .patch("/user/updatepassword", userPassword)
+                .then(function (response) {
+                console.log(response);
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
         },
     });
 
@@ -78,12 +86,12 @@ function ChangePasswordForm(): JSX.Element {
                             type="password"
                             label="Current Password"
                             variant="outlined"
-                            name="currentPassword"
-                            value={formik.values.currentPassword}
+                            name="oldPassword"
+                            value={formik.values.oldPassword}
                             onChange={formik.handleChange}
                             error={
-                                formik.touched.currentPassword && 
-                                Boolean(formik.errors.currentPassword)
+                                formik.touched.oldPassword && 
+                                Boolean(formik.errors.oldPassword)
                             }
                             fullWidth
                         />
