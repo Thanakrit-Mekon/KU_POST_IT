@@ -9,7 +9,9 @@ import {
 } from "@material-ui/core";
 
 import { useFormik } from "formik";
+import { useEffect } from "react";
 import * as yup from "yup";
+import axios from "../../axios";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
@@ -56,17 +58,27 @@ function TeacherProfileForm(): JSX.Element {
         validationSchema,
         onSubmit: (values) => {
             const userData = {
-                profile_url: "url_link",
                 first_name: values.firstName,
                 last_name: values.lastName,
-                email: values.email,
                 phone: values.phone,
-                faculty_code: values.faculty,
-                department_code: values.department,
             };
             console.log(userData);
+            axios
+            .patch("/user/updateuser", userData)
+            .then(function (response) {
+            console.log(response);
+            })
+            .catch(function (error) {
+            console.log(error);
+            });
         },
     });
+
+    useEffect(() => {
+        axios.get("/user/getuser").then((response) => {
+          console.log(response.data);
+        });
+    }, []);
 
     return (
         <>
