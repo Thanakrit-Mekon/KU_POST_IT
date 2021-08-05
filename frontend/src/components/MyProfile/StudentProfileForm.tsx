@@ -7,11 +7,12 @@ import {
     Checkbox,
     makeStyles,
     createStyles,
+    Switch,
   } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useEffect } from "react";
 import axios from "../../axios";
+import { User } from "../../App";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
@@ -44,32 +45,35 @@ const useStyles = makeStyles(() =>
   })
 );
 
+interface StudentProfileFormProps {
+    user?: User | null;
+}
 
-function StudentProfileForm(): JSX.Element {
-
+function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            studentId: "",
-            faculty: "",
-            department: "",
-            getNotify: true,
+            firstName:`${ user?.first_name }`,
+            lastName: `${ user?.last_name }`,
+            email: `${ user?.email }`,
+            phone: `${ user?.phone }`,
+            studentId: `${ user?.student_id }`,
+            faculty: `${ user?.faculty_code }`,
+            department: `${ user?.department_code }`,
+            getNotify: user?.get_notify,
         },
+        enableReinitialize: true,
         validationSchema,
         onSubmit: (values) => {
-            const userData = {
+            const userDatasent = {
                 first_name: values.firstName,
                 last_name: values.lastName,
                 phone: values.phone,
                 get_notify: values.getNotify,
             };
-            console.log(userData);
+            console.log(userDatasent);
             axios
-                .patch("/user/updateuser", userData)
+                .patch("/user/updateuser", userDatasent)
                 .then(function (response) {
                 console.log(response);
                 })
@@ -78,12 +82,7 @@ function StudentProfileForm(): JSX.Element {
                 });
         },
     });
-
-    useEffect(() => {
-        axios.get("/user/getuser").then((response) => {
-            console.log(response.data);
-        });
-    }, []);
+    // console.log(formik.values.getNotify);
 
     return (
         <>
@@ -187,7 +186,7 @@ function StudentProfileForm(): JSX.Element {
                             alignItems: "center",
                         }}
                         >
-                        <Checkbox 
+                        <Switch 
                             color="primary"
                             name="getNotify"
                             checked={formik.values.getNotify}

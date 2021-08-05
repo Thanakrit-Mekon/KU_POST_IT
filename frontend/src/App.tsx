@@ -57,10 +57,10 @@ function App(): JSX.Element {
               <Register />
             </Route>
             <Route path="/myprofile">
-              <MyProfile />
+              <MyProfile user={user} setUser={setUser} />
             </Route>
             <Route path="/changepassword">
-              <ChangePassword />
+              <ChangePassword user={user} setUser={setUser} />
             </Route>
             <Route path="/login">
               <Login setUser={setUser} />

@@ -10,8 +10,8 @@ import {
 
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useEffect } from "react";
 import axios from "../../axios";
+import { User } from "../../App";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
@@ -43,18 +43,23 @@ const useStyles = makeStyles(() =>
     },
   })
 );
+
+interface TeacherProfileFormProps {
+    user?: User | null;
+}
   
-function TeacherProfileForm(): JSX.Element {
+function TeacherProfileForm({user}: TeacherProfileFormProps): JSX.Element {
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            faculty: "",
-            department: "",
+            firstName:`${ user?.first_name }`,
+            lastName: `${ user?.last_name }`,
+            email: `${ user?.email }`,
+            phone: `${ user?.phone }`,
+            faculty: `${ user?.faculty_code }`,
+            department: `${ user?.department_code }`,
         },
+        enableReinitialize: true,
         validationSchema,
         onSubmit: (values) => {
             const userData = {
@@ -73,12 +78,6 @@ function TeacherProfileForm(): JSX.Element {
                 });
         },
     });
-
-    useEffect(() => {
-        axios.get("/user/getuser").then((response) => {
-            console.log(response.data);
-        });
-    }, []);
 
     return (
         <>
