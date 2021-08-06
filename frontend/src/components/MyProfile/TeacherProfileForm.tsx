@@ -195,7 +195,7 @@ function TeacherProfileForm({user}: TeacherProfileFormProps): JSX.Element {
                         type="submit"
                         style={{ marginBottom: "1rem" }}
                     >
-                        Save Change
+                        Save Changes
                     </Button>
                 </Box>
             </form>

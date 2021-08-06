@@ -206,7 +206,7 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
                         type="submit"
                         style={{ marginBottom: "1rem" }}
                     >
-                        Save Change
+                        Save Changes
                     </Button>
                 </Box>
             </form>
