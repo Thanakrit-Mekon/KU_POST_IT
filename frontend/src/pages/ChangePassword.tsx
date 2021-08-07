@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar';
 
 import ChangePasswordForm from "../components/ChangePassword/ChangePasswordForm";
 import PasswordRequirement from "../components/ChangePassword/PasswordRequirement";
+import { User } from "../App";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -22,12 +23,17 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function ChangePassword(): JSX.Element {
+export interface ChangePasswordProps {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
+function ChangePassword({ user, setUser }: ChangePasswordProps): JSX.Element {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <NavBar />
+      <NavBar user={user} setUser={setUser}/>
       <Grid container className={classes.row}>
       </Grid>
       <Grid container className={classes.row}>
@@ -41,11 +47,11 @@ function ChangePassword(): JSX.Element {
             <Box mt={6} mb={3} fontWeight="fontWeightBold">Change Password</Box>
           </Typography>
           <Typography
-                align="left"
-                variant="h6"
-            >
-                <Box mt={3} ml={4} fontWeight="fontWeightBold">Password must contain :</Box>
-            </Typography>
+              align="left"
+              variant="h6"
+          >
+            <Box mt={3} ml={4} fontWeight="fontWeightBold">New Password must contain :</Box>
+          </Typography>
         </Grid>
         <Grid item sm={1}/>
       </Grid>

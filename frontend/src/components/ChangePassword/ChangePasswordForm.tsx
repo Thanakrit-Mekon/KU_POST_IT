@@ -5,23 +5,29 @@ import {
     Box,
     makeStyles,
     createStyles,
+    Typography,
 } from "@material-ui/core";
 
 import { useFormik } from "formik";
+import { useState } from "react";
 import * as yup from "yup";
+import axios from "../../axios";
 
 const validationSchema = yup.object({
-    currentPassword: yup.string().min(8).required(),
-    newPassword: yup
+    oldPassword: yup
         .string()
         .min(8)
+        .required(),
+    newPassword: yup
+        .string()
+        .min(8,'')
         .matches(/(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/)
         .required(),
     confirmNewPassword: yup
         .string()
-        .min(8)
-        .required()
-        .oneOf([yup.ref("newPassword"), null]),
+        .min(8,'')
+        .required('')
+        .oneOf([yup.ref("newPassword"), null], 'Password must match!'),
 });
 
 const useStyles = makeStyles(() =>
@@ -50,23 +56,38 @@ const useStyles = makeStyles(() =>
 );
   
 function ChangePasswordForm(): JSX.Element {
+    const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
-            currentPassword: "",
+            oldPassword: "",
             newPassword: "",
             confirmNewPassword: "",
         },
         validationSchema,
         onSubmit: (values) => {
             const userPassword = {
-                current_password: values.currentPassword,
+                old_password: values.oldPassword,
                 new_password: values.newPassword,
-                confirm_new_password: values.confirmNewPassword,
             };
             console.log(userPassword);
+            axios
+                .patch("/user/updatepassword", userPassword)
+                .then(function (response) {
+                console.log(response);
+                setOldPasswordErrorMessage('');
+                window.location.href = "/myprofile";
+                })
+                .catch(function (error) {
+                console.log(error.response);
+                // console.log(error.request);
+                // console.log('Error', error.message);
+                // console.log(error.config);
+                setOldPasswordErrorMessage('Current Password Invalid');
+                });
         },
     });
+
 
     return (
         <>
@@ -78,15 +99,24 @@ function ChangePasswordForm(): JSX.Element {
                             type="password"
                             label="Current Password"
                             variant="outlined"
-                            name="currentPassword"
-                            value={formik.values.currentPassword}
+                            name="oldPassword"
+                            value={formik.values.oldPassword}
                             onChange={formik.handleChange}
                             error={
-                                formik.touched.currentPassword && 
-                                Boolean(formik.errors.currentPassword)
+                                formik.touched.oldPassword && 
+                                Boolean(formik.errors.oldPassword)
                             }
                             fullWidth
                         />
+                        { oldPasswordErrorMessage && (
+                            <Typography
+                            align="left"
+                            variant="subtitle1"
+                            color="secondary"
+                            >
+                            { oldPasswordErrorMessage }
+                            </Typography>
+                        )}
                     </Grid>
                     <Grid item sm={12} style={{ marginBottom: "1rem" }}>
                         <TextField
@@ -119,6 +149,13 @@ function ChangePasswordForm(): JSX.Element {
                             }
                             fullWidth
                         />
+                        <Typography
+                            align="left"
+                            variant="subtitle1"
+                            color="secondary"
+                        >
+                            { formik.errors.confirmNewPassword }
+                        </Typography>
                     </Grid>
                 </Grid>
                 <Box 

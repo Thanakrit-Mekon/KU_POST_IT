@@ -10,6 +10,8 @@ import {
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "../../axios";
+import { User } from "../../App";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
@@ -41,30 +43,39 @@ const useStyles = makeStyles(() =>
     },
   })
 );
+
+interface TeacherProfileFormProps {
+    user?: User | null;
+}
   
-function TeacherProfileForm(): JSX.Element {
+function TeacherProfileForm({user}: TeacherProfileFormProps): JSX.Element {
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            faculty: "",
-            department: "",
+            firstName:`${ user?.first_name }`,
+            lastName: `${ user?.last_name }`,
+            email: `${ user?.email }`,
+            phone: `${ user?.phone }`,
+            faculty: `${ user?.faculty_code }`,
+            department: `${ user?.department_code }`,
         },
+        enableReinitialize: true,
         validationSchema,
         onSubmit: (values) => {
             const userData = {
-                profile_url: "url_link",
                 first_name: values.firstName,
                 last_name: values.lastName,
-                email: values.email,
                 phone: values.phone,
-                faculty_code: values.faculty,
-                department_code: values.department,
             };
             console.log(userData);
+            axios
+                .patch("/user/updateuser", userData)
+                .then(function (response) {
+                console.log(response);
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
         },
     });
 
@@ -184,7 +195,7 @@ function TeacherProfileForm(): JSX.Element {
                         type="submit"
                         style={{ marginBottom: "1rem" }}
                     >
-                        Save Change
+                        Save Changes
                     </Button>
                 </Box>
             </form>

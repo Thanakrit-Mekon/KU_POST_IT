@@ -5,6 +5,7 @@ import TeacherProfileForm from "../components/MyProfile/TeacherProfileForm";
 import CompanyProfileForm from "../components/MyProfile/CompanyProfileForm";
 import ProfileImage from "../components/MyProfile/ProfileImage";
 import NavBar from '../components/NavBar';
+import { User } from "../App";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -23,12 +24,17 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function MyProfile(): JSX.Element {
+export interface MyProfileProps {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
+function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <NavBar />
+      <NavBar user={user} setUser={setUser}/>
       <Grid container className={classes.row}>
       </Grid>
       <Grid container className={classes.row}>
@@ -53,7 +59,7 @@ function MyProfile(): JSX.Element {
         </Grid>
         <Grid item sm={6}>
           <Box px={5}>
-          <StudentProfileForm />
+          <StudentProfileForm user={user}/>
           </Box>
         </Grid>
         <Grid item sm={2}/>

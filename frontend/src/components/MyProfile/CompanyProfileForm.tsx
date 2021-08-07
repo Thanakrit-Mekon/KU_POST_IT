@@ -10,6 +10,8 @@ import {
 
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "../../axios";
+import { User } from "../../App";
 
 const validationSchema = yup.object({
     name: yup.string().required(),
@@ -41,32 +43,44 @@ const useStyles = makeStyles(() =>
     },
   })
 );
+
+interface CompanyProfileFormProps {
+    user?: User | null;
+}
   
-function CompanyProfileForm(): JSX.Element {
+function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
-            name: "",
-            email: "",
-            location: "",
-            contact: "",
-            aboutme: "",
-            phone: "",
+            name:`${ user?.name }`,
+            email: `${ user?.email }`,
+            location: `${ user?.location }`,
+            contact: `${ user?.contact }`,
+            aboutme: `${ user?.about_me }`,
+            phone: `${ user?.phone }`,
         },
+        enableReinitialize: true,
         validationSchema,
         onSubmit: (values) => {
             const userData = {
-                profile_url: "url_link",
                 name: values.name,
-                email: values.email,
                 location: values.location,
                 contact: values.contact,
                 about_me: values.aboutme,
                 phone: values.phone,
             };
             console.log(userData);
+            axios
+                .patch("/user/updateuser", userData)
+                .then(function (response) {
+                console.log(response);
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
         },
     });
+
     return (
         <>
             <Typography
@@ -192,7 +206,7 @@ function CompanyProfileForm(): JSX.Element {
                         type="submit"
                         style={{ marginBottom: "1rem" }}
                     >
-                        Save Change
+                        Save Changes
                     </Button>
                 </Box>
             </form>

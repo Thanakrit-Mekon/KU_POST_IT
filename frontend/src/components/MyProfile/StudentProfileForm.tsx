@@ -7,9 +7,13 @@ import {
     Checkbox,
     makeStyles,
     createStyles,
+    Switch,
   } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "../../axios";
+import { User } from "../../App";
+import { useState } from "react";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
@@ -42,35 +46,45 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function StudentProfileForm(): JSX.Element {
+interface StudentProfileFormProps {
+    user?: User | null;
+}
+
+function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
     const classes = useStyles();
+
     const formik = useFormik({
         initialValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            studentId: "",
-            faculty: "",
-            department: "",
-            getNotify: true,
+            firstName:`${ user?.first_name }`,
+            lastName: `${ user?.last_name }`,
+            email: `${ user?.email }`,
+            phone: `${ user?.phone }`,
+            studentId: `${ user?.student_id }`,
+            faculty: `${ user?.faculty_code }`,
+            department: `${ user?.department_code }`,
+            getNotify: user?.get_notify,
         },
+        enableReinitialize: true,
         validationSchema,
         onSubmit: (values) => {
-            const userData = {
-                profile_url: "url_link",
+            const userDatasent = {
                 first_name: values.firstName,
                 last_name: values.lastName,
-                email: values.email,
                 phone: values.phone,
-                student_id: values.studentId,
-                faculty_code: values.faculty,
-                department_code: values.department,
                 get_notify: values.getNotify,
             };
-            console.log(userData);
+            console.log(userDatasent);
+            axios
+                .patch("/user/updateuser", userDatasent)
+                .then(function (response) {
+                console.log(response);
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
         },
     });
+    // console.log(formik.values.getNotify);
 
     return (
         <>
@@ -178,6 +192,7 @@ function StudentProfileForm(): JSX.Element {
                             color="primary"
                             name="getNotify"
                             checked={formik.values.getNotify}
+                            // value={formik.values.getNotify}
                             onChange={formik.handleChange}
                         />
                         <Typography variant="body1">
@@ -219,7 +234,7 @@ function StudentProfileForm(): JSX.Element {
                         type="submit"
                         style={{ marginBottom: "1rem" }}
                     >
-                        Save Change
+                        Save Changes
                     </Button>
                 </Box>
             </form>
