@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
 import { User } from "../../App";
+import { useState } from "react";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
@@ -51,6 +52,7 @@ interface StudentProfileFormProps {
 
 function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
     const classes = useStyles();
+
     const formik = useFormik({
         initialValues: {
             firstName:`${ user?.first_name }`,
@@ -186,10 +188,11 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
                             alignItems: "center",
                         }}
                         >
-                        <Switch 
+                        <Checkbox 
                             color="primary"
                             name="getNotify"
                             checked={formik.values.getNotify}
+                            // value={formik.values.getNotify}
                             onChange={formik.handleChange}
                         />
                         <Typography variant="body1">

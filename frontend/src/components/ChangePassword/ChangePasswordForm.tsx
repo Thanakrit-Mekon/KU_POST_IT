@@ -5,24 +5,29 @@ import {
     Box,
     makeStyles,
     createStyles,
+    Typography,
 } from "@material-ui/core";
 
 import { useFormik } from "formik";
+import { useState } from "react";
 import * as yup from "yup";
 import axios from "../../axios";
 
 const validationSchema = yup.object({
-    oldPassword: yup.string().min(8).required(),
-    newPassword: yup
+    oldPassword: yup
         .string()
         .min(8)
+        .required(),
+    newPassword: yup
+        .string()
+        .min(8,'')
         .matches(/(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/)
         .required(),
     confirmNewPassword: yup
         .string()
-        .min(8)
-        .required()
-        .oneOf([yup.ref("newPassword"), null]),
+        .min(8,'')
+        .required('')
+        .oneOf([yup.ref("newPassword"), null], 'Password must match!'),
 });
 
 const useStyles = makeStyles(() =>
@@ -51,6 +56,7 @@ const useStyles = makeStyles(() =>
 );
   
 function ChangePasswordForm(): JSX.Element {
+    const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
     const classes = useStyles();
     const formik = useFormik({
         initialValues: {
@@ -69,12 +75,19 @@ function ChangePasswordForm(): JSX.Element {
                 .patch("/user/updatepassword", userPassword)
                 .then(function (response) {
                 console.log(response);
+                setOldPasswordErrorMessage('');
+                window.location.href = "/myprofile";
                 })
                 .catch(function (error) {
-                console.log(error);
+                console.log(error.response);
+                // console.log(error.request);
+                // console.log('Error', error.message);
+                // console.log(error.config);
+                setOldPasswordErrorMessage('Current Password Invalid');
                 });
         },
     });
+
 
     return (
         <>
@@ -95,6 +108,15 @@ function ChangePasswordForm(): JSX.Element {
                             }
                             fullWidth
                         />
+                        { oldPasswordErrorMessage && (
+                            <Typography
+                            align="left"
+                            variant="subtitle1"
+                            color="secondary"
+                            >
+                            { oldPasswordErrorMessage }
+                            </Typography>
+                        )}
                     </Grid>
                     <Grid item sm={12} style={{ marginBottom: "1rem" }}>
                         <TextField
@@ -127,6 +149,13 @@ function ChangePasswordForm(): JSX.Element {
                             }
                             fullWidth
                         />
+                        <Typography
+                            align="left"
+                            variant="subtitle1"
+                            color="secondary"
+                        >
+                            { formik.errors.confirmNewPassword }
+                        </Typography>
                     </Grid>
                 </Grid>
                 <Box 

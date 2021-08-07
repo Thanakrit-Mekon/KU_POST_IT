@@ -47,11 +47,11 @@ function ChangePassword({ user, setUser }: ChangePasswordProps): JSX.Element {
             <Box mt={6} mb={3} fontWeight="fontWeightBold">Change Password</Box>
           </Typography>
           <Typography
-                align="left"
-                variant="h6"
-            >
-                <Box mt={3} ml={4} fontWeight="fontWeightBold">Password must contain :</Box>
-            </Typography>
+              align="left"
+              variant="h6"
+          >
+            <Box mt={3} ml={4} fontWeight="fontWeightBold">New Password must contain :</Box>
+          </Typography>
         </Grid>
         <Grid item sm={1}/>
       </Grid>
