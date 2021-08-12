@@ -59,7 +59,13 @@ function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
         </Grid>
         <Grid item sm={6}>
           <Box px={5}>
-          <StudentProfileForm user={user}/>
+            {
+              user?.location ?
+                <CompanyProfileForm user={user}/> :
+                user?.student_id ?
+                  <StudentProfileForm user={user}/> :
+                  <TeacherProfileForm user={user}/>
+            }
           </Box>
         </Grid>
         <Grid item sm={2}/>
