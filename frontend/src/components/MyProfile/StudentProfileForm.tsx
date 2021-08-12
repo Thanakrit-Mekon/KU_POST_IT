@@ -7,13 +7,11 @@ import {
     Checkbox,
     makeStyles,
     createStyles,
-    Switch,
   } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
 import { User } from "../../App";
-import { useState } from "react";
 
 const validationSchema = yup.object({
     firstName: yup.string().required(),
