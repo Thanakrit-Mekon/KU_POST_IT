@@ -1,10 +1,9 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Box } from "@material-ui/core";
-import StudentProfileForm from "../components/MyProfile/StudentProfileForm";
-import TeacherProfileForm from "../components/MyProfile/TeacherProfileForm";
-import CompanyProfileForm from "../components/MyProfile/CompanyProfileForm";
-import ProfileImage from "../components/MyProfile/ProfileImage";
 import NavBar from '../components/NavBar';
+
+import ChangePasswordForm from "../components/ChangePassword/ChangePasswordForm";
+import PasswordRequirement from "../components/ChangePassword/PasswordRequirement";
 import { User } from "../App";
 
 const useStyles = makeStyles(() =>
@@ -24,12 +23,12 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export interface MyProfileProps {
+export interface ChangePasswordProps {
   user: User | null;
   setUser: (user: User | null) => void;
 }
 
-function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
+function ChangePassword({ user, setUser }: ChangePasswordProps): JSX.Element {
   const classes = useStyles();
 
   return (
@@ -45,27 +44,28 @@ function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
             variant="h4"
             color="primary"
           >
-            <Box mt={6} fontWeight="fontWeightBold">My Profile</Box>
+            <Box mt={6} mb={3} fontWeight="fontWeightBold">Change Password</Box>
+          </Typography>
+          <Typography
+              align="left"
+              variant="h6"
+          >
+            <Box mt={3} ml={4} fontWeight="fontWeightBold">New Password must contain :</Box>
           </Typography>
         </Grid>
         <Grid item sm={1}/>
       </Grid>
       <Grid container>
         <Grid item sm={1} />
-        <Grid item sm={2}>
-          <Box pr={7}>
-            <ProfileImage />
-          </Box>
+        <Grid item sm={3} style={{paddingLeft:25}}>
+            <PasswordRequirement />
+            {/* <Box pr={7}>
+                <ProfileImage />
+            </Box> */}
         </Grid>
-        <Grid item sm={6}>
-          <Box px={5}>
-            {
-              user?.location ?
-                <CompanyProfileForm user={user}/> :
-                user?.student_id ?
-                  <StudentProfileForm user={user}/> :
-                  <TeacherProfileForm user={user}/>
-            }
+        <Grid item sm={5}>
+          <Box mt={3}>
+          <ChangePasswordForm />
           </Box>
         </Grid>
         <Grid item sm={2}/>
@@ -76,4 +76,4 @@ function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
   );
 }
 
-export default MyProfile;
+export default ChangePassword;

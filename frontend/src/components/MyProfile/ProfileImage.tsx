@@ -1,6 +1,5 @@
 import {
     Button,
-    Box,
     Grid
   } from "@material-ui/core";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
@@ -15,7 +14,7 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
       flexDirection: "column",
       justifyContent: "center",
       height: "100%",
-      padding: "0 1.5rem",
+      paddingTop: "1.5rem",
     //   overflow: "hidden",
       "& img": {
         width: "100%",
@@ -35,6 +34,7 @@ function ProfileImage(): JSX.Element {
                 component="label"
                 style={{
                     borderRadius: "50%",
+                    padding: "15px",
                 }}
             >
             <img src="/img/mascot.png" alt="capoo" />
