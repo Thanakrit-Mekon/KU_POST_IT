@@ -5,56 +5,84 @@ import {
     Button,
     Box,
     Checkbox,
+    makeStyles,
+    createStyles,
   } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "../../axios";
+import { User } from "../../App";
 
 const validationSchema = yup.object({
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
     phone: yup.number().required(),
-    currentPassword: yup.string().min(8),
-    newPassword: yup.string().min(8),
-    confirmNewPassword: yup
-        .string()
-        .min(8)
-        .oneOf([yup.ref("newpassword"), null]),
 });
 
-function StudentProfileForm(): JSX.Element {
+const useStyles = makeStyles(() =>
+  createStyles({
+    bgyellow:{
+        color: 'white',
+        backgroundColor: '#F9A41A',
+        borderColor: '#F9A41A',
+        '&:hover': {
+            backgroundColor: '#D98804',
+            borderColor: '#D98804',
+        },
+    },
+
+    outlinedred:{
+        color: '#E53935',
+        borderColor: '#E53935',
+        '&:hover': {
+            color: '#B71C1C',
+            backgroundColor: '#F9F9F9',
+            borderColor: '#B71C1C',
+            
+        },
+    },
+  })
+);
+
+interface StudentProfileFormProps {
+    user?: User | null;
+}
+
+function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
+    const classes = useStyles();
+
     const formik = useFormik({
         initialValues: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            phone: "",
-            faculty: "",
-            department: "",
-            year: "",
-            studentId: "",
-            currentPassword: "",
-            newPassword: "",
-            confirmNewPassword: "",
-            getNotify: true,
+            firstName:`${ user?.first_name }`,
+            lastName: `${ user?.last_name }`,
+            email: `${ user?.email }`,
+            phone: `${ user?.phone }`,
+            studentId: `${ user?.student_id }`,
+            faculty: `${ user?.faculty_code }`,
+            department: `${ user?.department_code }`,
+            getNotify: user?.get_notify,
         },
+        enableReinitialize: true,
         validationSchema,
         onSubmit: (values) => {
-            const userData = {
-                profile_url: "url_link",
+            const userDatasent = {
                 first_name: values.firstName,
                 last_name: values.lastName,
-                email: values.email,
                 phone: values.phone,
-                faculty_code: values.faculty,
-                department_code: values.department,
-                year: values.year,
-                student_id: values.studentId,
-                current_password: values.currentPassword,
-                new_password: values.newPassword,
-                confirm_new_password: values.confirmNewPassword,
                 get_notify: values.getNotify,
             };
-            console.log(userData);
+            console.log(userDatasent);
+            axios
+                .patch("/user/updateuser", userDatasent)
+                .then(function (response) {
+                console.log(response);
+                })
+                .catch(function (error) {
+                console.log(error);
+                });
         },
     });
+    // console.log(formik.values.getNotify);
 
     return (
         <>
@@ -75,8 +103,8 @@ function StudentProfileForm(): JSX.Element {
                             name="firstName"
                             value={formik.values.firstName}
                             onChange={formik.handleChange}
+                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
                             fullWidth
-                            disabled
                         />
                     </Grid>
                     <Grid item sm={6} style={{ marginBottom: "1rem" }}>
@@ -87,8 +115,8 @@ function StudentProfileForm(): JSX.Element {
                             name="lastName"
                             value={formik.values.lastName}
                             onChange={formik.handleChange}
+                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
                             fullWidth
-                            disabled
                         />
                     </Grid>
                     <Grid item sm={12} style={{ marginBottom: "1rem" }}>
@@ -117,7 +145,6 @@ function StudentProfileForm(): JSX.Element {
                     </Grid>
                     <Grid item sm={6} style={{ marginBottom: "1rem" }}>
                         <TextField
-                            select
                             size="small"
                             label="Faculty"
                             variant="outlined"
@@ -130,7 +157,6 @@ function StudentProfileForm(): JSX.Element {
                         </Grid>
                         <Grid item sm={6} style={{ marginBottom: "1rem" }}>
                         <TextField
-                            select
                             size="small"
                             label="Department"
                             variant="outlined"
@@ -141,20 +167,7 @@ function StudentProfileForm(): JSX.Element {
                             disabled
                         />
                     </Grid>
-                    <Grid item sm={3} style={{ marginBottom: "1rem" }}>
-                        <TextField
-                            select
-                            size="small"
-                            label="Year"
-                            variant="outlined"
-                            name="year"
-                            value={formik.values.year}
-                            onChange={formik.handleChange}
-                            fullWidth
-                            disabled
-                        />
-                    </Grid>
-                    <Grid item sm={9}>
+                    <Grid item sm={12}>
                         <TextField
                             size="small"
                             label="Student ID"
@@ -164,63 +177,6 @@ function StudentProfileForm(): JSX.Element {
                             onChange={formik.handleChange}
                             fullWidth
                             disabled
-                        />
-                    </Grid>
-                </Grid>
-                <Typography
-                    align="left"
-                    variant="h5"
-                    style={{ paddingBottom: "1rem" }}
-                >
-                    <Box fontWeight="fontWeightBold">Change Password</Box>
-                </Typography>
-                <Grid container spacing={2}>
-                    <Grid item sm={12} style={{ marginBottom: "1rem" }}>
-                        <TextField
-                            size="small"
-                            type="password"
-                            label="Current Password"
-                            variant="outlined"
-                            name="currentPassword"
-                            value={formik.values.currentPassword}
-                            onChange={formik.handleChange}
-                            error={
-                                formik.touched.currentPassword && 
-                                Boolean(formik.errors.currentPassword)
-                            }
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item sm={12} style={{ marginBottom: "1rem" }}>
-                        <TextField
-                            size="small"
-                            type="password"
-                            label="New Password"
-                            variant="outlined"
-                            name="newPassword"
-                            value={formik.values.newPassword}
-                            onChange={formik.handleChange}
-                            error={
-                                formik.touched.newPassword && 
-                                Boolean(formik.errors.newPassword)
-                            }
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item sm={12} style={{ marginBottom: "1rem" }}>
-                        <TextField
-                            size="small"
-                            type="password"
-                            label="Confirm New Password"
-                            variant="outlined"
-                            name="confirmNewPassword"
-                            value={formik.values.confirmNewPassword}
-                            onChange={formik.handleChange}
-                            error={
-                                formik.touched.confirmNewPassword && 
-                                Boolean(formik.errors.confirmNewPassword)
-                            }
-                            fullWidth
                         />
                     </Grid>
                     <Grid
@@ -234,6 +190,7 @@ function StudentProfileForm(): JSX.Element {
                             color="primary"
                             name="getNotify"
                             checked={formik.values.getNotify}
+                            // value={formik.values.getNotify}
                             onChange={formik.handleChange}
                         />
                         <Typography variant="body1">
@@ -253,11 +210,20 @@ function StudentProfileForm(): JSX.Element {
                     <Button
                         variant="outlined"
                         size="large"
-                        color="primary"
+                        className={classes.outlinedred}
                         style={{ marginBottom: "1rem", marginRight: "1rem" }}
                         href="/"
                     >
                         Back To Home
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="large"
+                        className={classes.bgyellow}
+                        style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                        href="/changepassword"
+                    >
+                        Change Password
                     </Button>
                     <Button
                         variant="contained"
@@ -266,7 +232,7 @@ function StudentProfileForm(): JSX.Element {
                         type="submit"
                         style={{ marginBottom: "1rem" }}
                     >
-                        Save Change
+                        Save Changes
                     </Button>
                 </Box>
             </form>

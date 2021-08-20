@@ -1,6 +1,7 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Grid, Box } from "@material-ui/core";
 import Form from "./Form";
+import { LoginProps } from "../../pages/Login";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -33,19 +34,19 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function Create(): JSX.Element {
+function Create({ setUser }: LoginProps): JSX.Element {
   const classes = useStyles();
 
   return (
     <Grid container>
-      <Grid item sm={7} className={classes.bgWhite} >
+      <Grid item sm={7} className={classes.bgWhite}>
         <Box
           borderRadius="4px 0 0 4px"
           boxShadow={4}
           className={classes.content}
-          style={{padding:"20px"}}
+          style={{ padding: "20px" }}
         >
-          <Form />
+          <Form setUser={setUser} />
         </Box>
       </Grid>
       <Grid item sm={5} className={classes.bgTeal}>

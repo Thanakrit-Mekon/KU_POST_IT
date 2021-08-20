@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
+import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
@@ -87,14 +87,14 @@ function FormCreatePost() {
   });
 
   useEffect(() => {
-    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
+    axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/dropdowns/alldepartment`)
+      .get(`/dropdowns/alldepartment`)
       .then((response) => {
         setDepartments(response.data);
       });

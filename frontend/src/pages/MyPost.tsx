@@ -13,6 +13,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import NavBar from "../components/NavBar";
+import { User } from "../App";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,12 +22,21 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "75px",
       borderRadius: "50px",
       background: "#e0e0e0",
-      boxShadow:  "20px 20px 60px #bebebe-20px -20px 60px #ffffff",
+      boxShadow: "20px 20px 60px #bebebe-20px -20px 60px #ffffff",
+    },
+    card: {
+      boxShadow:
+        "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
     },
   })
 );
 
-function MyPost(): JSX.Element {
+export interface MyPostProps {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
+function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   const classes = useStyles();
   const data = [
     {
@@ -63,7 +73,7 @@ function MyPost(): JSX.Element {
 
   return (
     <div>
-      <NavBar />
+      <NavBar user={user} setUser={setUser} />
       <Container maxWidth="md">
         <Typography variant="h4">
           <Box
@@ -78,7 +88,7 @@ function MyPost(): JSX.Element {
           {data.map((obj) => {
             return (
               <Grid item sm={4} key={obj.id}>
-                <Card style={{ padding: 20 }}>
+                <Card style={{ padding: 20 }} className={classes.card}>
                   <Grid container direction="column" alignItems="center">
                     <Avatar
                       alt="Travis Howard"

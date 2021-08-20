@@ -11,6 +11,10 @@ import Container from "@material-ui/core/Container";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import SimpleModal from "./Modal";
+import axios from "../../axios";
+import { useHistory } from "react-router-dom";
+import { LoginProps } from "../../pages/Login";
+import { User } from "../../App";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -37,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Form() {
+function Form({ setUser }: LoginProps) {
   const classes = useStyles();
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -48,6 +53,27 @@ function Form() {
     validationSchema,
     onSubmit: (values) => {
       console.log(values);
+      axios
+        .post("/auth/login", {
+          username: values.email,
+          password: values.password,
+        })
+        .then((response) => {
+          console.log(response);
+          localStorage.setItem("accessToken", response.data.accessToken);
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${response.data.accessToken}`;
+          return axios.get("/user/getuser");
+        })
+        .then((response) => {
+          console.log(response.data[0]);
+          setUser(response.data[0]);
+          history.push("/posts");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   });
 
@@ -96,7 +122,7 @@ function Form() {
               />
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <SimpleModal/>
+                  <SimpleModal />
                 </Grid>
               </Grid>
             </Grid>

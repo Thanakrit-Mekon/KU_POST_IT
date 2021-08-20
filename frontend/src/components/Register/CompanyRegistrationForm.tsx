@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import axios from "../../axios";
+import { useHistory } from "react-router-dom";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -26,6 +28,8 @@ const validationSchema = yup.object({
 });
 
 function CompanyRegistrationForm(): JSX.Element {
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -43,14 +47,22 @@ function CompanyRegistrationForm(): JSX.Element {
         profile_url: "url_link",
         email: values.email,
         password: values.password,
-        get_notify: true,
         phone: values.phone,
         location: values.location,
-        aboutMe: values.aboutMe,
+        about_me: values.aboutMe,
         contact: values.contact,
-        companyName: values.companyName,
+        name: values.companyName,
       };
       console.log(userData);
+      axios
+        .post("/user/company", userData)
+        .then(function (response) {
+          console.log(response);
+          history.push("/login");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   });
   return (
@@ -203,7 +215,11 @@ function CompanyRegistrationForm(): JSX.Element {
             Register
           </Button>
           <Grid container justifyContent="center">
-            <Link href="/login" style={{ textDecoration: "none" }} color="primary">
+            <Link
+              href="/login"
+              style={{ textDecoration: "none" }}
+              color="primary"
+            >
               I already have an account
             </Link>
           </Grid>
