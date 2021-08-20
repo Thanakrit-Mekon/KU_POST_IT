@@ -7,9 +7,9 @@ import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
 import EditPost from "./pages/EditPost";
-import Query from './pages/Query';
-import QueryUser from './pages/QueryUser';
-import Postinfor from './pages/Postinfor';
+import Query from "./pages/Query";
+import QueryUser from "./pages/QueryUser";
+import Postinfor from "./pages/Postinfor";
 import ChangePassword from "./pages/ChangePassword";
 import "@fontsource/roboto";
 import { useEffect, useState } from "react";
@@ -69,23 +69,21 @@ function App(): JSX.Element {
             <Route path="/login">
               <Login setUser={setUser} />
             </Route>
-            <Route path="/ta" />
-            <Route path="/project-coop" />
-            <Route path="/internship" />
-            <Route path="/posts/new"><CreatePost /></Route>
-            <Route path="/posts" ><Query/></Route>
-            <Route path="/User" ><QueryUser/></Route>
-            <Route path="/Postinfor" ><Postinfor/></Route>
+            <Route path={["/ta", "/coop", "/intern"]}>
+              <QueryUser />
+            </Route>
             <Route path="/posts/new">
               <CreatePost />
             </Route>
-            <Route path="/posts/edit">
+            {/* <Route path="/posts/edit">
               <EditPost />
+            </Route> */}
+            <Route path="/posts/:postId">
+              <Postinfor />
             </Route>
             <Route path="/posts">
               <MyPost user={user} setUser={setUser} />
             </Route>
-            <Route path="/posts/:postId" />
             <Route path="/table">
               <CsvTable />
             </Route>

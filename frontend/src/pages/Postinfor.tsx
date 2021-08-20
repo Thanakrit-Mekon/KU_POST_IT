@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import InforFrom from '../components/InforFrom';
+import InforFrom from '../components/EditPost/InforFrom';
 
 const useStyles = makeStyles(() =>
   createStyles({

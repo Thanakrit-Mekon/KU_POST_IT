@@ -48,13 +48,13 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
             <Tab label="TA" to="/ta" className={classes.tab} component={Link} />
             <Tab
               label="Project co-op"
-              to="/project-coop"
+              to="/coop"
               className={classes.tab}
               component={Link}
             />
             <Tab
               label="Internship"
-              to="/internship"
+              to="/intern"
               className={classes.tab}
               component={Link}
             />

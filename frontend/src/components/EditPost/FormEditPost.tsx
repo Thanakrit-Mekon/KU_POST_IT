@@ -44,9 +44,9 @@ const useStyles = makeStyles((theme) => ({
 
 const GreenRadio = withStyles({
   root: {
-    color: '#5E9EA0',
+    color: "#5E9EA0",
     "&$checked": {
-      color: '#5E9EA0',
+      color: "#5E9EA0",
     },
   },
   checked: {},
