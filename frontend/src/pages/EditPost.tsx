@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import PostForm from '../components/CreatePost/PostForm';
+import EditForm from '../components/EditPost/EditForm';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -13,13 +13,13 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function CreatePost(): JSX.Element {
+function EreatePost(): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.bg}>
-      <PostForm />
+      <EditForm />
     </div>
   );
 }
 
-export default CreatePost;
+export default EreatePost;

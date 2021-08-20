@@ -6,6 +6,7 @@ import MyPost from "./pages/MyPost";
 import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
+import EditPost from "./pages/EditPost";
 import Query from './pages/Query';
 import QueryUser from './pages/QueryUser';
 import Postinfor from './pages/Postinfor';
@@ -77,6 +78,9 @@ function App(): JSX.Element {
             <Route path="/Postinfor" ><Postinfor/></Route>
             <Route path="/posts/new">
               <CreatePost />
+            </Route>
+            <Route path="/posts/edit">
+              <EditPost />
             </Route>
             <Route path="/posts">
               <MyPost user={user} setUser={setUser} />

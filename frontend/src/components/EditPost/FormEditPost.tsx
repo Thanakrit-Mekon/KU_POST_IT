@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "../../axios";
+import axios from "axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 
@@ -59,7 +59,7 @@ const validationSchema = yup.object({
   more: yup.string(),
 });
 
-function FormCreatePost() {
+function FormEditPost() {
   const classes = useStyles();
 
   const [faculties, setFaculties] = useState<Faculty[]>([]);
@@ -87,14 +87,14 @@ function FormCreatePost() {
   });
 
   useEffect(() => {
-    axios.get("/dropdowns/faculties").then((response) => {
+    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(`/dropdowns/alldepartment`)
+      .get(`http://localhost:3000/dropdowns/alldepartment`)
       .then((response) => {
         setDepartments(response.data);
       });
@@ -143,7 +143,7 @@ function FormCreatePost() {
         style={{ marginBottom: 20 }}
       >
         <Typography component="h1" variant="h4" color="primary">
-          Create Post
+          Edit Post
         </Typography>
         <div className={classes.buttons}>
           <Button
@@ -152,7 +152,7 @@ function FormCreatePost() {
             color="primary"
             style={{ marginRight: 10 }}
           >
-            Post
+            Confirm
           </Button>
           <Button
             variant="outlined"
@@ -348,4 +348,4 @@ function FormCreatePost() {
   );
 }
 
-export default FormCreatePost;
+export default FormEditPost;
