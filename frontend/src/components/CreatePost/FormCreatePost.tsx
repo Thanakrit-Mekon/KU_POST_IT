@@ -18,6 +18,7 @@ import * as yup from "yup";
 import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
+import { useHistory } from "react-router-dom";
 
 interface Faculty {
   id: string;
@@ -65,10 +66,12 @@ function FormCreatePost() {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       title: "",
-      type: "any",
+      type: "true",
       contact: "",
       number: "",
       more: "",
@@ -82,8 +85,25 @@ function FormCreatePost() {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
-    },
+      const userData = {
+      title: values.title,
+      is_all: values.type,
+      contact: values.contact,
+      quantity: values.number,
+      desc: values.more,
+      qualification: values.requirements,
+      };
+      console.log(userData);
+      axios
+        .post("/posts/create", userData)
+        .then(function (response) {
+          console.log(response);
+          history.push("/posts");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   });
 
   useEffect(() => {
@@ -213,17 +233,17 @@ function FormCreatePost() {
       >
         <div>
           <FormControlLabel
-            value="any"
+            value="true"
             control={<GreenRadio />}
             label="All Faculties"
           />
           <FormControlLabel
-            value="specific"
+            value="false"
             control={<GreenRadio />}
             label="Specific Faculty"
           />
         </div>
-        {formik.values.type !== "any" && (
+        {formik.values.type !== "true" && (
           <div>
             <Fab
               size="small"
@@ -239,7 +259,7 @@ function FormCreatePost() {
           </div>
         )}
       </RadioGroup>
-      {formik.values.type !== "any" &&
+      {formik.values.type !== "true" &&
         formik.values.requirements.map((r, index) => {
           return (
             <Grid container spacing={1} style={{ marginBottom: 5 }}>
