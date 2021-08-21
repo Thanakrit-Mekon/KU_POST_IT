@@ -70,7 +70,7 @@ function App(): JSX.Element {
               <Login setUser={setUser} />
             </Route>
             <Route path={["/ta", "/coop", "/intern"]}>
-              <QueryUser />
+              <QueryUser user={user} setUser={setUser}/>
             </Route>
             <Route path="/posts/new">
               <CreatePost />
