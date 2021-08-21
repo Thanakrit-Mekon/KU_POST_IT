@@ -1,9 +1,15 @@
 import Body from "../components/Table/body";
+import { User } from "../App";
 
-function CsvTable(): JSX.Element {
+export interface CsvTableprops {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
+function CsvTable({ user, setUser }: CsvTableprops): JSX.Element {
   return (
     <div>
-        <Body/>
+        <Body user={user} setUser={setUser}/>
     </div>
   );
 }

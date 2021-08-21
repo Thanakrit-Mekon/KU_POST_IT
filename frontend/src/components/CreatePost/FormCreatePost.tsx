@@ -18,7 +18,7 @@ import * as yup from "yup";
 import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 interface Faculty {
   id: string;
@@ -45,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
 
 const GreenRadio = withStyles({
   root: {
-    color: '#5E9EA0',
+    color: "#5E9EA0",
     "&$checked": {
-      color: '#5E9EA0',
+      color: "#5E9EA0",
     },
   },
   checked: {},
@@ -86,12 +86,12 @@ function FormCreatePost() {
     validationSchema,
     onSubmit: (values) => {
       const userData = {
-      title: values.title,
-      is_all: values.type,
-      contact: values.contact,
-      quantity: values.number,
-      desc: values.more,
-      qualification: values.requirements,
+        title: values.title,
+        is_all: values.type,
+        contact: values.contact,
+        quantity: values.number,
+        desc: values.more,
+        qualification: values.requirements,
       };
       console.log(userData);
       axios
@@ -103,7 +103,7 @@ function FormCreatePost() {
         .catch(function (error) {
           console.log(error);
         });
-    }
+    },
   });
 
   useEffect(() => {
@@ -113,11 +113,9 @@ function FormCreatePost() {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`/dropdowns/alldepartment`)
-      .then((response) => {
-        setDepartments(response.data);
-      });
+    axios.get(`/dropdowns/alldepartment`).then((response) => {
+      setDepartments(response.data);
+    });
   }, []);
 
   const handleRequirementChange = (
@@ -174,13 +172,15 @@ function FormCreatePost() {
           >
             Post
           </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            aria-label="outlined secondary button group"
-          >
-            Cancel
-          </Button>
+          <Link to="/ta" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              aria-label="outlined secondary button group"
+            >
+              Cancel
+            </Button>
+          </Link>
         </div>
       </Grid>
       <Grid container spacing={1}>

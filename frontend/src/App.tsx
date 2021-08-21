@@ -79,13 +79,13 @@ function App(): JSX.Element {
               <EditPost />
             </Route> */}
             <Route path="/posts/:postId">
-              <Postinfor />
+              <Postinfor/>
             </Route>
             <Route path="/posts">
               <MyPost user={user} setUser={setUser} />
             </Route>
             <Route path="/table">
-              <CsvTable />
+              <CsvTable user={user} setUser={setUser}/>
             </Route>
             <Route path="/" exact />
           </Switch>

@@ -79,7 +79,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
 
   return (
     <div>
-      <NavBar />
+      <NavBar user={user} setUser={setUser} />
       <Container maxWidth="md">
         <Grid
           container
@@ -111,9 +111,11 @@ function QueryUser({ user, setUser }: queryuserprops) {
             {(location.pathname === "/ta" && usertype === 2) ||
             (location.pathname === "/coop" && usertype === 1) ||
             (location.pathname === "/intern" && usertype === 3) ? (
-              <Button className={classes.change} variant="contained">
-                Create Post
-              </Button>
+              <Link to="/posts/new" style={{ textDecoration: "none" }}>
+                <Button className={classes.change} variant="contained">
+                  Create Post
+                </Button>
+              </Link>
             ) : (
               <></>
             )}
