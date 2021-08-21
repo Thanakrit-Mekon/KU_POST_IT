@@ -62,13 +62,12 @@ export default function PostForm(): JSX.Element {
   const history = useHistory();
   const param = useParams<ParamType>();
   const currentYear = 2086 - new Date().getFullYear();
-  // console.log(currentYear);
   const [subject, setSubject] = useState<Subject>({} as Subject);
   useEffect(() => {
     console.log(param.postId);
     axios.get(`feed/findid/${param.postId}`).then((response) => {
+      console.log(response);
       setSubject(response.data);
-      // console.log(subject);
     });
   }, [param.postId]);
 
@@ -82,10 +81,9 @@ export default function PostForm(): JSX.Element {
         post_id: subject.id,
         post_type: subject.post_type,
       };
-      axios.post("/answers/create", data)
-      .then(function (response) {
+      axios.post("/answers/create", data).then(function (response) {
         console.log(response);
-        history.goBack();
+        history.push(`/${subject.post_type}`);
       });
     },
   });

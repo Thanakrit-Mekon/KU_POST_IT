@@ -73,14 +73,18 @@ function QueryUser() {
                     </Typography>
                     {/* <Icon className="fa fa-user" /> */}
                     <Box alignItems="center">
-                      <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.candidate} คน
+                      <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.candidate}{" "}
+                      คน
                     </Box>
                     <Grid
                       container
                       justifyContent="center"
                       style={{ marginTop: 20 }}
                     >
-                      <Link to={`/posts/${obj.id}`} style={{ textDecoration: "none" }}>
+                      <Link
+                        to={`/posts/${obj.id}`}
+                        style={{ textDecoration: "none" }}
+                      >
                         <Button variant="contained" color="primary">
                           Register
                         </Button>
