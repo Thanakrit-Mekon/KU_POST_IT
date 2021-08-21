@@ -7,6 +7,7 @@ import {
   Avatar,
   Button,
   makeStyles,
+  withStyles,
   createStyles,
   Theme,
 } from "@material-ui/core";
@@ -14,6 +15,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import NavBar from "../components/NavBar";
 import { User } from "../App";
+import { useEffect, useState } from "react";
+import axios from "../axios";
+import { Subject } from "@material-ui/icons";
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,45 +37,50 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const ColorButton = withStyles((theme: Theme) => ({
+  root: {
+    backgroundColor: '#F3C87D',
+    '&:hover': {
+      backgroundColor: '#D4AF6D',
+    },
+  },
+}))(Button);
+
 export interface MyPostProps {
   user: User | null;
   setUser: (user: User | null) => void;
 }
 
+interface Subject {
+  contact: string
+  create: string
+  desc: string
+  is_activate: string
+  is_all: boolean
+  last_modify: string
+  post_type: string
+  qualification: {
+    year: string
+  }[]
+  quantity: string
+  title: string
+  user_name: string
+  __v: number
+  _id: string
+}
+
 function MyPost({ user, setUser }: MyPostProps): JSX.Element {
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  useEffect(() => {
+    axios.get(`/posts/myposts`).then((response) => {
+      //console.log(response);
+      setSubjects(response.data);
+    });
+  }, []);
+  console.log(subjects);
+
   const classes = useStyles();
-  const data = [
-    {
-      id: "asdasdasd",
-      name: "Knun",
-      subject: "Sex education",
-      amount: 3,
-    },
-    {
-      id: "bbbbbbb",
-      name: "Soft",
-      subject: "Physic",
-      amount: 5,
-    },
-    {
-      id: "asdasdasd",
-      name: "Knun",
-      subject: "Sex education",
-      amount: 3,
-    },
-    {
-      id: "bbbbbbb",
-      name: "Soft",
-      subject: "Physic",
-      amount: 5,
-    },
-    {
-      id: "asdasdasd",
-      name: "Knun",
-      subject: "Sex education",
-      amount: 3,
-    },
-  ];
+  
 
   return (
     <div>
@@ -85,9 +96,9 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
           </Box>
         </Typography>
         <Grid container spacing={5}>
-          {data.map((obj) => {
+          {subjects.map((obj) => {
             return (
-              <Grid item sm={4} key={obj.id}>
+              <Grid item sm={4} key={obj._id}>
                 <Card style={{ padding: 20 }} className={classes.card}>
                   <Grid container direction="column" alignItems="center">
                     <Avatar
@@ -96,7 +107,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       className={classes.icon}
                     />
                     <Box style={{ marginTop: 10, marginBottom: 7 }}>
-                      {obj.name}
+                      {obj.user_name}
                     </Box>
                     <Box
                       fontWeight="bold"
@@ -104,7 +115,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       color="primary.main"
                       style={{ marginBottom: 7 }}
                     >
-                      TA {obj.subject}
+                      TA {obj.title}
                     </Box>
                     <Box
                       alignItems="center"
@@ -117,7 +128,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       >
                         <FontAwesomeIcon icon={faUser} />
                       </i>
-                      {obj.amount}{" "}
+                      {obj.quantity}{" "}
                     </Box>
                     <Grid
                       container
@@ -127,6 +138,9 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       <Button variant="contained" color="primary">
                         View
                       </Button>
+                      <ColorButton href="/posts/edit" variant="contained" color="primary">
+                        Edit
+                      </ColorButton>
                       <Button variant="contained" color="secondary">
                         Close
                       </Button>
