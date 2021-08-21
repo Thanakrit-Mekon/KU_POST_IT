@@ -17,8 +17,6 @@ import NavBar from "../components/NavBar";
 import { User } from "../App";
 import { useEffect, useState } from "react";
 import axios from "../axios";
-import { Subject } from "@material-ui/icons";
-
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -73,7 +71,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   useEffect(() => {
     axios.get(`/posts/myposts`).then((response) => {
-      //console.log(response);
       setSubjects(response.data);
     });
   }, []);

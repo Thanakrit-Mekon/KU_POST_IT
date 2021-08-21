@@ -13,7 +13,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "../axios";
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { User } from "../App";
 
 interface Subject {
@@ -38,44 +38,43 @@ interface Subject {
 
 const useStyles = makeStyles(() =>
   createStyles({
-   change:{
-        color: 'white',
-        backgroundColor: '#F9A41A',
-        '&:hover':{backgroundColor: '#F9A41A'}
-    }
-   
+    change: {
+      color: "white",
+      backgroundColor: "#F9A41A",
+      "&:hover": { backgroundColor: "#F9A41A" },
+    },
   })
-  );
+);
 
-  export interface queryuserprops {
-    user: User | null;
-    setUser: (user: User | null) => void;
-  }
-  
+export interface queryuserprops {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
 
-function QueryUser({user,setUser}:queryuserprops) {
+function QueryUser({ user, setUser }: queryuserprops) {
   const classes = useStyles();
   const location = useLocation();
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  var usertype=-1;
-  if (user?.location){
-    usertype=3;
-//3=company  2=teacher 1=student
-  }else if(user?.student_id){
-    usertype=1;
-  }else{
-    usertype=2;
+  var usertype = -1;
+  if (user?.location) {
+    usertype = 3;
+    //3=company  2=teacher 1=student
+  } else if (user?.student_id) {
+    usertype = 1;
+  } else {
+    usertype = 2;
   }
-  console.log(usertype)
+  console.log(usertype);
   useEffect(() => {
-    axios.get(`feed/find${location.pathname}`).then((response) => {
-      console.log(response.data);
-      setSubjects(response.data);
-      
-    }) 
-    .catch(function (error){
-      console.log(error.message)
-    });    
+    axios
+      .get(`feed/find${location.pathname}`)
+      .then((response) => {
+        console.log(response.data);
+        setSubjects(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
   }, [location.pathname]);
 
   return (
@@ -83,43 +82,43 @@ function QueryUser({user,setUser}:queryuserprops) {
       <NavBar />
       <Container maxWidth="md">
         <Grid
-              container
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              >
-          <Grid item >
-          <Typography variant="h4" color="primary">
-          <Box
-            fontWeight="bold"
-            style={{ marginTop: 50, marginBottom: 5 }}
-          >
-            {location.pathname=="/ta" ? "Teacher Assistant - TA" : 
-            location.pathname=="/coop" ? "Project Cooperation" : 
-             "Internship" }
-             
-          </Box>
-        </Typography>
-        <Typography variant="subtitle1" >
-        <Box mb={5}>
-            {location.pathname=="/ta" ? "สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้" : 
-            location.pathname=="/coop" ? "สำหรับนิสิตที่ต้องการหานิสิตมาเป็นเพื่อนร่วมทำโครงการ นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตในแต่ละโครงการได้" : 
-             "สำหรับตัวแทนบริษัทที่ต้องการหานิสิตมาเป็นนิสิตฝึกงาน นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตฝึกงานในแต่ละบริษัทได้" }
-            
-        </Box>
-        </Typography>
+          container
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid item>
+            <Typography variant="h4" color="primary">
+              <Box fontWeight="bold" style={{ marginTop: 50, marginBottom: 5 }}>
+                {location.pathname === "/ta"
+                  ? "Teacher Assistant - TA"
+                  : location.pathname === "/coop"
+                  ? "Project Cooperation"
+                  : "Internship"}
+              </Box>
+            </Typography>
+            <Typography variant="subtitle1">
+              <Box mb={5}>
+                {location.pathname === "/ta"
+                  ? "สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็นTAช่วยในรายวิชาต่างๆนิสิตสามารถเลือกสมัครเป็นTAในแต่ล่ะวิชาได้"
+                  : location.pathname === "/coop"
+                  ? "สำหรับนิสิตที่ต้องการหานิสิตมาเป็นเพื่อนร่วมทำโครงการ นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตในแต่ละโครงการได้"
+                  : "สำหรับตัวแทนบริษัทที่ต้องการหานิสิตมาเป็นนิสิตฝึกงาน นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตฝึกงานในแต่ละบริษัทได้"}
+              </Box>
+            </Typography>
+          </Grid>
+          <Grid item>
+            {(location.pathname === "/ta" && usertype === 2) ||
+            (location.pathname === "/coop" && usertype === 1) ||
+            (location.pathname === "/intern" && usertype === 3) ? (
+              <Button className={classes.change} variant="contained">
+                Create Post
+              </Button>
+            ) : (
+              <></>
+            )}
+          </Grid>
         </Grid>
-        <Grid item  >
-          {((location.pathname=="/ta" && usertype===2) || (location.pathname=="/coop" && usertype===1) || (location.pathname=="/intern" && usertype===3))? 
-          <Button className={classes.change} variant="contained" >
-              Create Post
-          </Button>
-          : <></>}
-
-
-        </Grid>
-        </Grid>
-
 
         <Grid container spacing={5}>
           {subjects.map((obj) => {
@@ -148,12 +147,11 @@ function QueryUser({user,setUser}:queryuserprops) {
                         to={`/posts/${obj.id}`}
                         style={{ textDecoration: "none" }}
                       >
-                        {usertype===1 &&
-                        <Button variant="contained" color="primary">
-                          Join
-                        </Button>
-                        }
-
+                        {usertype === 1 && (
+                          <Button variant="contained" color="primary">
+                            Join
+                          </Button>
+                        )}
                       </Link>
                       {/* <Button variant="contained" color="secondary">
                           Close
