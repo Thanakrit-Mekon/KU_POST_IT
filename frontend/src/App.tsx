@@ -30,8 +30,8 @@ export interface User {
   email: string;
   phone: string;
   student_id?: string;
-  faculty_code?: string;
-  department_code?: string;
+  faculty_name?: string;
+  department_name?: string;
   get_notify: boolean;
   name?: string;
   location?: string;
