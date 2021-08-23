@@ -1,3 +1,4 @@
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useEffect, useState } from "react";
 import {
@@ -20,6 +21,16 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { useHistory, Link } from "react-router-dom";
 
+
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+
+
 interface Faculty {
   id: string;
   faculty_name: string;
@@ -33,7 +44,13 @@ interface Department {
   department_code: string;
 }
 
-const years = [1, 2, 3, 4];
+const current_year = 64;
+const years = [
+  current_year - 3,
+  current_year - 2,
+  current_year - 1,
+  current_year,
+];
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -62,9 +79,19 @@ const validationSchema = yup.object({
 
 function FormCreatePost() {
   const classes = useStyles();
-
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
+
+
+  // The first commit of Material-UI
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+    new Date()
+  );
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
+
 
   const history = useHistory();
 
@@ -75,6 +102,8 @@ function FormCreatePost() {
       contact: "",
       number: "",
       more: "",
+      isDueDate: "true",
+      dueDate: "",
       requirements: [
         {
           faculty: "",
@@ -92,7 +121,10 @@ function FormCreatePost() {
         quantity: values.number,
         desc: values.more,
         qualification: values.requirements,
+        isDueDate: values.isDueDate,
+        dueDate: selectedDate,
       };
+      if (values.type) userData.qualification = [];
       console.log(userData);
       axios
         .post("/posts/create", userData)
@@ -209,12 +241,67 @@ function FormCreatePost() {
           ></TextField>
         </Grid>
       </Grid>
+
       <Typography
         component="h6"
         variant="h5"
         align="left"
         color="primary"
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 10 }}
+      >
+        Due Date
+      </Typography>
+      <RadioGroup
+        aria-label="isDueDate"
+        name="isDueDate"
+        value={formik.values.isDueDate}
+        onChange={formik.handleChange}
+        row
+        color="primary"
+        style={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Grid container justifyContent="flex-start" alignItems="center">
+          <div>
+            <FormControlLabel
+              value="true"
+              control={<GreenRadio />}
+              label="No Due Date"
+            />
+            <FormControlLabel
+              value="false"
+              control={<GreenRadio />}
+              label="Set Due Date"
+            />
+          </div>
+          {formik.values.isDueDate !== "true" && (
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="normal"
+                id="due date picker"
+                label="Due Date Picker"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          )}
+        </Grid>
+      </RadioGroup>
+      <Typography
+        component="h6"
+        variant="h5"
+        align="left"
+        color="primary"
+        style={{ marginTop: "-10px" }}
       >
         Requirement
       </Typography>

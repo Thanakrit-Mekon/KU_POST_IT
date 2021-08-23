@@ -19,9 +19,9 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .min(8)
-    .matches(
-      /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
-    )
+    // .matches(
+    //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
+    // )
     .required(),
   confirmPassword: yup
     .string()
