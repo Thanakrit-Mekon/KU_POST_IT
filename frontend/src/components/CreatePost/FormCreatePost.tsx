@@ -33,9 +33,8 @@ interface Department {
   department_code: string;
 }
 
-// const current_year = 64;
-// const years = [current_year, current_year+1, current_year+2, current_year+3];
-const years = [1, 2, 3, 4];
+const current_year = 64;
+const years = [current_year-3, current_year-2, current_year-1, current_year];
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
