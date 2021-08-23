@@ -8,6 +8,10 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { User } from "../../App";
+import axios from "../../axios";
+import { useEffect, useState } from "react";
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,8 +42,36 @@ export interface Bodyprops {
   setUser: (user: User | null) => void;
 }
 
+interface Subject {
+  contact: string
+  create: string
+  desc: string
+  is_activate: string
+  is_all: boolean
+  last_modify: string
+  post_type: string
+  qualification: {
+    year: string
+  }[]
+  quantity: string
+  title: string
+  user_name: string
+  __v: number
+  _id: string
+}
+
 function Body({ user, setUser }: Bodyprops): JSX.Element {
   const classes = useStyles();
+
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  useEffect(() => {
+    axios.get(`/posts/myposts`).then((response) => {
+      setSubjects(response.data);
+    });
+    
+  }, []);
+  console.log(subjects);  
+
   return (
     <Grid className={classes.root}>
       <NavBar user={user} setUser={setUser} />
@@ -68,12 +100,21 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
         <DataTable />
         <Grid container justifyContent="center" alignItems="center">
           <Button
-            style={{ marginTop: 50 }}
+            style={{ marginTop: 50  , marginBottom:50 }}
             className={classes.cooler2}
             variant="contained"
             color="primary"
           >
             Submit
+          </Button>
+          <Button
+            href="/posts"
+            style={{ marginTop: 50 , marginLeft:20 , marginBottom:50}}
+            className={classes.cooler}
+            variant="contained"
+            color="primary"
+          >
+            Back
           </Button>
         </Grid>
       </Container>
