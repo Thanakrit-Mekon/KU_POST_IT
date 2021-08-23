@@ -21,7 +21,6 @@ import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { useHistory, Link } from "react-router-dom";
 
-
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -29,7 +28,6 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-
 
 interface Faculty {
   id: string;
@@ -82,17 +80,13 @@ function FormCreatePost() {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
-
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
-
-
   const history = useHistory();
 
   const formik = useFormik({
@@ -124,7 +118,7 @@ function FormCreatePost() {
         isDueDate: values.isDueDate,
         dueDate: selectedDate,
       };
-      if (values.type) userData.qualification = [];
+      if (values.type === "true") userData.qualification = [];
       console.log(userData);
       axios
         .post("/posts/create", userData)
@@ -241,7 +235,6 @@ function FormCreatePost() {
           ></TextField>
         </Grid>
       </Grid>
-
       <Typography
         component="h6"
         variant="h5"
