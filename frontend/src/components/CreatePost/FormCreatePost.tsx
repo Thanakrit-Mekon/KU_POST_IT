@@ -138,7 +138,7 @@ function FormCreatePost() {
         .post("/posts/create", userData)
         .then(function (response) {
           console.log(response);
-          history.push("/posts");
+          history.push("/myposts");
         })
         .catch(function (error) {
           console.log(error);
