@@ -20,7 +20,6 @@ import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { useHistory, Link } from "react-router-dom";
-
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -82,6 +81,7 @@ function FormCreatePost() {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
+
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
@@ -131,6 +131,7 @@ function FormCreatePost() {
         startDate: startDate,
         endDate: endDate,
       };
+
       if (values.type === "true") userData.qualification = [];
       console.log(userData);
       axios
@@ -248,6 +249,7 @@ function FormCreatePost() {
           ></TextField>
         </Grid>
       </Grid>
+
       <Typography
         component="h6"
         variant="h5"

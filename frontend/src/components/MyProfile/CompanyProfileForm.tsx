@@ -73,6 +73,7 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
             axios
                 .patch("/user/updateuser", userData)
                 .then(function (response) {
+                window.location.reload();
                 console.log(response);
                 })
                 .catch(function (error) {
@@ -186,7 +187,7 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
                         size="large"
                         className={classes.outlinedred}
                         style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                        href="/"
+                        href="/intern"
                     >
                         Back To Home
                     </Button>
