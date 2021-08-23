@@ -6,8 +6,8 @@ import MyPost from "./pages/MyPost";
 import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
-import EditPost from "./pages/EditPost";
-import Query from "./pages/Query";
+// import EditPost from "./pages/EditPost";
+// import Query from "./pages/Query";
 import QueryUser from "./pages/QueryUser";
 import Postinfor from "./pages/Postinfor";
 import ChangePassword from "./pages/ChangePassword";
@@ -70,7 +70,7 @@ function App(): JSX.Element {
               <Login setUser={setUser} />
             </Route>
             <Route path={["/ta", "/coop", "/intern"]}>
-              <QueryUser />
+              <QueryUser user={user} setUser={setUser}/>
             </Route>
             <Route path="/posts/new">
               <CreatePost />
@@ -79,13 +79,13 @@ function App(): JSX.Element {
               <EditPost />
             </Route> */}
             <Route path="/posts/:postId">
-              <Postinfor />
+              <Postinfor/>
             </Route>
             <Route path="/posts">
               <MyPost user={user} setUser={setUser} />
             </Route>
-            <Route path="/table">
-              <CsvTable />
+            <Route path="/myposts/:postId">
+              <CsvTable user={user} setUser={setUser}/>
             </Route>
             <Route path="/" exact />
           </Switch>
