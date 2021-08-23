@@ -70,7 +70,7 @@ function App(): JSX.Element {
               <Login setUser={setUser} />
             </Route>
             <Route path={["/ta", "/coop", "/intern"]}>
-              <QueryUser user={user} setUser={setUser}/>
+              <QueryUser user={user} setUser={setUser} />
             </Route>
             <Route path="/posts/new">
               <CreatePost />
@@ -79,13 +79,13 @@ function App(): JSX.Element {
               <EditPost />
             </Route> */}
             <Route path="/posts/:postId">
-              <Postinfor/>
+              <Postinfor />
+            </Route>
+            <Route path="/myposts/:postId">
+              <CsvTable user={user} setUser={setUser} />
             </Route>
             <Route path="/myposts">
               <MyPost user={user} setUser={setUser} />
-            </Route>
-            <Route path="/myposts/:postId">
-              <CsvTable user={user} setUser={setUser}/>
             </Route>
             <Route path="/" exact />
           </Switch>
