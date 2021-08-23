@@ -277,7 +277,7 @@ function FormCreatePost() {
               label="Set Due Date"
             />
           </div>
-          {formik.values.isDueDate !== "true" && (
+          {formik.values.isDueDate === "true" && (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
