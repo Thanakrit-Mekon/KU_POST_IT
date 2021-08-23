@@ -81,7 +81,7 @@ function App(): JSX.Element {
             <Route path="/posts/:postId">
               <Postinfor/>
             </Route>
-            <Route path="/posts">
+            <Route path="/myposts">
               <MyPost user={user} setUser={setUser} />
             </Route>
             <Route path="/myposts/:postId">

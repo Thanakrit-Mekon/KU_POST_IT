@@ -108,7 +108,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             Submit
           </Button>
           <Button
-            href="/posts"
+            href="/myposts"
             style={{ marginTop: 50 , marginLeft:20 , marginBottom:50}}
             className={classes.cooler}
             variant="contained"
