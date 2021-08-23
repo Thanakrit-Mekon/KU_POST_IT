@@ -262,12 +262,12 @@ function FormCreatePost() {
         <Grid container justifyContent="flex-start" alignItems="center">
           <div>
             <FormControlLabel
-              value="true"
+              value="false"
               control={<GreenRadio />}
               label="No Due Date"
             />
             <FormControlLabel
-              value="false"
+              value="true"
               control={<GreenRadio />}
               label="Set Due Date"
             />
