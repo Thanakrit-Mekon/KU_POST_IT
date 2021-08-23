@@ -84,7 +84,7 @@ function App(): JSX.Element {
             <Route path="/posts">
               <MyPost user={user} setUser={setUser} />
             </Route>
-            <Route path="/table">
+            <Route path="/myposts/:postId">
               <CsvTable user={user} setUser={setUser}/>
             </Route>
             <Route path="/" exact />
