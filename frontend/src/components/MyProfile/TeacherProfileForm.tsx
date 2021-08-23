@@ -56,8 +56,8 @@ function TeacherProfileForm({user}: TeacherProfileFormProps): JSX.Element {
             lastName: `${ user?.last_name }`,
             email: `${ user?.email }`,
             phone: `${ user?.phone }`,
-            faculty: `${ user?.faculty_name }`,
-            department: `${ user?.department_name }`,
+            faculty: `${ user?.faculty_code }`,
+            department: `${ user?.department_code }`,
         },
         enableReinitialize: true,
         validationSchema,
@@ -72,7 +72,6 @@ function TeacherProfileForm({user}: TeacherProfileFormProps): JSX.Element {
                 .patch("/user/updateuser", userData)
                 .then(function (response) {
                 console.log(response);
-                window.location.reload();
                 })
                 .catch(function (error) {
                 console.log(error);
@@ -176,7 +175,7 @@ function TeacherProfileForm({user}: TeacherProfileFormProps): JSX.Element {
                         size="large"
                         className={classes.outlinedred}
                         style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                        href="/ta"
+                        href="/"
                     >
                         Back To Home
                     </Button>
