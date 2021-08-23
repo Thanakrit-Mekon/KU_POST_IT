@@ -25,7 +25,6 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
@@ -80,13 +79,23 @@ function FormCreatePost() {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-  // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
+
+  const [startDate, setStartDate] = React.useState<Date | null>(new Date());
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
+
+  const [endDate, setEndDate] = React.useState<Date | null>(new Date());
+  const handleEndDateChange = (date: Date | null) => {
+    setEndDate(date);
+  };
+
   const history = useHistory();
 
   const formik = useFormik({
@@ -96,8 +105,9 @@ function FormCreatePost() {
       contact: "",
       number: "",
       more: "",
-      isDueDate: "true",
+      isDueDate: "false",
       dueDate: "",
+      hasPeriod: "false",
       requirements: [
         {
           faculty: "",
@@ -117,6 +127,9 @@ function FormCreatePost() {
         qualification: values.requirements,
         isDueDate: values.isDueDate,
         dueDate: selectedDate,
+        hasPeriod: values.hasPeriod,
+        startDate: startDate,
+        endDate: endDate,
       };
       if (values.type === "true") userData.qualification = [];
       console.log(userData);
@@ -276,7 +289,7 @@ function FormCreatePost() {
                 disableToolbar
                 variant="inline"
                 format="MM/dd/yyyy"
-                margin="normal"
+                margin="dense"
                 id="due date picker"
                 label="Due Date Picker"
                 value={selectedDate}
@@ -286,6 +299,77 @@ function FormCreatePost() {
                 }}
               />
             </MuiPickersUtilsProvider>
+          )}
+        </Grid>
+      </RadioGroup>
+      <Typography
+        component="h6"
+        variant="h5"
+        align="left"
+        color="primary"
+        style={{ marginTop: 10 }}
+      >
+        Working Period
+      </Typography>
+      <RadioGroup
+        aria-label="hasPeriod"
+        name="hasPeriod"
+        value={formik.values.hasPeriod}
+        onChange={formik.handleChange}
+        row
+        color="primary"
+        style={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Grid container justifyContent="flex-start" alignItems="center">
+          <div>
+            <FormControlLabel
+              value="false"
+              control={<GreenRadio />}
+              label="To Be Announced"
+            />
+            <FormControlLabel
+              value="true"
+              control={<GreenRadio />}
+              label="Set Period "
+            />
+          </div>
+          {formik.values.hasPeriod === "true" && (
+            <>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="dense"
+                  id="start date picker"
+                  label="Start Date Picker"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="dense"
+                  id="end date picker"
+                  label="End Date Picker"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </>
           )}
         </Grid>
       </RadioGroup>
