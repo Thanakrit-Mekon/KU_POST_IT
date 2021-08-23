@@ -18,6 +18,9 @@ import { User } from "../App";
 import { useEffect, useState } from "react";
 import axios from "../axios";
 import { Link } from "react-router-dom";
+import { object } from "yup/lib/locale";
+import React from "react";
+import { ClickAwayListener } from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -80,6 +83,14 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
 
   const classes = useStyles();
   
+  const DeletePost = (postId: string) => {
+    axios
+    .post("posts/deletePost", {
+      postId: postId
+    }).then((response) => {
+      console.log(response);
+    });
+  };
 
   return (
     <div>
@@ -140,9 +151,10 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       <ColorButton href="/posts/edit" variant="contained" color="primary">
                         Edit
                       </ColorButton>
-                      <Button variant="contained" color="secondary">
+                      <Button onClick={() => DeletePost(obj._id)} variant="contained" color="secondary">
                         Delete
                       </Button>
+                      
                     </Grid>
                   </Grid>
                 </Card>
