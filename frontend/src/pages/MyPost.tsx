@@ -141,7 +141,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         Edit
                       </ColorButton>
                       <Button variant="contained" color="secondary">
-                        Close
+                        Delete
                       </Button>
                     </Grid>
                   </Grid>
