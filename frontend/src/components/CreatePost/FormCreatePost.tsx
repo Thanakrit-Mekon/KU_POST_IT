@@ -20,6 +20,8 @@ import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
 import { useHistory, Link } from "react-router-dom";
+
+
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -27,6 +29,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+
 
 interface Faculty {
   id: string;
@@ -79,6 +82,7 @@ function FormCreatePost() {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
+
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
@@ -87,6 +91,7 @@ function FormCreatePost() {
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
+
 
   const history = useHistory();
 

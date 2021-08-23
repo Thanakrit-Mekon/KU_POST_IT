@@ -68,7 +68,12 @@ function Form({ setUser }: LoginProps) {
         .then((response) => {
           console.log(response.data[0]);
           setUser(response.data[0]);
-          history.push("/ta");
+          if (response.data[0].location) {
+            history.push("/intern");
+          } 
+          else {
+            history.push("/ta");
+          }
         })
         .catch((error) => {
           console.log(error);
