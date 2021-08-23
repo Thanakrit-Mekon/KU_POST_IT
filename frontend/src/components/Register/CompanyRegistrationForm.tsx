@@ -14,7 +14,13 @@ import { useHistory } from "react-router-dom";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
-  password: yup.string().min(8).required(),
+  password: yup
+    .string()
+    .min(8)
+    .matches(
+      /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
+    )
+    .required(),
   confirmPassword: yup
     .string()
     .min(8)

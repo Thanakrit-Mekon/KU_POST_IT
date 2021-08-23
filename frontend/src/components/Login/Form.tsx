@@ -14,7 +14,6 @@ import SimpleModal from "./Modal";
 import axios from "../../axios";
 import { useHistory } from "react-router-dom";
 import { LoginProps } from "../../pages/Login";
-import { User } from "../../App";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -69,7 +68,7 @@ function Form({ setUser }: LoginProps) {
         .then((response) => {
           console.log(response.data[0]);
           setUser(response.data[0]);
-          history.push("/posts");
+          history.push("/ta");
         })
         .catch((error) => {
           console.log(error);

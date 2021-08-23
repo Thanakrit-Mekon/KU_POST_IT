@@ -15,10 +15,9 @@ import {
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "../../axios";
+import axios from "axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { useHistory, Link } from "react-router-dom";
 
 interface Faculty {
   id: string;
@@ -60,18 +59,16 @@ const validationSchema = yup.object({
   more: yup.string(),
 });
 
-function FormCreatePost() {
+function FormEditPost() {
   const classes = useStyles();
 
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-  const history = useHistory();
-
   const formik = useFormik({
     initialValues: {
       title: "",
-      type: "true",
+      type: "any",
       contact: "",
       number: "",
       more: "",
@@ -85,37 +82,22 @@ function FormCreatePost() {
     },
     validationSchema,
     onSubmit: (values) => {
-      const userData = {
-        title: values.title,
-        is_all: values.type,
-        contact: values.contact,
-        quantity: values.number,
-        desc: values.more,
-        qualification: values.requirements,
-      };
-      console.log(userData);
-      axios
-        .post("/posts/create", userData)
-        .then(function (response) {
-          console.log(response);
-          history.push("/posts");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      console.log(values);
     },
   });
 
   useEffect(() => {
-    axios.get("/dropdowns/faculties").then((response) => {
+    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get(`/dropdowns/alldepartment`).then((response) => {
-      setDepartments(response.data);
-    });
+    axios
+      .get(`http://localhost:3000/dropdowns/alldepartment`)
+      .then((response) => {
+        setDepartments(response.data);
+      });
   }, []);
 
   const handleRequirementChange = (
@@ -161,7 +143,7 @@ function FormCreatePost() {
         style={{ marginBottom: 20 }}
       >
         <Typography component="h1" variant="h4" color="primary">
-          Create Post
+          Edit Post
         </Typography>
         <div className={classes.buttons}>
           <Button
@@ -170,17 +152,15 @@ function FormCreatePost() {
             color="primary"
             style={{ marginRight: 10 }}
           >
-            Post
+            Confirm
           </Button>
-          <Link to="/ta" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              aria-label="outlined secondary button group"
-            >
-              Cancel
-            </Button>
-          </Link>
+          <Button
+            variant="outlined"
+            color="secondary"
+            aria-label="outlined secondary button group"
+          >
+            Cancel
+          </Button>
         </div>
       </Grid>
       <Grid container spacing={1}>
@@ -233,17 +213,17 @@ function FormCreatePost() {
       >
         <div>
           <FormControlLabel
-            value="true"
+            value="any"
             control={<GreenRadio />}
             label="All Faculties"
           />
           <FormControlLabel
-            value="false"
+            value="specific"
             control={<GreenRadio />}
             label="Specific Faculty"
           />
         </div>
-        {formik.values.type !== "true" && (
+        {formik.values.type !== "any" && (
           <div>
             <Fab
               size="small"
@@ -259,7 +239,7 @@ function FormCreatePost() {
           </div>
         )}
       </RadioGroup>
-      {formik.values.type !== "true" &&
+      {formik.values.type !== "any" &&
         formik.values.requirements.map((r, index) => {
           return (
             <Grid container spacing={1} style={{ marginBottom: 5 }}>
@@ -368,4 +348,4 @@ function FormCreatePost() {
   );
 }
 
-export default FormCreatePost;
+export default FormEditPost;

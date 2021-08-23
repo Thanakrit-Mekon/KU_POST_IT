@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import PostForm from '../components/CreatePost/PostForm';
+import InforFrom from '../components/EditPost/InforFrom';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -8,18 +8,18 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: 'rgb(241,241,241)',
+      backgroundColor: '#5E9EA0',
     },
   })
 );
 
-function CreatePost(): JSX.Element {
+function Postinfor(): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.bg}>
-      <PostForm />
+      <InforFrom />
     </div>
   );
 }
 
-export default CreatePost;
+export default Postinfor;

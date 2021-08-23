@@ -58,8 +58,8 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
             email: `${ user?.email }`,
             phone: `${ user?.phone }`,
             studentId: `${ user?.student_id }`,
-            faculty: `${ user?.faculty_code }`,
-            department: `${ user?.department_code }`,
+            faculty: `${ user?.faculty_name }`,
+            department: `${ user?.department_name }`,
             getNotify: user?.get_notify,
         },
         enableReinitialize: true,
@@ -76,6 +76,7 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
                 .patch("/user/updateuser", userDatasent)
                 .then(function (response) {
                 console.log(response);
+                window.location.reload();
                 })
                 .catch(function (error) {
                 console.log(error);
@@ -207,12 +208,13 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
                         justifyContent:"flex-end",
                     }}
                 >
+                    
                     <Button
                         variant="outlined"
                         size="large"
                         className={classes.outlinedred}
                         style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                        href="/"
+                        href="/ta"
                     >
                         Back To Home
                     </Button>
