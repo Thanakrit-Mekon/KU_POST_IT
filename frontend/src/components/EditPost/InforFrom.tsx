@@ -61,7 +61,6 @@ interface ParamType {
 export default function PostForm(): JSX.Element {
   const history = useHistory();
   const param = useParams<ParamType>();
-  const currentYear = 2086 - new Date().getFullYear();
   const [subject, setSubject] = useState<Subject>({} as Subject);
   useEffect(() => {
     console.log(param.postId);
@@ -106,7 +105,7 @@ export default function PostForm(): JSX.Element {
                   style={{ marginRight: "0.5rem" }}
                   label={`${obj.faculty_code} | ${
                     obj.department_code
-                  } | ชั้นปีที่ ${currentYear - +obj.year}`}
+                  } | ชั้นปีที่ ${obj.year}`}
                   color="primary"
                   key={obj.department_code}
                 />

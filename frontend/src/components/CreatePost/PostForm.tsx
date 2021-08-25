@@ -9,12 +9,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 10)]: {
-      width: 600,
+      width: 800,
       margin: 'auto',
     },
   },
   paper: {
-    width: 600,
+    width: 'auto',
     height: 'auto',
     padding: theme.spacing(2),
     alignContent: 'center',

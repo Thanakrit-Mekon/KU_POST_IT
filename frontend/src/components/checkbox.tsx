@@ -65,7 +65,7 @@ export default function LongMenu({ setUser }: LongMenuProps) {
         >
           <MenuItem style={{ paddingLeft: 13 }}>Edit profile</MenuItem>
         </Link>
-        <Link href="/posts" style={{ textDecoration: "none", color: "black" }}>
+        <Link href="/myposts" style={{ textDecoration: "none", color: "black" }}>
           <MenuItem style={{ paddingLeft: 13 }}>View my posts</MenuItem>
         </Link>
         <Link

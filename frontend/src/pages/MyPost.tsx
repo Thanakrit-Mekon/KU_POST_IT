@@ -17,6 +17,10 @@ import NavBar from "../components/NavBar";
 import { User } from "../App";
 import { useEffect, useState } from "react";
 import axios from "../axios";
+import { Link } from "react-router-dom";
+import { object } from "yup/lib/locale";
+import React from "react";
+import { ClickAwayListener } from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -73,11 +77,20 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
     axios.get(`/posts/myposts`).then((response) => {
       setSubjects(response.data);
     });
+    
   }, []);
   console.log(subjects);
 
   const classes = useStyles();
   
+  const DeletePost = (postId: string) => {
+    axios
+    .post("posts/deletePost", {
+      postId: postId
+    }).then((response) => {
+      console.log(response);
+    });
+  };
 
   return (
     <div>
@@ -112,7 +125,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       color="primary.main"
                       style={{ marginBottom: 7 }}
                     >
-                      TA {obj.title}
+                      {obj.title}
                     </Box>
                     <Box
                       alignItems="center"
@@ -132,15 +145,16 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       justifyContent="space-between"
                       style={{ marginTop: 20 }}
                     >
-                      <Button variant="contained" color="primary">
+                      <Button href={`/myposts/${obj._id}`} variant="contained" color="primary">
                         View
                       </Button>
                       <ColorButton href="/posts/edit" variant="contained" color="primary">
                         Edit
                       </ColorButton>
-                      <Button variant="contained" color="secondary">
-                        Close
+                      <Button onClick={() => DeletePost(obj._id)} variant="contained" color="secondary">
+                        Delete
                       </Button>
+                      
                     </Grid>
                   </Grid>
                 </Card>
