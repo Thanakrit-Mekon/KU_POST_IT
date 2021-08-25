@@ -83,7 +83,6 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
               });
       },
   });
-  // console.log(formik.values.getNotify);
 
   return (
       <>
@@ -191,7 +190,6 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
                           color="primary"
                           name="getNotify"
                           checked={formik.values.getNotify}
-                          // value={formik.values.getNotify}
                           onChange={formik.handleChange}
                       />
                       <Typography variant="body1">
