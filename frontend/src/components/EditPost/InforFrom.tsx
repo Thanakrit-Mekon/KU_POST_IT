@@ -116,7 +116,7 @@ export default function PostForm(): JSX.Element {
 
           <Grid container direction="row">
             <Grid item style={{ width: "100%", margin: 30 }}>
-              <Typography variant="h5" color="primary">
+              <Typography variant="h6" color="primary">
                 <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
               </Typography>
 
@@ -127,6 +127,18 @@ export default function PostForm(): JSX.Element {
               >
                 {subject.desc}
               </Typography>
+
+              <Typography variant="h6" color="primary">
+                <Box mt={3}>ช่องทางการติดต่อ</Box>
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                style={{ marginTop: 10, marginBottom: 20 }}
+                component="p"
+              >
+                {subject.contact}
+              </Typography>
+              
               <form onSubmit={formik.handleSubmit}>
                 <TextField
                   name="feedback"
@@ -134,27 +146,52 @@ export default function PostForm(): JSX.Element {
                   label="ตอบคำถามอาจารย์ & สิ่งที่อยากบอกอาจารย์"
                   variant="outlined"
                   multiline
-                  rows={10}
+                  rows={7}
                   fullWidth
                   value={formik.values.feedback}
                   onChange={formik.handleChange}
                 />
 
-                <Box mt={4}>
+                {/* <Box mt={2}>
+                <form onSubmit={formik.handleSubmit}>
+                <TextField
+                  name="feedback"
+                  size="small"
+                  label="ข้อมูลติดต่อ"
+                  variant="outlined"
+                  multiline
+                  rows={5}
+                  fullWidth
+                  value={formik.values.feedback}
+                  onChange={formik.handleChange}
+                />
+
+                </form>
+                </Box> */}
+                <Box mt={4} ml={35} mr={35}>
                   <Grid
-                    container
+                    container 
                     direction="row"
-                    justifyContent="center"
+                    justifyContent="space-around"
                     alignItems="center"
                     style={{ paddingTop: "20" }}
                   >
-                    <Button
+                    <Button 
                       variant="contained"
                       color="primary"
                       size="large"
                       type="submit"
                     >
                       Submit
+                    </Button>
+
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      size="large" 
+                      
+                    >
+                      Back
                     </Button>
                   </Grid>
                 </Box>

@@ -136,8 +136,10 @@ function QueryUser({ user, setUser }: queryuserprops) {
                       </Box>
                     </Typography>
                     {/* <Icon className="fa fa-user" /> */}
-                    <Box alignItems="center">
+                    <Box alignItems="space-between">
                       <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.candidate}{" "}
+                      คน{"     "}
+                      <FontAwesomeIcon icon={faUser} /> สมัครแล้ว {obj.candidate}{" "}
                       คน
                     </Box>
                     <Grid
@@ -149,11 +151,16 @@ function QueryUser({ user, setUser }: queryuserprops) {
                         to={`/posts/${obj.id}`}
                         style={{ textDecoration: "none" }}
                       >
-                        {usertype === 1 && (
+                        {/* ยังแตกอยู่ */}
+                        {usertype === 1 && (!obj.thisusersubmit) ?(
                           <Button variant="contained" color="primary">
                             Join
                           </Button>
-                        )}
+                        ): 
+                        <Button variant="contained" color="primary" disabled>
+                            Join
+                          </Button>
+                        }
                       </Link>
                       {/* <Button variant="contained" color="secondary">
                           Close
