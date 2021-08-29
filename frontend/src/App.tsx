@@ -87,7 +87,9 @@ function App(): JSX.Element {
             <Route path="/myposts">
               <MyPost user={user} setUser={setUser} />
             </Route>
-            <Route path="/" exact />
+            <Route path="/" exact>
+              <Login setUser={setUser} />
+            </Route>
           </Switch>
         </div>
       </ThemeProvider>
