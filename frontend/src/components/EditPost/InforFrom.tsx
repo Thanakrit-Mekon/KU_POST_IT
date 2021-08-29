@@ -12,6 +12,12 @@ import {
 import { useFormik } from "formik";
 import axios from "../../axios";
 import { useHistory, useParams } from "react-router-dom";
+import { User } from "../../App";
+
+export interface postinforprops {
+  user: User | null;
+  
+}
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -58,7 +64,7 @@ interface ParamType {
   postId: string;
 }
 
-export default function PostForm(): JSX.Element {
+export default function PostForm({user}:postinforprops): JSX.Element {
   const history = useHistory();
   const param = useParams<ParamType>();
   const [subject, setSubject] = useState<Subject>({} as Subject);
@@ -88,6 +94,7 @@ export default function PostForm(): JSX.Element {
   });
 
   const classes = useStyles();
+
 
   return (
     <>
@@ -183,12 +190,13 @@ export default function PostForm(): JSX.Element {
                     >
                       Submit
                     </Button>
-
+                    
+                    
                     <Button
                       variant="contained"
                       color="secondary"
                       size="large" 
-                      
+                      href={`/${subject.post_type}`}
                     >
                       Back
                     </Button>

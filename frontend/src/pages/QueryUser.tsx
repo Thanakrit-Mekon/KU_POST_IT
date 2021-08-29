@@ -34,6 +34,15 @@ interface Subject {
   thisusersubmit: boolean;
   title: string;
   user_name: string;
+  first_name: string;
+  last_name: string;
+  name: string;
+  quantity: string;
+  isDueDate: boolean;
+  dueDate: string;
+  startDate: string;
+  endDate: string;
+  hasPeriod: boolean;
 }
 
 const useStyles = makeStyles(() =>
@@ -64,7 +73,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
   } else {
     usertype = 2;
   }
-  console.log(usertype);
+  // console.log(usertype);
   useEffect(() => {
     axios
       .get(`feed/find${location.pathname}`)
@@ -129,19 +138,35 @@ function QueryUser({ user, setUser }: queryuserprops) {
                 <Card style={{ padding: 20 }}>
                   <Grid container direction="column" alignItems="center">
                     <Avatar />
-                    <Box>{obj.user_name}</Box>
+                    {obj.name ? <Box>{obj.name}</Box> : <Box>{obj.first_name}  {obj.last_name}</Box>}
+                    
                     <Typography color="primary">
                       <Box fontWeight="bold" color="primary">
                         {obj.title}
                       </Box>
                     </Typography>
+                    <Box>
+                      {obj.isDueDate && "สิ้นสุดการรับสมัคร : "+obj.dueDate.slice(8,10)+"/"+obj.dueDate.slice(5,7)+"/"+obj.dueDate.slice(0,4)  }
+                    </Box>
+                    <Box>
+                      {obj.hasPeriod && "เริ่มทำงาน : "+obj.startDate.slice(8,10)+"/"+obj.startDate.slice(5,7)+"/"+obj.startDate.slice(0,4)}
+                    </Box>
+                    <Box>
+                      {obj.hasPeriod && "ถึงวันที่ "+obj.endDate.slice(8,10)+"/"+obj.endDate.slice(5,7)+"/"+obj.endDate.slice(0,4) }
+                    </Box>
+
+
+
+
                     {/* <Icon className="fa fa-user" /> */}
                     <Box alignItems="space-between">
-                      <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.candidate}{" "}
+                      <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.quantity}{" "}
                       คน{"     "}
                       <FontAwesomeIcon icon={faUser} /> สมัครแล้ว {obj.candidate}{" "}
                       คน
                     </Box>
+
+
                     <Grid
                       container
                       justifyContent="center"
@@ -151,8 +176,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
                         to={`/posts/${obj.id}`}
                         style={{ textDecoration: "none" }}
                       >
-                        {/* ยังแตกอยู่ */}
-                        {usertype === 1 && (!obj.thisusersubmit) ?(
+                        {usertype === 1 && (!obj.thisusersubmit ? (
                           <Button variant="contained" color="primary">
                             Join
                           </Button>
@@ -160,7 +184,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
                         <Button variant="contained" color="primary" disabled>
                             Join
                           </Button>
-                        }
+                        )}
                       </Link>
                       {/* <Button variant="contained" color="secondary">
                           Close

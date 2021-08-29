@@ -79,7 +79,7 @@ function App(): JSX.Element {
               <EditPost />
             </Route> */}
             <Route path="/posts/:postId">
-              <Postinfor />
+              <Postinfor user={user} setUser={setUser} />
             </Route>
             <Route path="/myposts/:postId">
               <CsvTable user={user} setUser={setUser} />
