@@ -7,11 +7,17 @@ import {
   Checkbox,
   makeStyles,
   createStyles,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
 import { User } from "../../App";
+import { useState } from "react";
 
 const validationSchema = yup.object({
   firstName: yup.string().required(),
@@ -50,7 +56,16 @@ interface StudentProfileFormProps {
 
 function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    // setOpen(false);
+    window.location.reload();
+  };
   const formik = useFormik({
       initialValues: {
           firstName:`${ user?.first_name }`,
@@ -76,7 +91,10 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
               .patch("/user/updateuser", userDatasent)
               .then(function (response) {
               console.log(response);
-              window.location.reload();
+              if (response.status == 200) {
+                handleOpen();
+              }
+            //   window.location.reload();
               })
               .catch(function (error) {
               console.log(error);
@@ -236,6 +254,26 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
                   </Button>
               </Box>
           </form>
+          
+          <Dialog
+                open={open}
+                onClose={handleClose}
+                disableBackdropClick
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Congratulations!"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Your profile information has been saved.
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                    OK
+                </Button>
+                </DialogActions>
+            </Dialog>
       </>
   );
 }

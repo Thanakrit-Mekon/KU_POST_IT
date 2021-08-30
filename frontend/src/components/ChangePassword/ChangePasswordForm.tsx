@@ -6,6 +6,11 @@ import {
     makeStyles,
     createStyles,
     Typography,
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
 } from "@material-ui/core";
 
 import { useFormik } from "formik";
@@ -58,6 +63,16 @@ const useStyles = makeStyles(() =>
 function ChangePasswordForm(): JSX.Element {
     const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        // setOpen(false);
+        window.location.href = "/myprofile";
+    };
     const formik = useFormik({
         initialValues: {
             oldPassword: "",
@@ -76,7 +91,10 @@ function ChangePasswordForm(): JSX.Element {
                 .then(function (response) {
                 console.log(response);
                 setOldPasswordErrorMessage('');
-                window.location.href = "/myprofile";
+                if (response.status == 200) {
+                    handleOpen();
+                }
+                // window.location.href = "/myprofile";
                 })
                 .catch(function (error) {
                 console.log(error.response);
@@ -186,6 +204,25 @@ function ChangePasswordForm(): JSX.Element {
                     </Button>
                 </Box>
             </form>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                disableBackdropClick
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Congratulations!"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                    Your password has been changed successfully.
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                    OK
+                </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
