@@ -155,10 +155,6 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                       <Box>
                         {obj.hasPeriod && "ถึงวันที่ "+obj.endDate.slice(8,10)+"/"+obj.endDate.slice(5,7)+"/"+obj.endDate.slice(0,4) }
                       </Box>
-  
-  
-  
-  
                       {/* <Icon className="fa fa-user" /> */}
                       <Box alignItems="space-between">
                         <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.quantity}{" "}
@@ -176,7 +172,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                         justifyContent="center"
                         style={{ marginTop: 20 }}
                       >
-                        <Button variant="contained" color="primary" onClick={handleClickOpen(obj.title)}>
+                        <Button variant="contained" color="primary" onClick={() => handleClickOpen(obj.title)}>
                           View
                         </Button>
                         <Dialog
