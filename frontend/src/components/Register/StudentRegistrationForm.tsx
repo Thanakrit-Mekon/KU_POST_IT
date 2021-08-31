@@ -4,7 +4,6 @@ import {
   Grid,
   Button,
   Box,
-  Checkbox,
   Link,
   MenuItem,
 } from "@material-ui/core";
@@ -265,7 +264,7 @@ function StudentRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={5}>
+            <Grid item sm={5} style={{ marginBottom: 5 }}>
               <TextField
                 size="small"
                 label="Tel"
@@ -277,26 +276,6 @@ function StudentRegistrationForm(): JSX.Element {
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 fullWidth
               />
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Checkbox color="primary" />
-              <Typography variant="body1">
-                <Box fontSize={15}>
-                  I accept the terms of the offer of &nbsp;
-                  <Link href="/" color="primary">
-                    the privacy policy
-                  </Link>
-                </Box>
-              </Typography>
             </Grid>
           </Grid>
           <Button

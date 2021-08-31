@@ -4,7 +4,6 @@ import {
   Grid,
   Button,
   Box,
-  Checkbox,
   Link,
   MenuItem,
 } from "@material-ui/core";
@@ -254,26 +253,6 @@ function TeacherRegistrationForm(): JSX.Element {
                     );
                   })}
               </TextField>
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Checkbox color="primary" />
-              <Typography variant="body1">
-                <Box fontSize={15}>
-                  I accept the terms of the offer of &nbsp;
-                  <Link href="/" color="primary">
-                    the privacy policy
-                  </Link>
-                </Box>
-              </Typography>
             </Grid>
           </Grid>
           <Button
