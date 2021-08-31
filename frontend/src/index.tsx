@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import axios from "./axios";
+import { BrowserRouter } from "react-router-dom";
 
 const accessToken = localStorage.getItem("accessToken");
 if (accessToken) {
@@ -11,7 +12,9 @@ if (accessToken) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

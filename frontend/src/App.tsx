@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Register from "./pages/Register";
 import CreatePost from "./pages/CreatePost";
@@ -6,14 +6,13 @@ import MyPost from "./pages/MyPost";
 import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
-// import EditPost from "./pages/EditPost";
-// import Query from "./pages/Query";
 import QueryUser from "./pages/QueryUser";
 import Postinfor from "./pages/Postinfor";
 import ChangePassword from "./pages/ChangePassword";
 import "@fontsource/roboto";
 import { useEffect, useState } from "react";
 import axios from "./axios";
+import EditPost from "./pages/EditPost";
 
 const theme = createTheme({
   palette: {
@@ -53,7 +52,6 @@ function App(): JSX.Element {
   }, []);
 
   return (
-    <BrowserRouter>
       <ThemeProvider theme={theme}>
         <div className="App">
           <Switch>
@@ -75,9 +73,9 @@ function App(): JSX.Element {
             <Route path="/posts/new">
               <CreatePost />
             </Route>
-            {/* <Route path="/posts/edit">
+            <Route path="/posts/:postId/edit">
               <EditPost />
-            </Route> */}
+            </Route>
             <Route path="/posts/:postId">
               <Postinfor user={user} setUser={setUser} />
             </Route>
@@ -93,7 +91,6 @@ function App(): JSX.Element {
           </Switch>
         </div>
       </ThemeProvider>
-    </BrowserRouter>
   );
 }
 
