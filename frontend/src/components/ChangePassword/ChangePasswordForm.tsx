@@ -3,8 +3,6 @@ import {
     Grid,
     Button,
     Box,
-    makeStyles,
-    createStyles,
     Typography,
     Dialog,
     DialogTitle,
@@ -12,7 +10,7 @@ import {
     DialogContent,
     DialogContentText,
 } from "@material-ui/core";
-
+import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as yup from "yup";
@@ -34,45 +32,15 @@ const validationSchema = yup.object({
         .required('')
         .oneOf([yup.ref("newPassword"), null], 'Password must match!'),
 });
-
-const useStyles = makeStyles(() =>
-  createStyles({
-    bgyellow:{
-        color: 'white',
-        backgroundColor: '#F9A41A',
-        borderColor: '#F9A41A',
-        '&:hover': {
-            backgroundColor: '#D98804',
-            borderColor: '#D98804',
-        },
-    },
-
-    outlinedred:{
-        color: '#E53935',
-        borderColor: '#E53935',
-        '&:hover': {
-            color: '#B71C1C',
-            backgroundColor: '#F9F9F9',
-            borderColor: '#B71C1C',
-            
-        },
-    },
-  })
-);
   
 function ChangePasswordForm(): JSX.Element {
     const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
-    const classes = useStyles();
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        // setOpen(false);
-        window.location.href = "/myprofile";
-    };
     const formik = useFormik({
         initialValues: {
             oldPassword: "",
@@ -94,7 +62,6 @@ function ChangePasswordForm(): JSX.Element {
                 if (response.status == 200) {
                     handleOpen();
                 }
-                // window.location.href = "/myprofile";
                 })
                 .catch(function (error) {
                 console.log(error.response);
@@ -184,15 +151,16 @@ function ChangePasswordForm(): JSX.Element {
                     }}
                     mt={3}
                 >
-                    <Button
-                        variant="outlined"
-                        size="large"
-                        className={classes.outlinedred}
-                        style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                        href="/myprofile"
-                    >
-                        Cancel
-                    </Button>
+                    <RouterLink to="/myprofile" style={{ textDecoration:"none" }}>
+                        <Button
+                            variant="outlined"
+                            size="large"
+                            color="secondary"
+                            style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                        >
+                            Cancel
+                        </Button>
+                    </RouterLink>
                     <Button
                         variant="contained"
                         size="large"
@@ -206,7 +174,6 @@ function ChangePasswordForm(): JSX.Element {
             </form>
             <Dialog
                 open={open}
-                onClose={handleClose}
                 disableBackdropClick
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -218,9 +185,11 @@ function ChangePasswordForm(): JSX.Element {
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button onClick={handleClose} color="primary" autoFocus>
-                    OK
-                </Button>
+                    <RouterLink to="/myprofile" style={{ textDecoration:"none" }}>
+                        <Button color="primary">
+                            OK
+                        </Button>
+                    </RouterLink>
                 </DialogActions>
             </Dialog>
         </>

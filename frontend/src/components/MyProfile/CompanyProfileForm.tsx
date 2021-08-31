@@ -12,7 +12,7 @@ import {
     DialogContent,
     DialogContentText,
 } from "@material-ui/core";
-
+import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
@@ -34,17 +34,6 @@ const useStyles = makeStyles(() =>
         '&:hover': {
             backgroundColor: '#D98804',
             borderColor: '#D98804',
-        },
-    },
-
-    outlinedred:{
-        color: '#E53935',
-        borderColor: '#E53935',
-        '&:hover': {
-            color: '#B71C1C',
-            backgroundColor: '#F9F9F9',
-            borderColor: '#B71C1C',
-            
         },
     },
   })
@@ -201,24 +190,26 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
                         justifyContent:"flex-end",
                     }}
                 >
-                    <Button
-                        variant="outlined"
-                        size="large"
-                        className={classes.outlinedred}
-                        style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                        href="/intern"
-                    >
-                        Back To Home
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        size="large"
-                        className={classes.bgyellow}
-                        style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                        href="/changepassword"
-                    >
-                        Change Password
-                    </Button>
+                    <RouterLink to="/intern" style={{ textDecoration:"none" }}>
+                        <Button
+                            variant="outlined"
+                            size="large"
+                            color="secondary"
+                            style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                        >
+                            Back To Home
+                        </Button>
+                    </RouterLink>
+                    <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
+                        <Button
+                            variant="outlined"
+                            size="large"
+                            className={classes.bgyellow}
+                            style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                        >
+                            Change Password
+                        </Button>
+                    </RouterLink>
                     <Button
                         variant="contained"
                         size="large"
