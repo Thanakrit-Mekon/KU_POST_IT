@@ -90,7 +90,7 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
         .patch("/user/updateuser", userData)
         .then(function (response) {
           console.log(response);
-          if (response.status == 200) {
+          if (response.status === 200) {
             handleOpen();
           }
         })

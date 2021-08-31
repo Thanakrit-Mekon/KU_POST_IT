@@ -90,7 +90,7 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
         .patch("/user/updateuser", userDatasent)
         .then(function (response) {
           console.log(response);
-          if (response.status == 200) {
+          if (response.status === 200) {
             handleOpen();
           }
           //   window.location.reload();

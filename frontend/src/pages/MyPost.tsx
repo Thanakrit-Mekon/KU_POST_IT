@@ -17,10 +17,7 @@ import NavBar from "../components/NavBar";
 import { User } from "../App";
 import { useEffect, useState } from "react";
 import axios from "../axios";
-import { Link } from "react-router-dom";
-import { object } from "yup/lib/locale";
 import React from "react";
-import { ClickAwayListener } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

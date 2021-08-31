@@ -89,7 +89,7 @@ function ChangePasswordForm(): JSX.Element {
         .then(function (response) {
           console.log(response);
           setOldPasswordErrorMessage("");
-          if (response.status == 200) {
+          if (response.status === 200) {
             handleOpen();
           }
           // window.location.href = "/myprofile";

@@ -12,7 +12,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
-import { useHistory } from "react-router";
+import React from "react";
+import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -53,7 +54,17 @@ function StudentRegistrationForm(): JSX.Element {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [err, setErr] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpenWithError = () => {
+    setErr(true);
+    setOpen(true);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -86,10 +97,11 @@ function StudentRegistrationForm(): JSX.Element {
         .post("/user/student", userData)
         .then(function (response) {
           console.log(response);
-          history.push("/login");
+          handleClickOpen();
         })
         .catch(function (error) {
           console.log(error);
+          handleClickOpenWithError();
         });
     },
   });
@@ -307,6 +319,7 @@ function StudentRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
+        <AlertDialog open={open} setOpen={setOpen} err={err} />
       </form>
     </>
   );
