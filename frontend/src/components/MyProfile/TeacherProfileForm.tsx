@@ -12,7 +12,7 @@ import {
   DialogContent,
   DialogContentText,
 } from "@material-ui/core";
-
+import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
@@ -34,16 +34,6 @@ const useStyles = makeStyles(() =>
       "&:hover": {
         backgroundColor: "#D98804",
         borderColor: "#D98804",
-      },
-    },
-
-    outlinedred: {
-      color: "#E53935",
-      borderColor: "#E53935",
-      "&:hover": {
-        color: "#B71C1C",
-        backgroundColor: "#F9F9F9",
-        borderColor: "#B71C1C",
       },
     },
   })
