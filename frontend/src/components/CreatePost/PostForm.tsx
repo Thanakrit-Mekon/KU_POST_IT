@@ -1,28 +1,28 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import FormCreatePost from './FormCreatePost';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import FormCreatePost from "./FormCreatePost";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
-    width: 'auto',
+    width: "auto",
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 10)]: {
       width: 800,
-      margin: 'auto',
+      margin: "auto",
     },
   },
   paper: {
-    width: 'auto',
-    height: 'auto',
+    width: "auto",
+    height: "auto",
     padding: theme.spacing(2),
-    alignContent: 'center',
+    alignContent: "center",
   },
   buttons: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
   },
   button: {
     marginTop: theme.spacing(3),
@@ -37,7 +37,7 @@ export default function PostForm(): JSX.Element {
     <>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <FormCreatePost/>
+          <FormCreatePost />
         </Paper>
       </main>
     </>

@@ -4,22 +4,22 @@ import {
   Grid,
   Button,
   Box,
-  Checkbox,
   Link,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
   password: yup
     .string()
     .min(8)
-    .matches(
-      /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
-    )
+    // .matches(
+    //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
+    // )
     .required(),
   confirmPassword: yup
     .string()
@@ -34,7 +34,17 @@ const validationSchema = yup.object({
 });
 
 function CompanyRegistrationForm(): JSX.Element {
-  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [err, setErr] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpenWithError = () => {
+    setErr(true);
+    setOpen(true);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -64,10 +74,11 @@ function CompanyRegistrationForm(): JSX.Element {
         .post("/user/company", userData)
         .then(function (response) {
           console.log(response);
-          history.push("/login");
+          handleClickOpen();
         })
         .catch(function (error) {
           console.log(error);
+          handleClickOpenWithError();
         });
     },
   });
@@ -190,26 +201,6 @@ function CompanyRegistrationForm(): JSX.Element {
               />
             </Grid>
           </Grid>
-          <Grid container>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Checkbox color="primary" />
-              <Typography variant="body1">
-                <Box fontSize={15}>
-                  I accept the terms of the offer of &nbsp;
-                  <Link href="/" color="primary">
-                    the privacy policy
-                  </Link>
-                </Box>
-              </Typography>
-            </Grid>
-          </Grid>
           <Button
             variant="contained"
             size="large"
@@ -230,6 +221,7 @@ function CompanyRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
+        <AlertDialog open={open} setOpen={setOpen} err={err} />
       </form>
     </>
   );

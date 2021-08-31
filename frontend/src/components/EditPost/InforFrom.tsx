@@ -16,7 +16,6 @@ import { User } from "../../App";
 
 export interface postinforprops {
   user: User | null;
-  
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +63,7 @@ interface ParamType {
   postId: string;
 }
 
-export default function PostForm({user}:postinforprops): JSX.Element {
+export default function PostForm({ user }: postinforprops): JSX.Element {
   const history = useHistory();
   const param = useParams<ParamType>();
   const [subject, setSubject] = useState<Subject>({} as Subject);
@@ -95,7 +94,6 @@ export default function PostForm({user}:postinforprops): JSX.Element {
 
   const classes = useStyles();
 
-
   return (
     <>
       <main className={classes.layout}>
@@ -110,9 +108,7 @@ export default function PostForm({user}:postinforprops): JSX.Element {
               return (
                 <Chip
                   style={{ marginRight: "0.5rem" }}
-                  label={`${obj.faculty_code} | ${
-                    obj.department_code
-                  } | ชั้นปีที่ ${obj.year}`}
+                  label={`${obj.faculty_code} | ${obj.department_code} | ชั้นปีที่ ${obj.year}`}
                   color="primary"
                   key={obj.department_code}
                 />
@@ -144,7 +140,7 @@ export default function PostForm({user}:postinforprops): JSX.Element {
               >
                 {subject.contact}
               </Typography>
-              
+
               <form onSubmit={formik.handleSubmit}>
                 <TextField
                   name="feedback"
@@ -176,13 +172,13 @@ export default function PostForm({user}:postinforprops): JSX.Element {
                 </Box> */}
                 <Box mt={4} ml={35} mr={35}>
                   <Grid
-                    container 
+                    container
                     direction="row"
                     justifyContent="space-around"
                     alignItems="center"
                     style={{ paddingTop: "20" }}
                   >
-                    <Button 
+                    <Button
                       variant="contained"
                       color="primary"
                       size="large"
@@ -190,12 +186,11 @@ export default function PostForm({user}:postinforprops): JSX.Element {
                     >
                       Submit
                     </Button>
-                    
-                    
+
                     <Button
                       variant="contained"
                       color="secondary"
-                      size="large" 
+                      size="large"
                       href={`/${subject.post_type}`}
                     >
                       Back

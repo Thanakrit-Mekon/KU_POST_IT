@@ -9,7 +9,7 @@ export interface CsvTableprops {
 function CsvTable({ user, setUser }: CsvTableprops): JSX.Element {
   return (
     <div>
-        <Body user={user} setUser={setUser}/>
+      <Body user={user} setUser={setUser} />
     </div>
   );
 }

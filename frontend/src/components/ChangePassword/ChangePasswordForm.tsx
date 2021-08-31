@@ -17,62 +17,66 @@ import * as yup from "yup";
 import axios from "../../axios";
 
 const validationSchema = yup.object({
-    oldPassword: yup
-        .string()
-        .min(8)
-        .required(),
-    newPassword: yup
-        .string()
-        .min(8,'')
-        .matches(/(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/)
-        .required(),
-    confirmNewPassword: yup
-        .string()
-        .min(8,'')
-        .required('')
-        .oneOf([yup.ref("newPassword"), null], 'Password must match!'),
+  oldPassword: yup.string().min(8).required(),
+  newPassword: yup
+    .string()
+    .min(8, "")
+    .matches(
+      /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
+    )
+    .required(),
+  confirmNewPassword: yup
+    .string()
+    .min(8, "")
+    .required("")
+    .oneOf([yup.ref("newPassword"), null], "Password must match!"),
 });
   
 function ChangePasswordForm(): JSX.Element {
     const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState('');
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+function ChangePasswordForm(): JSX.Element {
+  const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState("");
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
-    const formik = useFormik({
-        initialValues: {
-            oldPassword: "",
-            newPassword: "",
-            confirmNewPassword: "",
-        },
-        validationSchema,
-        onSubmit: (values) => {
-            const userPassword = {
-                old_password: values.oldPassword,
-                new_password: values.newPassword,
-            };
-            console.log(userPassword);
-            axios
-                .patch("/user/updatepassword", userPassword)
-                .then(function (response) {
-                console.log(response);
-                setOldPasswordErrorMessage('');
-                if (response.status == 200) {
-                    handleOpen();
-                }
-                })
-                .catch(function (error) {
-                console.log(error.response);
-                // console.log(error.request);
-                // console.log('Error', error.message);
-                // console.log(error.config);
-                setOldPasswordErrorMessage('Current Password Invalid');
-                });
-        },
-    });
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
+  const formik = useFormik({
+    initialValues: {
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      const userPassword = {
+        old_password: values.oldPassword,
+        new_password: values.newPassword,
+      };
+      console.log(userPassword);
+      axios
+        .patch("/user/updatepassword", userPassword)
+        .then(function (response) {
+          console.log(response);
+          setOldPasswordErrorMessage("");
+          if (response.status === 200) {
+            handleOpen();
+          }
+          // window.location.href = "/myprofile";
+        })
+        .catch(function (error) {
+          console.log(error.response);
+          // console.log(error.request);
+          // console.log('Error', error.message);
+          // console.log(error.config);
+          setOldPasswordErrorMessage("Current Password Invalid");
+        });
+    },
+  });
 
     return (
         <>
@@ -195,5 +199,5 @@ function ChangePasswordForm(): JSX.Element {
         </>
     );
 }
-  
+
 export default ChangePasswordForm;

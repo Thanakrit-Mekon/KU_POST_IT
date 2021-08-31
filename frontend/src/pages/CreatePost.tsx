@@ -1,14 +1,14 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import PostForm from '../components/CreatePost/PostForm';
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+import PostForm from "../components/CreatePost/PostForm";
 
 const useStyles = makeStyles(() =>
   createStyles({
     bg: {
-      height: '100vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'rgb(241,241,241)',
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgb(241,241,241)",
     },
   })
 );

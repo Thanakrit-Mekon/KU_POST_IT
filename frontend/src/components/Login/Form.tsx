@@ -70,8 +70,7 @@ function Form({ setUser }: LoginProps) {
           setUser(response.data[0]);
           if (response.data[0].location) {
             history.push("/intern");
-          } 
-          else {
+          } else {
             history.push("/ta");
           }
         })

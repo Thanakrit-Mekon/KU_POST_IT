@@ -1,16 +1,16 @@
 import {
-    Typography,
-    TextField,
-    Grid,
-    Button,
-    Box,
-    makeStyles,
-    createStyles,
-    Dialog,
-    DialogTitle,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
+  Typography,
+  TextField,
+  Grid,
+  Button,
+  Box,
+  makeStyles,
+  createStyles,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
@@ -20,75 +20,75 @@ import { User } from "../../App";
 import { useState } from "react";
 
 const validationSchema = yup.object({
-    name: yup.string().required(),
-    phone: yup.number().required(),
-    location: yup.string().required(),
+  name: yup.string().required(),
+  phone: yup.number().required(),
+  location: yup.string().required(),
 });
 
 const useStyles = makeStyles(() =>
   createStyles({
-    bgyellow:{
-        color: 'white',
-        backgroundColor: '#F9A41A',
-        borderColor: '#F9A41A',
-        '&:hover': {
-            backgroundColor: '#D98804',
-            borderColor: '#D98804',
-        },
+    bgyellow: {
+      color: "white",
+      backgroundColor: "#F9A41A",
+      borderColor: "#F9A41A",
+      "&:hover": {
+        backgroundColor: "#D98804",
+        borderColor: "#D98804",
+      },
     },
   })
 );
 
 interface CompanyProfileFormProps {
-    user?: User | null;
+  user?: User | null;
 }
-  
+
 function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
-    const classes = useStyles();
-    const [open, setOpen] = useState(false);
+  const classes = useStyles();
+  const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        // setOpen(false);
-        window.location.reload();
-    };
+  const handleClose = () => {
+    // setOpen(false);
+    window.location.reload();
+  };
 
-    const formik = useFormik({
-        initialValues: {
-            name:`${ user?.name }`,
-            email: `${ user?.email }`,
-            location: `${ user?.location }`,
-            contact: `${ user?.contact }`,
-            aboutme: `${ user?.about_me }`,
-            phone: `${ user?.phone }`,
-        },
-        enableReinitialize: true,
-        validationSchema,
-        onSubmit: (values) => {
-            const userData = {
-                name: values.name,
-                location: values.location,
-                contact: values.contact,
-                about_me: values.aboutme,
-                phone: values.phone,
-            };
-            console.log(userData);
-            axios
-                .patch("/user/updateuser", userData)
-                .then(function (response) {
-                    console.log(response);
-                    if (response.status == 200) {
-                        handleOpen();
-                    }
-                })
-                .catch(function (error) {
-                console.log(error);
-                });
-        },
-    });
+  const formik = useFormik({
+    initialValues: {
+      name: `${user?.name}`,
+      email: `${user?.email}`,
+      location: `${user?.location}`,
+      contact: `${user?.contact}`,
+      aboutme: `${user?.about_me}`,
+      phone: `${user?.phone}`,
+    },
+    enableReinitialize: true,
+    validationSchema,
+    onSubmit: (values) => {
+      const userData = {
+        name: values.name,
+        location: values.location,
+        contact: values.contact,
+        about_me: values.aboutme,
+        phone: values.phone,
+      };
+      console.log(userData);
+      axios
+        .patch("/user/updateuser", userData)
+        .then(function (response) {
+          console.log(response);
+          if (response.status === 200) {
+            handleOpen();
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  });
 
     return (
         <>
@@ -243,6 +243,5 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
         </>
     );
 }
-  
+
 export default CompanyProfileForm;
-  

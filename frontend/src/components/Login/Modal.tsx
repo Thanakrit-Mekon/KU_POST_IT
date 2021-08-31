@@ -49,7 +49,7 @@ export default function SimpleModal() {
       <p id="simple-modal-description">
         Relax and try to remember your password.
       </p>
-      <SimpleModal/>
+      <SimpleModal />
     </div>
   );
 
