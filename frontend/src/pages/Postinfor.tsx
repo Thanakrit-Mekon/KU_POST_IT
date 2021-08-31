@@ -1,5 +1,5 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import InforFrom from '../components/EditPost/InforFrom';
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+import InforFrom from "../components/EditPost/InforFrom";
 import { User } from "../App";
 
 export interface postinforprops {
@@ -10,16 +10,16 @@ export interface postinforprops {
 const useStyles = makeStyles(() =>
   createStyles({
     bg: {
-      height: '100vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#5E9EA0',
+      height: "100vh",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#5E9EA0",
     },
   })
 );
 
-function Postinfor({user}:postinforprops): JSX.Element {
+function Postinfor({ user }: postinforprops): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.bg}>

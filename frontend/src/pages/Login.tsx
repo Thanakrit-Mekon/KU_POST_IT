@@ -43,7 +43,7 @@ function Login({ setUser }: LoginProps): JSX.Element {
       <Grid container>
         <Grid item xs={1} md={2} />
         <Grid item xs={10} md={8}>
-          <Create setUser={setUser}/>
+          <Create setUser={setUser} />
         </Grid>
         <Grid item xs={1} md={2} className={classes.bgTeal} />
       </Grid>

@@ -11,8 +11,6 @@ import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
 
-
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -43,21 +41,21 @@ export interface Bodyprops {
 }
 
 interface Subject {
-  contact: string
-  create: string
-  desc: string
-  is_activate: string
-  is_all: boolean
-  last_modify: string
-  post_type: string
+  contact: string;
+  create: string;
+  desc: string;
+  is_activate: string;
+  is_all: boolean;
+  last_modify: string;
+  post_type: string;
   qualification: {
-    year: string
-  }[]
-  quantity: string
-  title: string
-  user_name: string
-  __v: number
-  _id: string
+    year: string;
+  }[];
+  quantity: string;
+  title: string;
+  user_name: string;
+  __v: number;
+  _id: string;
 }
 
 function Body({ user, setUser }: Bodyprops): JSX.Element {
@@ -68,9 +66,8 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     axios.get(`/posts/myposts`).then((response) => {
       setSubjects(response.data);
     });
-    
   }, []);
-  console.log(subjects);  
+  console.log(subjects);
 
   return (
     <Grid className={classes.root}>
@@ -100,7 +97,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
         <DataTable />
         <Grid container justifyContent="center" alignItems="center">
           <Button
-            style={{ marginTop: 50  , marginBottom:50 }}
+            style={{ marginTop: 50, marginBottom: 50 }}
             className={classes.cooler2}
             variant="contained"
             color="primary"
@@ -109,7 +106,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
           </Button>
           <Button
             href="/myposts"
-            style={{ marginTop: 50 , marginLeft:20 , marginBottom:50}}
+            style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
             className={classes.cooler}
             variant="contained"
             color="primary"

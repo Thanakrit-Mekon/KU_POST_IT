@@ -1,6 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Box } from "@material-ui/core";
-import NavBar from '../components/NavBar';
+import NavBar from "../components/NavBar";
 
 import ChangePasswordForm from "../components/ChangePassword/ChangePasswordForm";
 import PasswordRequirement from "../components/ChangePassword/PasswordRequirement";
@@ -33,45 +33,40 @@ function ChangePassword({ user, setUser }: ChangePasswordProps): JSX.Element {
 
   return (
     <div className={classes.root}>
-      <NavBar user={user} setUser={setUser}/>
+      <NavBar user={user} setUser={setUser} />
+      <Grid container className={classes.row}></Grid>
       <Grid container className={classes.row}>
-      </Grid>
-      <Grid container className={classes.row}>
-        <Grid item sm={1}/>
+        <Grid item sm={1} />
         <Grid item sm={10}>
-          <Typography
-            align="left"
-            variant="h4"
-            color="primary"
-          >
-            <Box mt={6} mb={3} fontWeight="fontWeightBold">Change Password</Box>
+          <Typography align="left" variant="h4" color="primary">
+            <Box mt={6} mb={3} fontWeight="fontWeightBold">
+              Change Password
+            </Box>
           </Typography>
-          <Typography
-              align="left"
-              variant="h6"
-          >
-            <Box mt={3} ml={4} fontWeight="fontWeightBold">New Password must contain :</Box>
+          <Typography align="left" variant="h6">
+            <Box mt={3} ml={4} fontWeight="fontWeightBold">
+              New Password must contain :
+            </Box>
           </Typography>
         </Grid>
-        <Grid item sm={1}/>
+        <Grid item sm={1} />
       </Grid>
       <Grid container>
         <Grid item sm={1} />
-        <Grid item sm={3} style={{paddingLeft:25}}>
-            <PasswordRequirement />
-            {/* <Box pr={7}>
+        <Grid item sm={3} style={{ paddingLeft: 25 }}>
+          <PasswordRequirement />
+          {/* <Box pr={7}>
                 <ProfileImage />
             </Box> */}
         </Grid>
         <Grid item sm={5}>
           <Box mt={3}>
-          <ChangePasswordForm />
+            <ChangePasswordForm />
           </Box>
         </Grid>
-        <Grid item sm={2}/>
+        <Grid item sm={2} />
       </Grid>
-      <Grid container className={classes.row}>
-      </Grid>
+      <Grid container className={classes.row}></Grid>
     </div>
   );
 }
