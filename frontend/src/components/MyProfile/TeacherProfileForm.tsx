@@ -12,7 +12,7 @@ import {
   DialogContent,
   DialogContentText,
 } from "@material-ui/core";
-
+import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
@@ -36,16 +36,6 @@ const useStyles = makeStyles(() =>
         borderColor: "#D98804",
       },
     },
-
-    outlinedred: {
-      color: "#E53935",
-      borderColor: "#E53935",
-      "&:hover": {
-        color: "#B71C1C",
-        backgroundColor: "#F9F9F9",
-        borderColor: "#B71C1C",
-      },
-    },
   })
 );
 
@@ -62,8 +52,8 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
   };
 
   const handleClose = () => {
-    // setOpen(false);
-    window.location.reload();
+    setOpen(false);
+    // window.location.reload();
   };
   const formik = useFormik({
     initialValues: {
@@ -186,24 +176,26 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
             justifyContent: "flex-end",
           }}
         >
-          <Button
-            variant="outlined"
-            size="large"
-            className={classes.outlinedred}
-            style={{ marginBottom: "1rem", marginRight: "1rem" }}
-            href="/ta"
-          >
-            Back To Home
-          </Button>
-          <Button
-            variant="outlined"
-            size="large"
-            className={classes.bgyellow}
-            style={{ marginBottom: "1rem", marginRight: "1rem" }}
-            href="/changepassword"
-          >
-            Change Password
-          </Button>
+          <RouterLink to="/ta" style={{ textDecoration:"none" }}>
+                <Button
+                    variant="outlined"
+                    size="large"
+                    color="secondary"
+                    style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                >
+                    Back To Home
+                </Button>
+            </RouterLink>
+            <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
+                <Button
+                    variant="outlined"
+                    size="large"
+                    className={classes.bgyellow}
+                    style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                >
+                    Change Password
+                </Button>
+            </RouterLink>
           <Button
             variant="contained"
             size="large"
