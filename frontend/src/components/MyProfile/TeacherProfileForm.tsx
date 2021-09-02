@@ -11,6 +11,7 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
+  Hidden,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
@@ -94,7 +95,7 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} md={6} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
               label="First Name"
@@ -108,7 +109,7 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} md={6} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
               label="Last Name"
@@ -120,7 +121,7 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
               label="Email"
@@ -132,7 +133,7 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
               disabled
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
               label="Tel"
@@ -144,7 +145,7 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} md={6} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
               label="Faculty"
@@ -156,7 +157,7 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
               disabled
             />
           </Grid>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} md={6} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
               label="Department"
@@ -176,35 +177,99 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
             justifyContent: "flex-end",
           }}
         >
-          <RouterLink to="/ta" style={{ textDecoration:"none" }}>
-                <Button
-                    variant="outlined"
-                    size="large"
-                    color="secondary"
-                    style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                >
-                    Back To Home
-                </Button>
-            </RouterLink>
-            <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
-                <Button
-                    variant="outlined"
-                    size="large"
-                    className={classes.bgyellow}
-                    style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                >
-                    Change Password
-                </Button>
-            </RouterLink>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            type="submit"
-            style={{ marginBottom: "1rem" }}
-          >
-            Save Changes
-          </Button>
+          <Hidden mdDown>
+              <RouterLink to="/ta" style={{ textDecoration:"none" }}>
+                  <Button
+                      variant="outlined"
+                      size="large"
+                      color="secondary"
+                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                  >
+                      Back To Home
+                  </Button>
+              </RouterLink>
+              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
+                  <Button
+                      variant="outlined"
+                      size="large"
+                      className={classes.bgyellow}
+                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                  >
+                      Change Password
+                  </Button>
+              </RouterLink>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              type="submit"
+              style={{ marginBottom: "1rem" }}
+            >
+              Save Changes
+            </Button>
+            </Hidden>
+            <Hidden smDown lgUp>
+              <RouterLink to="/ta" style={{ textDecoration:"none" }}>
+                  <Button
+                      variant="outlined"
+                      size="medium"
+                      color="secondary"
+                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                  >
+                      Back To Home
+                  </Button>
+              </RouterLink>
+              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
+                  <Button
+                      variant="outlined"
+                      size="medium"
+                      className={classes.bgyellow}
+                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                  >
+                      Change Password
+                  </Button>
+              </RouterLink>
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              type="submit"
+              style={{ marginBottom: "1rem" }}
+            >
+              Save Changes
+            </Button>
+            </Hidden>
+            <Hidden mdUp>
+              <RouterLink to="/ta" style={{ textDecoration:"none" }}>
+                  <Button
+                      variant="outlined"
+                      size="small"
+                      color="secondary"
+                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                  >
+                      Back To Home
+                  </Button>
+              </RouterLink>
+              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
+                  <Button
+                      variant="outlined"
+                      size="small"
+                      className={classes.bgyellow}
+                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
+                  >
+                      Change Password
+                  </Button>
+              </RouterLink>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              type="submit"
+              style={{ marginBottom: "1rem" }}
+            >
+              Save Changes
+            </Button>
+            </Hidden>
         </Box>
       </form>
       <Dialog

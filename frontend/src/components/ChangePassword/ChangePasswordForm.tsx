@@ -9,6 +9,7 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
+    Hidden,
   } from "@material-ui/core";
   import { Link as RouterLink } from "react-router-dom";
   import { useFormik } from "formik";
@@ -76,7 +77,7 @@ import {
       <>
         <form onSubmit={formik.handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} style={{ marginBottom: "1rem" }}>
               <TextField
                 size="small"
                 type="password"
@@ -96,7 +97,7 @@ import {
                 </Typography>
               )}
             </Grid>
-            <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} style={{ marginBottom: "1rem" }}>
               <TextField
                 size="small"
                 type="password"
@@ -111,7 +112,7 @@ import {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} style={{ marginBottom: "1rem" }}>
               <TextField
                 size="small"
                 type="password"
@@ -139,6 +140,7 @@ import {
             }}
             mt={3}
           >
+          <Hidden smDown>
           <RouterLink to="/myprofile" style={{ textDecoration:"none" }}>
               <Button
                   variant="outlined"
@@ -158,6 +160,28 @@ import {
             >
               Save Password
             </Button>
+            </Hidden>
+            <Hidden mdUp>
+          <RouterLink to="/myprofile" style={{ textDecoration:"none" }}>
+              <Button
+                  variant="outlined"
+                  size="medium"
+                  color="secondary"
+                  style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                  Cancel
+              </Button>
+          </RouterLink>
+            <Button
+              variant="contained"
+              size="medium"
+              color="primary"
+              type="submit"
+              style={{ marginBottom: "1rem" }}
+            >
+              Save Password
+            </Button>
+            </Hidden>
           </Box>
         </form>
         <Dialog

@@ -1,10 +1,7 @@
-import { Avatar, Box, Button, Input, makeStyles } from "@material-ui/core";
+import { Avatar, Box, Button, Grid, Input, makeStyles } from "@material-ui/core";
 import { createRef, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
-  content: {
-    paddingTop: "1.5rem",
-  },
   large: {
     width: theme.spacing(30),
     height: theme.spacing(30),
@@ -35,30 +32,34 @@ function ProfileImage(): JSX.Element {
   };
   return (
     <>
-      <div className={classes.content}>
-        <Box display="none">
-          <Input
-            inputRef={inputFileRef}
-            id="avatar-image-upload"
-            type="file"
-            onChange={handleOnChange}
-          />
-        </Box>
-        <label htmlFor="avatar-image-upload">
-          <Button
-            variant="outlined"
-            style={{ borderRadius: "50%", padding: "0" }}
-            component="span"
-            onClick={handleClick}
-          >
-            <Avatar
-              className={classes.large}
-              alt="Avatar"
-              src={image || "/img/mascot.png"}
-            />
-          </Button>
-        </label>
-      </div>
+      <Grid container>
+        <Grid item xs={12}>
+          <Box textAlign="center" mt={2}>
+            <Box display="none">
+              <Input
+                inputRef={inputFileRef}
+                id="avatar-image-upload"
+                type="file"
+                onChange={handleOnChange}
+              />
+            </Box>
+            <label htmlFor="avatar-image-upload">
+              <Button
+                variant="outlined"
+                style={{ borderRadius: "50%", padding: "0" ,justifySelf:"center"}}
+                component="span"
+                onClick={handleClick}
+              >
+                <Avatar
+                  className={classes.large}
+                  alt="Avatar"
+                  src={image || "/img/mascot.png"}
+                />
+              </Button>
+            </label>
+          </Box>
+        </Grid>
+      </Grid>
     </>
   );
 }
