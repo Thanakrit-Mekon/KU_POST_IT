@@ -18,6 +18,12 @@ import { User } from "../App";
 import { useEffect, useState } from "react";
 import axios from "../axios";
 import React from "react";
+import { Link } from "react-router-dom";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,6 +49,8 @@ const ColorButton = withStyles((theme: Theme) => ({
     },
   },
 }))(Button);
+
+
 
 export interface MyPostProps {
   user: User | null;
@@ -87,6 +95,17 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
         console.log(response);
       });
   };
+
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
 
   return (
     <div>
@@ -141,27 +160,48 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       justifyContent="space-between"
                       style={{ marginTop: 20 }}
                     >
+                      <Link to={`/myposts/${obj._id}`}
+                      style={{ textDecoration: "none" }}>
                       <Button
-                        href={`/myposts/${obj._id}`}
                         variant="contained"
                         color="primary"
                       >
                         View
                       </Button>
+                      </Link>
+                      <Link to="/posts/edit"
+                      style={{ textDecoration: "none" }}>
                       <ColorButton
-                        href="/posts/edit"
                         variant="contained"
                         color="primary"
                       >
                         Edit
                       </ColorButton>
+                      </Link>
                       <Button
-                        onClick={() => DeletePost(obj._id)}
+                        onClick={handleClickOpen}
                         variant="contained"
                         color="secondary"
                       >
                         Delete
                       </Button>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description">
+                      <DialogTitle id="alert-dialog-title">{"Do you really want to delete this post?"}</DialogTitle>
+                      <DialogContent>
+                      </DialogContent>
+                      <DialogActions>
+                      <Button onClick={handleClose} color="primary">
+                        Cancel
+                      </Button>
+                      <Button onClick={() => DeletePost(obj._id)} color="primary" autoFocus>
+                       Delete
+                      </Button>
+                      </DialogActions>
+                      </Dialog>
                     </Grid>
                   </Grid>
                 </Card>
