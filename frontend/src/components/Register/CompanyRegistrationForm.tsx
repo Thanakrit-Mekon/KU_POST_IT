@@ -5,6 +5,10 @@ import {
   Button,
   Box,
   Link,
+  makeStyles,
+  createStyles,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -33,7 +37,34 @@ const validationSchema = yup.object({
   aboutMe: yup.string(),
 });
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    container: {
+      [theme.breakpoints.down("xs")]: {
+        padding: "10%",
+      },
+    },
+    textField: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "10px",
+      },
+    },
+    end: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "20px",
+      },
+    },
+  })
+);
+
 function CompanyRegistrationForm(): JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [err, setErr] = React.useState(false);
 
@@ -83,7 +114,7 @@ function CompanyRegistrationForm(): JSX.Element {
     },
   });
   return (
-    <>
+    <div className={classes.container}>
       <Typography
         align="center"
         variant="h4"
@@ -94,7 +125,7 @@ function CompanyRegistrationForm(): JSX.Element {
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               label="Company Name"
@@ -108,7 +139,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Email"
@@ -121,7 +152,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               type="password"
@@ -134,7 +165,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               type="password"
@@ -150,7 +181,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Location"
@@ -162,7 +193,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               label="About me"
@@ -174,8 +205,8 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid container spacing={2} style={{ marginBottom: "1rem" }}>
-            <Grid item sm={7}>
+          <Grid container spacing={isMobile ? 0 : 2}>
+            <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
                 size="small"
                 label="Contact"
@@ -187,7 +218,7 @@ function CompanyRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={5}>
+            <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
                 size="small"
                 label="Tel"
@@ -223,7 +254,7 @@ function CompanyRegistrationForm(): JSX.Element {
         </Grid>
         <AlertDialog open={open} setOpen={setOpen} err={err} />
       </form>
-    </>
+    </div>
   );
 }
 

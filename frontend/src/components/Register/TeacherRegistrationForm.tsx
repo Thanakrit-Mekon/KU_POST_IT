@@ -6,6 +6,10 @@ import {
   Box,
   Link,
   MenuItem,
+  makeStyles,
+  createStyles,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import React from "react";
@@ -46,7 +50,35 @@ interface Department {
   department_code: string;
 }
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    container: {
+      [theme.breakpoints.down("xs")]: {
+        padding: "10%",
+      },
+    },
+    textField: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "10px",
+      },
+    },
+    end: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "20px",
+      },
+    },
+  })
+);
+
 function TeacherRegistrationForm(): JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
+
+  const classes = useStyles();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
@@ -114,7 +146,7 @@ function TeacherRegistrationForm(): JSX.Element {
   }, [formik.values.faculty]);
 
   return (
-    <>
+    <div className={classes.container}>
       <Typography
         align="center"
         variant="h4"
@@ -124,8 +156,8 @@ function TeacherRegistrationForm(): JSX.Element {
         <Box fontWeight="fontWeightBold">Create Account</Box>
       </Typography>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+        <Grid container spacing={isMobile ? 0 : 2}>
+          <Grid item xs={12} sm={6} className={classes.textField}>
             <TextField
               size="small"
               label="First Name"
@@ -139,7 +171,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} sm={6} className={classes.end}>
             <TextField
               size="small"
               label="Last Name"
@@ -153,7 +185,7 @@ function TeacherRegistrationForm(): JSX.Element {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Email"
@@ -166,7 +198,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               type="password"
@@ -179,7 +211,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               type="password"
@@ -195,7 +227,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Tel"
@@ -208,8 +240,8 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item sm={7} style={{ marginBottom: "1rem" }}>
+          <Grid container spacing={isMobile ? 0 : 2}>
+            <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
                 size="small"
                 select
@@ -230,7 +262,7 @@ function TeacherRegistrationForm(): JSX.Element {
                   })}
               </TextField>
             </Grid>
-            <Grid item sm={5} style={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
                 size="small"
                 select
@@ -277,7 +309,7 @@ function TeacherRegistrationForm(): JSX.Element {
         </Grid>
         <AlertDialog open={open} setOpen={setOpen} err={err} />
       </form>
-    </>
+    </div>
   );
 }
 
