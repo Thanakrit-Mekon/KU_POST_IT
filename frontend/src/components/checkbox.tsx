@@ -65,7 +65,7 @@ export default function LongMenu({ setUser }: LongMenuProps) {
         <Link to="/myposts" style={{ textDecoration: "none", color: "black" }}>
           <MenuItem style={{ paddingLeft: 13 }}>View my posts</MenuItem>
         </Link>
-        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/joinedposts" style={{ textDecoration: "none", color: "black" }}>
           <MenuItem style={{ paddingLeft: 13 }}>Joined posts</MenuItem>
         </Link>
         <LinkMat
