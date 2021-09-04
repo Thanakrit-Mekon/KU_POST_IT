@@ -4,13 +4,14 @@ import {
     Box,
     Grid,
     Card,
+    Chip,
     Avatar,
     Button,
     Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle
+    IconButton,
+    Theme, 
+    withStyles, 
+    WithStyles
   } from "@material-ui/core";
 import NavBar from "../components/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,6 +21,12 @@ import { useEffect, useState } from "react";
 import axios from "../axios";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { User } from "../App";
+
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import MuiDialogActions from '@material-ui/core/DialogActions';
+import CloseIcon from '@material-ui/icons/Close';
+import { shadows } from '@material-ui/system';
   
 interface Subject {
     answer: string;
@@ -29,7 +36,7 @@ interface Subject {
     create: string;
     desc: string;
     id: string;
-    is_activate: string;
+    is_activate: boolean;
     is_all: boolean;
     last_modify: string;
     post_type: string;
@@ -60,7 +67,20 @@ const useStyles = makeStyles(() =>
         "&:hover": { backgroundColor: "#F9A41A" },
       },
       submitted: {
-        backgroundColor: "#DDDDDD"
+        backgroundColor: "#ECECEC"
+      },
+      unsubmitted: {
+        backgroundColor: "#FFFFFF"
+      },
+      open: {
+        color: "#5E9EA0",
+        boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+        backgroundColor: "#FFFFFF"
+      },
+      closed: {
+        color: "#C7302B",
+        boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+        backgroundColor: "#FFFFFF"
       },
     })
 );
@@ -69,6 +89,55 @@ export interface queryuserprops {
     user: User | null;
     setUser: (user: User | null) => void;
 }
+
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      margin: 0,
+      padding: theme.spacing(2),
+      color: theme.palette.primary.main
+    },
+    closeButton: {
+      position: 'absolute',
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500],
+    },
+  });
+
+export interface DialogTitleProps extends WithStyles<typeof styles> {
+  id: string;
+  children: React.ReactNode;
+  onClose: () => void;
+}
+
+const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles((theme: Theme) => ({
+  root: {
+    padding: theme.spacing(2),
+    width: 500
+  },
+}))(MuiDialogContent);
+
+const DialogActions = withStyles((theme: Theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+}))(MuiDialogActions);
   
 function JoinedPosts({ user, setUser }: queryuserprops) {
     const classes = useStyles();
@@ -124,11 +193,11 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                   Joined Posts
                 </Box>
               </Typography>
-              <Typography variant="subtitle1">
+              {/* <Typography variant="subtitle1">
                 <Box mb={5}>
-                  joinedposts
+                  สำหรับนิสิตที่ต้องการดูโพสที่ตนได้ทำการสมัครแล้ว นิสิตสามารถเลือกดูโพสที่นิสิตสมัครได้ในทุกหมวดหมู่
                 </Box>
-              </Typography>
+              </Typography> */}
             </Grid>
           </Grid>
   
@@ -136,8 +205,9 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
             {subjects.map((obj) => {
               return (
                 <Grid item sm={4}>
-                  <Card style={{ padding: 20 }} className={classes.submitted}>
+                  <Card style={{ padding: 20 }} className={(obj.is_activate===false) ? classes.submitted : classes.unsubmitted}>
                     <Grid container direction="column" alignItems="center">
+                      <Chip style={{alignSelf:"flex-start"}} size="small" className={(obj.is_activate===false) ? classes.closed : classes.open} label={(obj.is_activate===false) ? "closed" : "open"}/>
                       <Avatar />
                       {obj.name ? <Box>{obj.name}</Box> : <Box>{obj.first_name}  {obj.last_name}</Box>}
                       
@@ -163,10 +233,6 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                         คน
                       </Box>
   
-                      <Box>
-                        { (obj.is_activate==="false") ? <Box>Submitted</Box> : null}
-                      </Box>
-
                       <Grid
                         container
                         justifyContent="center"
@@ -175,42 +241,47 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                         <Button variant="contained" color="primary" onClick={() => handleClickOpen(obj.title)}>
                           View
                         </Button>
-                        <Dialog
+
+                        {scroll===obj.title && <Dialog
+                          //maxWidth="md"
+                          aria-labelledby="customized-dialog-title"
                           open={open}
                           onClose={handleClose}
-                          aria-labelledby="alert-dialog-title"
-                          aria-describedby="alert-dialog-description"
                         >
-                        <DialogTitle id="alert-dialog-title">{obj.title}</DialogTitle>
-                        <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
+                        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+                            {obj.title}
+                        </DialogTitle>
+                        <DialogContent dividers>
                             <Typography variant="h6" color="primary">
-                            <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
+                              <Box >รายละเอียดเพิ่มเติม</Box>
+                            </Typography>
+                            <Typography variant="subtitle1">
+                              {obj.desc}
                             </Typography>
 
-                            <Typography variant="subtitle1">
-                                {obj.desc}
-                            </Typography>
                             <Typography variant="h6" color="primary">
-                                <Box mt={3}>ช่องทางการติดต่อ</Box>
+                              <Box mt={3}>ช่องทางการติดต่อ</Box>
                             </Typography>
                             <Typography variant="subtitle1">
-                                {obj.contact}
+                              {obj.contact}
                             </Typography>
+
                             <Typography variant="h6" color="primary">
-                                <Box mt={3}>คำตอบของคุณ</Box>
+                              <Box mt={3}>คำตอบของคุณ</Box>
                             </Typography>
                             <Typography variant="subtitle1">
-                                {obj.answer}
+                              {obj.answer}
                             </Typography>
-                        </DialogContentText>
+                            <Typography variant="subtitle1" color="secondary">
+                              <Box>{obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}</Box>
+                            </Typography>
                         </DialogContent>
-                        <DialogActions>
+                        {/* <DialogActions>
                         <Button onClick={handleClose} color="primary">
                           Back
                         </Button>
-                        </DialogActions>
-                        </Dialog>
+                        </DialogActions> */}
+                        </Dialog>}
                       </Grid>
                     </Grid>
                   </Card>
