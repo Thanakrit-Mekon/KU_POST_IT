@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { Link as LinkMat } from "@material-ui/core";
 import { User } from "../App";
-import { useHistory, Link } from "react-router-dom";
+import {  useHistory, Link } from "react-router-dom";
 import axios from "../axios";
 
 const ITEM_HEIGHT = 48;
@@ -59,14 +59,14 @@ export default function LongMenu({ setUser }: LongMenuProps) {
           },
         }}
       >
-        <Link
-          to="/myprofile"
-          style={{ textDecoration: "none", color: "black" }}
-        >
+        <Link to="/myprofile" style={{ textDecoration: "none", color: "black" }} >
           <MenuItem style={{ paddingLeft: 13 }}>Edit profile</MenuItem>
         </Link>
         <Link to="/myposts" style={{ textDecoration: "none", color: "black" }}>
           <MenuItem style={{ paddingLeft: 13 }}>View my posts</MenuItem>
+        </Link>
+        <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+          <MenuItem style={{ paddingLeft: 13 }}>Joined posts</MenuItem>
         </Link>
         <LinkMat
           onClick={() => onLogout()}

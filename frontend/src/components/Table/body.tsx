@@ -10,6 +10,13 @@ import Container from "@material-ui/core/Container";
 import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import React from 'react';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,6 +47,8 @@ export interface Bodyprops {
   setUser: (user: User | null) => void;
 }
 
+
+
 interface Subject {
   contact: string;
   create: string;
@@ -56,15 +65,30 @@ interface Subject {
   user_name: string;
   __v: number;
   _id: string;
+  numberAppli:string;
 }
 
 function Body({ user, setUser }: Bodyprops): JSX.Element {
   const classes = useStyles();
 
-  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [subjects, setSubjects] = useState<Subject>({} as Subject);
   useEffect(() => {
-    axios.get(`/posts/myposts`).then((response) => {
+    axios.get('/csv/headTable').then((response) => {
       setSubjects(response.data);
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      console.log(error.message);
     });
   }, []);
   console.log(subjects);
@@ -82,11 +106,11 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
         >
           <Typography variant="h4">
             <Grid item>
-              TA รายวิชา Database 01204xxx
+              {subjects.title} Software Engineering
               <Chip
                 className={classes.cooler3}
                 style={{ marginLeft: 20 }}
-                label="26 คน"
+                label = {`${subjects.numberAppli} คน`}
               />
             </Grid>
           </Typography>
@@ -101,18 +125,41 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             className={classes.cooler2}
             variant="contained"
             color="primary"
+            onClick={handleClickOpen}
           >
             Submit
           </Button>
-          <Button
-            href="/myposts"
-            style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
-            className={classes.cooler}
-            variant="contained"
-            color="primary"
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
           >
-            Back
-          </Button>
+            <DialogTitle id="alert-dialog-title">{"PIPI KENG JUNG"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                submit success!!
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary" autoFocus>
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Link to={`/myposts`}
+              style={{ textDecoration: "none" }}>
+            <Button
+              href="/myposts"
+              style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
+              className={classes.cooler}
+              variant="contained"
+              color="primary"
+            >
+              Back
+            </Button>
+          </Link>
         </Grid>
       </Container>
     </Grid>
