@@ -71,7 +71,7 @@ export default function LongMenu({ setUser }: LongMenuProps) {
         <LinkMat
           onClick={() => onLogout()}
           style={{ textDecoration: "none", color: "black" }}
-        >
+        >   
           <MenuItem style={{ paddingLeft: 13 }}>Sign out</MenuItem>
         </LinkMat>
       </Menu>
