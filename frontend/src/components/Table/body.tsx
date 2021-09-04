@@ -143,7 +143,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose} color="primary" autoFocus>
-                Agree
+                Acknowledge
               </Button>
             </DialogActions>
           </Dialog>
