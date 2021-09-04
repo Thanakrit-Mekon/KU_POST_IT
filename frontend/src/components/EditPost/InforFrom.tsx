@@ -108,11 +108,6 @@ export default function PostForm({user}:postinforprops): JSX.Element {
     },
   });
 
-  
-
-  
-  
-
   return (
     <>
       <main className={classes.layout}>

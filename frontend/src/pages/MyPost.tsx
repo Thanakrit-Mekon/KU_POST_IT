@@ -169,7 +169,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         View
                       </Button>
                       </Link>
-                      <Link to="/posts/edit"
+                      <Link to={`/posts/edit/${obj._id}`}
                       style={{ textDecoration: "none" }}>
                       <ColorButton
                         variant="contained"

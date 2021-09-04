@@ -84,7 +84,7 @@ function App(): JSX.Element {
             <CreatePost />
           </PrivateRoute>
           <PrivateRoute
-            path="/posts/:postId/edit"
+            path="/posts/edit/:postId"
             isAuthenticated={isAuthenticated}
           >
             <EditPost />
