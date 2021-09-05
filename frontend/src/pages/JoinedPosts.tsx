@@ -250,7 +250,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                           onClose={handleClose}
                         >
                         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                            {obj.title}
+                            {obj.title} <Chip style={{alignSelf:"flex-start"}} size="small" className={classes.closed} label={obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}/>
                         </DialogTitle>
                         <DialogContent dividers>
                             <Typography variant="h6" color="primary">
@@ -274,9 +274,9 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                               {obj.answer}
                             </Typography>
 
-                            <Typography variant="subtitle1" color="secondary">
+                            {/* <Typography variant="subtitle1" color="secondary">
                               <Box>{obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}</Box>
-                            </Typography>
+                            </Typography> */}
                         </DialogContent>
                         {/* <DialogActions>
                         <Button onClick={handleClose} color="primary">
