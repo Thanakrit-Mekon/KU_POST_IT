@@ -13,6 +13,11 @@ import {
   Fab,
   withStyles,
   RadioProps,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -138,7 +143,6 @@ function FormCreatePost() {
         .post("/posts/create", userData)
         .then(function (response) {
           console.log(response);
-          history.push("/myposts");
         })
         .catch(function (error) {
           console.log(error);
@@ -192,6 +196,16 @@ function FormCreatePost() {
     );
   };
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid
@@ -204,14 +218,37 @@ function FormCreatePost() {
           Create Post
         </Typography>
         <div className={classes.buttons}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ marginRight: 10 }}
-          >
-            Post
-          </Button>
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ marginRight: 10 }}
+              onClick={handleClickOpen}
+            >
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Your post already create.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Link to = "/myposts" style={{ textDecoration: "none" }}>
+                    <Button onClick={handleClose} color="primary" autoFocus>
+                      Continue
+                    </Button>
+                  </Link>
+                </DialogActions>
+              </Dialog>
+              Post
+            </Button>
+          </div>
           <Link to="/ta" style={{ textDecoration: "none" }}>
             <Button
               variant="outlined"
@@ -241,7 +278,7 @@ function FormCreatePost() {
             size="medium"
             fullWidth
             variant="outlined"
-            label="Students"
+            label="Number of Students"
             name="number"
             value={formik.values.number}
             onChange={formik.handleChange}
