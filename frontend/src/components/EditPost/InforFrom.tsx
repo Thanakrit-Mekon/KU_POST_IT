@@ -13,16 +13,15 @@ import { useFormik } from "formik";
 import axios from "../../axios";
 import { useHistory, useParams } from "react-router-dom";
 import { User } from "../../App";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import {Link as Routerlink } from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import { Link as Routerlink } from "react-router-dom";
 
 export interface postinforprops {
   user: User | null;
-  
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -70,7 +69,7 @@ interface ParamType {
   postId: string;
 }
 
-export default function PostForm({user}:postinforprops): JSX.Element {
+export default function PostForm({ user }: postinforprops): JSX.Element {
   const history = useHistory();
   const param = useParams<ParamType>();
   const classes = useStyles();
@@ -97,6 +96,8 @@ export default function PostForm({user}:postinforprops): JSX.Element {
         post_id: subject.id,
         post_type: subject.post_type,
       };
+      if (data.answer === "") data.answer = "-";
+      console.log(data);
       axios.post("/answers/create", data).then(function (response) {
         console.log(response);
         if (response.status === 200 || response.status === 201) {
@@ -104,14 +105,8 @@ export default function PostForm({user}:postinforprops): JSX.Element {
         }
         // history.push(`/${subject.post_type}`);
       });
-      
     },
   });
-
-  
-
-  
-  
 
   return (
     <>
@@ -127,9 +122,7 @@ export default function PostForm({user}:postinforprops): JSX.Element {
               return (
                 <Chip
                   style={{ marginRight: "0.5rem" }}
-                  label={`${obj.faculty_code} | ${
-                    obj.department_code
-                  } | ชั้นปีที่ ${obj.year}`}
+                  label={`${obj.faculty_code} | ${obj.department_code} | ชั้นปีที่ ${obj.year}`}
                   color="primary"
                   key={obj.department_code}
                 />
@@ -161,7 +154,7 @@ export default function PostForm({user}:postinforprops): JSX.Element {
               >
                 {subject.contact}
               </Typography>
-              
+
               <form onSubmit={formik.handleSubmit}>
                 <TextField
                   name="feedback"
@@ -193,13 +186,13 @@ export default function PostForm({user}:postinforprops): JSX.Element {
                 </Box> */}
                 <Box mt={4} ml={35} mr={35}>
                   <Grid
-                    container 
+                    container
                     direction="row"
                     justifyContent="space-around"
                     alignItems="center"
                     style={{ paddingTop: "20" }}
                   >
-                    <Button 
+                    <Button
                       variant="contained"
                       color="primary"
                       size="large"
@@ -212,29 +205,36 @@ export default function PostForm({user}:postinforprops): JSX.Element {
                       aria-labelledby="alert-dialog-title"
                       aria-describedby="alert-dialog-description"
                     >
-                      <DialogTitle id="alert-dialog-title">{"Congratulations"}</DialogTitle>
+                      <DialogTitle id="alert-dialog-title">
+                        {"Congratulations"}
+                      </DialogTitle>
                       <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                        Your answer form has been submitted.
+                          Your answer form has been submitted.
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
-                        <Routerlink to={`/${subject.post_type}`} style={{ textDecoration:"none" }}> 
-                        <Button  color="primary" autoFocus>
-                          OK
-                        </Button>
+                        <Routerlink
+                          to={`/${subject.post_type}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Button color="primary" autoFocus>
+                            OK
+                          </Button>
                         </Routerlink>
                       </DialogActions>
                     </Dialog>
-                    <Routerlink to={`/${subject.post_type}`} style={{ textDecoration:"none" }}> 
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      size="large" 
-                      
+                    <Routerlink
+                      to={`/${subject.post_type}`}
+                      style={{ textDecoration: "none" }}
                     >
-                      Back
-                    </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        size="large"
+                      >
+                        Back
+                      </Button>
                     </Routerlink>
                   </Grid>
                 </Box>
