@@ -83,6 +83,21 @@ const useStyles = makeStyles(() =>
         boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
         backgroundColor: "#FFFFFF"
       },
+      notconsider: {
+        color: "#FFFFFF",
+        boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+        backgroundColor: "#F1B663",
+      },
+      selected: {
+        color: "#FFFFFF",
+        boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+        backgroundColor: "#5E9EA0"
+      },
+      notselected: {
+        color: "#FFFFFF",
+        boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
+        backgroundColor: "#d9534f"
+      },
     })
 );
   
@@ -250,7 +265,8 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                           onClose={handleClose}
                         >
                         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-                            {obj.title} <Chip style={{alignSelf:"flex-start"}} size="small" className={classes.closed} label={obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}/>
+                            {/* <Box>{obj.title}</Box> */}
+                            {obj.title} <Chip style={{alignSelf:"flex-start"}} size="small" className={obj.status ? classes.selected : (obj.is_activate===true) ? classes.notconsider : classes.notselected} label={obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}/>
                         </DialogTitle>
                         <DialogContent dividers>
                             <Typography variant="h6" color="primary">
@@ -273,7 +289,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                             <Typography variant="subtitle1">
                               {obj.answer}
                             </Typography>
-
+                            
                             {/* <Typography variant="subtitle1" color="secondary">
                               <Box>{obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}</Box>
                             </Typography> */}
