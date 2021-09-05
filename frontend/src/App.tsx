@@ -9,6 +9,7 @@ import CsvTable from "./pages/csvTable";
 import QueryUser from "./pages/QueryUser";
 import Postinfor from "./pages/Postinfor";
 import ChangePassword from "./pages/ChangePassword";
+import JoinedPosts from "./pages/JoinedPosts";
 import "@fontsource/roboto";
 import { useEffect, useState } from "react";
 import axios from "./axios";
@@ -100,6 +101,9 @@ function App(): JSX.Element {
           </PrivateRoute>
           <PrivateRoute path="/myposts" isAuthenticated={isAuthenticated}>
             <MyPost user={user} setUser={setUser} />
+          </PrivateRoute>
+          <PrivateRoute path="/joinedposts" isAuthenticated={isAuthenticated}>
+              <JoinedPosts user={user} setUser={setUser} />
           </PrivateRoute>
           <Route path="/" exact>
             <Login setUser={setUser} />
