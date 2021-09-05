@@ -169,9 +169,9 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
     const [open, setOpen] = useState(false);
     const [scroll, setScroll] = useState("aaa");
 
-    const handleClickOpen = (title: string) => {
+    const handleClickOpen = (id: string) => {
         setOpen(true);
-        setScroll(title);
+        setScroll(id);
     };
 
     const handleClose = () => {
@@ -194,11 +194,11 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                   Joined Posts
                 </Box>
               </Typography>
-              {/* <Typography variant="subtitle1">
-                <Box mb={5}>
+              <Typography variant="subtitle1">
+                {/* <Box mb={5}>
                   สำหรับนิสิตที่ต้องการดูโพสที่ตนได้ทำการสมัครแล้ว นิสิตสามารถเลือกดูโพสที่นิสิตสมัครได้ในทุกหมวดหมู่
-                </Box>
-              </Typography> */}
+                </Box> */}
+              </Typography>
             </Grid>
           </Grid>
   
@@ -239,11 +239,11 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                         justifyContent="center"
                         style={{ marginTop: 20 }}
                       >
-                        <Button variant="contained" color="primary" onClick={() => handleClickOpen(obj.title)}>
+                        <Button variant="contained" color="primary" onClick={() => handleClickOpen(obj.id)}>
                           View
                         </Button>
 
-                        {scroll===obj.title && <Dialog
+                        {scroll===obj.id && <Dialog
                           //maxWidth="md"
                           aria-labelledby="customized-dialog-title"
                           open={open}
