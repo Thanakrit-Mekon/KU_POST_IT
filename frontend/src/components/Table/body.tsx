@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link , useParams } from "react-router-dom";
 import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -66,6 +66,10 @@ interface Subject {
   numberAppli: string;
 }
 
+interface ParamType {
+  postId: string;
+}
+
 function Body({ user, setUser }: Bodyprops): JSX.Element {
   const classes = useStyles();
 
@@ -80,9 +84,10 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   };
 
   const [subjects, setSubjects] = useState<Subject>({} as Subject);
+  const param = useParams<ParamType>();
   useEffect(() => {
     axios
-      .get("/csv/headTable")
+      .get(`/csv/headTable/${param.postId}`)
       .then((response) => {
         setSubjects(response.data);
         console.log(response.data);
@@ -90,7 +95,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
       .catch(function (error) {
         console.log(error.message);
       });
-  }, []);
+  }, [param.postId]);
   console.log(subjects);
 
   return (
