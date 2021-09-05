@@ -4,15 +4,19 @@ import {
   Grid,
   Button,
   Box,
-  Checkbox,
   Link,
   MenuItem,
+  makeStyles,
+  createStyles,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
-import { useHistory } from "react-router";
+import React from "react";
+import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -49,11 +53,49 @@ interface Department {
   department_code: string;
 }
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    container: {
+      [theme.breakpoints.down("xs")]: {
+        padding: "10%",
+      },
+    },
+    textField: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "10px",
+      },
+    },
+    end: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "20px",
+      },
+    },
+  })
+);
+
 function StudentRegistrationForm(): JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
+
+  const classes = useStyles();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [err, setErr] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpenWithError = () => {
+    setErr(true);
+    setOpen(true);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -86,10 +128,11 @@ function StudentRegistrationForm(): JSX.Element {
         .post("/user/student", userData)
         .then(function (response) {
           console.log(response);
-          history.push("/login");
+          handleClickOpen();
         })
         .catch(function (error) {
           console.log(error);
+          handleClickOpenWithError();
         });
     },
   });
@@ -109,18 +152,18 @@ function StudentRegistrationForm(): JSX.Element {
   }, [formik.values.faculty]);
 
   return (
-    <>
+    <div className={classes.container}>
       <Typography
         align="center"
         variant="h4"
         color="primary"
-        style={{ paddingBottom: "1rem" }}
+        style={{ paddingBottom: "1.5rem" }}
       >
         <Box fontWeight="fontWeightBold">Create Account</Box>
       </Typography>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+        <Grid container spacing={isMobile ? 0 : 2}>
+          <Grid item xs={12} sm={6} className={classes.textField}>
             <TextField
               size="small"
               label="First Name"
@@ -134,7 +177,7 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} sm={6} className={classes.end}>
             <TextField
               size="small"
               label="Last Name"
@@ -148,7 +191,7 @@ function StudentRegistrationForm(): JSX.Element {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Email"
@@ -161,7 +204,7 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               type="password"
@@ -174,7 +217,7 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               type="password"
@@ -190,8 +233,8 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item sm={7} style={{ marginBottom: "1rem" }}>
+          <Grid container spacing={isMobile ? 0 : 2}>
+            <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
                 size="small"
                 select
@@ -212,7 +255,7 @@ function StudentRegistrationForm(): JSX.Element {
                   })}
               </TextField>
             </Grid>
-            <Grid item sm={5} style={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
                 size="small"
                 select
@@ -237,8 +280,12 @@ function StudentRegistrationForm(): JSX.Element {
               </TextField>
             </Grid>
           </Grid>
-          <Grid container spacing={2} style={{ marginBottom: 5 }}>
-            <Grid item sm={7}>
+          <Grid
+            container
+            spacing={isMobile ? 0 : 2}
+            style={{ marginBottom: 5 }}
+          >
+            <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
                 size="small"
                 label="Student ID"
@@ -253,7 +300,7 @@ function StudentRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={5}>
+            <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
                 size="small"
                 label="Tel"
@@ -265,26 +312,6 @@ function StudentRegistrationForm(): JSX.Element {
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 fullWidth
               />
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Checkbox color="primary" />
-              <Typography variant="body1">
-                <Box fontSize={15}>
-                  I accept the terms of the offer of &nbsp;
-                  <Link href="/" color="primary">
-                    the privacy policy
-                  </Link>
-                </Box>
-              </Typography>
             </Grid>
           </Grid>
           <Button
@@ -307,8 +334,9 @@ function StudentRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
+        <AlertDialog open={open} setOpen={setOpen} err={err} />
       </form>
-    </>
+    </div>
   );
 }
 

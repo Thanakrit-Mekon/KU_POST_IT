@@ -4,24 +4,28 @@ import {
   Grid,
   Button,
   Box,
-  Checkbox,
   Link,
   MenuItem,
+  makeStyles,
+  createStyles,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import { useFormik } from "formik";
+import React from "react";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import * as yup from "yup";
 import axios from "../../axios";
+import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
   password: yup
     .string()
     .min(8)
-    .matches(
-      /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
-    )
+    // .matches(
+    //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
+    // )
     .required(),
   confirmPassword: yup
     .string()
@@ -46,11 +50,49 @@ interface Department {
   department_code: string;
 }
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    container: {
+      [theme.breakpoints.down("xs")]: {
+        padding: "10%",
+      },
+    },
+    textField: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "10px",
+      },
+    },
+    end: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "20px",
+      },
+    },
+  })
+);
+
 function TeacherRegistrationForm(): JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
+
+  const classes = useStyles();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
+  const [err, setErr] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpenWithError = () => {
+    setErr(true);
+    setOpen(true);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -80,10 +122,11 @@ function TeacherRegistrationForm(): JSX.Element {
         .post("/user/teacher", userData)
         .then(function (response) {
           console.log(response);
-          history.push("/login");
+          handleClickOpen();
         })
         .catch(function (error) {
           console.log(error);
+          handleClickOpenWithError();
         });
     },
   });
@@ -103,7 +146,7 @@ function TeacherRegistrationForm(): JSX.Element {
   }, [formik.values.faculty]);
 
   return (
-    <>
+    <div className={classes.container}>
       <Typography
         align="center"
         variant="h4"
@@ -113,8 +156,8 @@ function TeacherRegistrationForm(): JSX.Element {
         <Box fontWeight="fontWeightBold">Create Account</Box>
       </Typography>
       <form onSubmit={formik.handleSubmit}>
-        <Grid container spacing={2}>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+        <Grid container spacing={isMobile ? 0 : 2}>
+          <Grid item xs={12} sm={6} className={classes.textField}>
             <TextField
               size="small"
               label="First Name"
@@ -128,7 +171,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} sm={6} className={classes.end}>
             <TextField
               size="small"
               label="Last Name"
@@ -142,7 +185,7 @@ function TeacherRegistrationForm(): JSX.Element {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Email"
@@ -155,7 +198,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               type="password"
@@ -168,7 +211,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               type="password"
@@ -184,7 +227,7 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Tel"
@@ -197,8 +240,8 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item sm={7} style={{ marginBottom: "1rem" }}>
+          <Grid container spacing={isMobile ? 0 : 2}>
+            <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
                 size="small"
                 select
@@ -219,7 +262,7 @@ function TeacherRegistrationForm(): JSX.Element {
                   })}
               </TextField>
             </Grid>
-            <Grid item sm={5} style={{ marginBottom: "1rem" }}>
+            <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
                 size="small"
                 select
@@ -244,26 +287,6 @@ function TeacherRegistrationForm(): JSX.Element {
               </TextField>
             </Grid>
           </Grid>
-          <Grid container>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Checkbox color="primary" />
-              <Typography variant="body1">
-                <Box fontSize={15}>
-                  I accept the terms of the offer of &nbsp;
-                  <Link href="/" color="primary">
-                    the privacy policy
-                  </Link>
-                </Box>
-              </Typography>
-            </Grid>
-          </Grid>
           <Button
             variant="contained"
             size="large"
@@ -284,8 +307,9 @@ function TeacherRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
+        <AlertDialog open={open} setOpen={setOpen} err={err} />
       </form>
-    </>
+    </div>
   );
 }
 

@@ -4,22 +4,26 @@ import {
   Grid,
   Button,
   Box,
-  Checkbox,
   Link,
+  makeStyles,
+  createStyles,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
   password: yup
     .string()
     .min(8)
-    .matches(
-      /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
-    )
+    // .matches(
+    //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
+    // )
     .required(),
   confirmPassword: yup
     .string()
@@ -33,8 +37,45 @@ const validationSchema = yup.object({
   aboutMe: yup.string(),
 });
 
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    container: {
+      [theme.breakpoints.down("xs")]: {
+        padding: "10%",
+      },
+    },
+    textField: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "10px",
+      },
+    },
+    end: {
+      marginBottom: "1rem",
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: "20px",
+      },
+    },
+  })
+);
+
 function CompanyRegistrationForm(): JSX.Element {
-  const history = useHistory();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [err, setErr] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpenWithError = () => {
+    setErr(true);
+    setOpen(true);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -64,15 +105,16 @@ function CompanyRegistrationForm(): JSX.Element {
         .post("/user/company", userData)
         .then(function (response) {
           console.log(response);
-          history.push("/login");
+          handleClickOpen();
         })
         .catch(function (error) {
           console.log(error);
+          handleClickOpenWithError();
         });
     },
   });
   return (
-    <>
+    <div className={classes.container}>
       <Typography
         align="center"
         variant="h4"
@@ -83,7 +125,7 @@ function CompanyRegistrationForm(): JSX.Element {
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               label="Company Name"
@@ -97,7 +139,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Email"
@@ -110,7 +152,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               type="password"
@@ -123,7 +165,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               type="password"
@@ -139,7 +181,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
               label="Location"
@@ -151,7 +193,7 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
               label="About me"
@@ -163,8 +205,8 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          <Grid container spacing={2} style={{ marginBottom: "1rem" }}>
-            <Grid item sm={7}>
+          <Grid container spacing={isMobile ? 0 : 2}>
+            <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
                 size="small"
                 label="Contact"
@@ -176,7 +218,7 @@ function CompanyRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
-            <Grid item sm={5}>
+            <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
                 size="small"
                 label="Tel"
@@ -188,26 +230,6 @@ function CompanyRegistrationForm(): JSX.Element {
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 fullWidth
               />
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid
-              item
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Checkbox color="primary" />
-              <Typography variant="body1">
-                <Box fontSize={15}>
-                  I accept the terms of the offer of &nbsp;
-                  <Link href="/" color="primary">
-                    the privacy policy
-                  </Link>
-                </Box>
-              </Typography>
             </Grid>
           </Grid>
           <Button
@@ -230,8 +252,9 @@ function CompanyRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
+        <AlertDialog open={open} setOpen={setOpen} err={err} />
       </form>
-    </>
+    </div>
   );
 }
 

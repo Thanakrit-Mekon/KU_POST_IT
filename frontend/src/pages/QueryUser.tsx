@@ -6,6 +6,8 @@ import {
   Card,
   Avatar,
   Button,
+  Switch,
+  FormControlLabel,
 } from "@material-ui/core";
 import NavBar from "../components/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,6 +17,7 @@ import { useEffect, useState } from "react";
 import axios from "../axios";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { User } from "../App";
+
 
 interface Subject {
   candidate: number;
@@ -64,6 +67,14 @@ function QueryUser({ user, setUser }: queryuserprops) {
   const classes = useStyles();
   const location = useLocation();
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [state, setState] = useState({
+    checkedA: false,
+    
+  });
+
+  const handleChange = (event : any) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
   var usertype = -1;
   if (user?.location) {
     usertype = 3;
@@ -89,7 +100,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
   return (
     <div>
       <NavBar user={user} setUser={setUser} />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Grid
           container
           direction="row"
@@ -117,6 +128,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
             </Typography>
           </Grid>
           <Grid item>
+
             {(location.pathname === "/ta" && usertype === 2) ||
             (location.pathname === "/coop" && usertype === 1) ||
             (location.pathname === "/intern" && usertype === 3) ? (
@@ -124,48 +136,94 @@ function QueryUser({ user, setUser }: queryuserprops) {
                 <Button className={classes.change} variant="contained">
                   Create Post
                 </Button>
+                
               </Link>
             ) : (
               <></>
             )}
+            
           </Grid>
         </Grid>
+        
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          <FormControlLabel
+          control={<Switch
+              checked={state.checkedA}
+              onChange={handleChange}
+              name="checkedA"
+              color="primary"
 
+            /> }
+          label="Show only unjoined posts"
+        />
+         
+            
+        </Grid>
         <Grid container spacing={5}>
           {subjects.map((obj) => {
+             if (state.checkedA && obj.thisusersubmit) {
+              return (
+                <></>
+              );
+              }
+              else {
             return (
+              
               <Grid item sm={4}>
-                <Card style={{ padding: 20 }}>
+                <Card style={{ padding: 20 , height :270}}>
                   <Grid container direction="column" alignItems="center">
                     <Avatar />
-                    {obj.name ? <Box>{obj.name}</Box> : <Box>{obj.first_name}  {obj.last_name}</Box>}
-                    
+                    {obj.name ? (
+                      <Box>{obj.name}</Box>
+                    ) : (
+                      <Box>
+                        {obj.first_name} {obj.last_name}
+                      </Box>
+                    )}
+
                     <Typography color="primary">
                       <Box fontWeight="bold" color="primary">
                         {obj.title}
                       </Box>
                     </Typography>
                     <Box>
-                      {obj.isDueDate && "สิ้นสุดการรับสมัคร : "+obj.dueDate.slice(8,10)+"/"+obj.dueDate.slice(5,7)+"/"+obj.dueDate.slice(0,4)  }
+                      {obj.isDueDate &&
+                        "Duedate : " +
+                          obj.dueDate.slice(8, 10) +
+                          "/" +
+                          obj.dueDate.slice(5, 7) +
+                          "/" +
+                          obj.dueDate.slice(0, 4)}
                     </Box>
                     <Box>
-                      {obj.hasPeriod && "เริ่มทำงาน : "+obj.startDate.slice(8,10)+"/"+obj.startDate.slice(5,7)+"/"+obj.startDate.slice(0,4)}
+                      {obj.hasPeriod &&
+                        "Work peroid : " +
+                          obj.startDate.slice(8, 10) +
+                          "/" +
+                          obj.startDate.slice(5, 7) +
+                          "/" +
+                          obj.startDate.slice(0, 4) +
+                          " - "+
+                          obj.endDate.slice(8, 10) +
+                          "/" +
+                          obj.endDate.slice(5, 7) +
+                          "/" +
+                          obj.endDate.slice(0, 4)} 
+
                     </Box>
-                    <Box>
-                      {obj.hasPeriod && "ถึงวันที่ "+obj.endDate.slice(8,10)+"/"+obj.endDate.slice(5,7)+"/"+obj.endDate.slice(0,4) }
-                    </Box>
-
-
-
 
                     {/* <Icon className="fa fa-user" /> */}
                     <Box alignItems="space-between">
                       <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.quantity}{" "}
                       คน{"     "}
-                      <FontAwesomeIcon icon={faUser} /> สมัครแล้ว {obj.candidate}{" "}
-                      คน
+                      <FontAwesomeIcon icon={faUser} /> สมัครแล้ว{" "}
+                      {obj.candidate} คน
                     </Box>
-
 
                     <Grid
                       container
@@ -176,15 +234,20 @@ function QueryUser({ user, setUser }: queryuserprops) {
                         to={`/posts/${obj.id}`}
                         style={{ textDecoration: "none" }}
                       >
-                        {usertype === 1 && (!obj.thisusersubmit ? (
-                          <Button variant="contained" color="primary">
-                            Join
-                          </Button>
-                        ): 
-                        <Button variant="contained" color="primary" disabled>
-                            Join
-                          </Button>
-                        )}
+                        {usertype === 1 &&
+                          (!obj.thisusersubmit ? (
+                            <Button variant="contained" color="primary">
+                              Join
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              disabled
+                            >
+                              Join
+                            </Button>
+                          ))}
                       </Link>
                       {/* <Button variant="contained" color="secondary">
                           Close
@@ -192,8 +255,9 @@ function QueryUser({ user, setUser }: queryuserprops) {
                     </Grid>
                   </Grid>
                 </Card>
-              </Grid>
+              </Grid> 
             );
+                      }
           })}
         </Grid>
       </Container>

@@ -1,10 +1,10 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Box } from "@material-ui/core";
+import { Grid, Typography, Box, Hidden } from "@material-ui/core";
 import StudentProfileForm from "../components/MyProfile/StudentProfileForm";
 import TeacherProfileForm from "../components/MyProfile/TeacherProfileForm";
 import CompanyProfileForm from "../components/MyProfile/CompanyProfileForm";
 import ProfileImage from "../components/MyProfile/ProfileImage";
-import NavBar from '../components/NavBar';
+import NavBar from "../components/NavBar";
 import { User } from "../App";
 
 const useStyles = makeStyles(() =>
@@ -34,44 +34,55 @@ function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
 
   return (
     <div className={classes.root}>
-      <NavBar user={user} setUser={setUser}/>
+      <NavBar user={user} setUser={setUser} />
+      <Grid container className={classes.row}></Grid>
       <Grid container className={classes.row}>
-      </Grid>
-      <Grid container className={classes.row}>
-        <Grid item sm={1}/>
-        <Grid item sm={10}>
-          <Typography
-            align="left"
-            variant="h4"
-            color="primary"
-          >
-            <Box mt={6} fontWeight="fontWeightBold">My Profile</Box>
+        <Grid item xs={1} />
+        <Grid item xs={10}>
+          <Typography align="left" variant="h4" color="primary">
+            <Box mt={6} fontWeight="fontWeightBold">
+              My Profile
+            </Box>
           </Typography>
         </Grid>
-        <Grid item sm={1}/>
+        <Grid item xs={1} />
       </Grid>
       <Grid container>
-        <Grid item sm={1} />
-        <Grid item sm={2}>
-          <Box pr={7}>
+        <Grid item xs={1} />
+        <Grid item xs={10} md={3} lg={2}>
             <ProfileImage />
-          </Box>
         </Grid>
-        <Grid item sm={6}>
-          <Box px={5}>
-            {
-              user?.location ?
-                <CompanyProfileForm user={user}/> :
-                user?.student_id ?
-                  <StudentProfileForm user={user}/> :
-                  <TeacherProfileForm user={user}/>
-            }
-          </Box>
+        <Hidden mdUp>
+          <Grid item xs={1}/>
+          <Grid item xs={1}/>
+        </Hidden>
+        <Grid item xs={10} md={6} lg={6}>
+          <Hidden smDown>
+            <Box px={5}>
+              {user?.location ? (
+                <CompanyProfileForm user={user} />
+              ) : user?.student_id ? (
+                <StudentProfileForm user={user} />
+              ) : (
+                <TeacherProfileForm user={user} />
+              )}
+            </Box>
+          </Hidden>
+          <Hidden mdUp>
+            <Box mt={5}>
+              {user?.location ? (
+                <CompanyProfileForm user={user} />
+              ) : user?.student_id ? (
+                <StudentProfileForm user={user} />
+              ) : (
+                <TeacherProfileForm user={user} />
+              )}
+            </Box>
+          </Hidden>
         </Grid>
-        <Grid item sm={2}/>
+        <Grid item xs={1} md={2} lg={3} />
       </Grid>
-      <Grid container className={classes.row}>
-      </Grid>
+      <Grid container className={classes.row}></Grid>
     </div>
   );
 }

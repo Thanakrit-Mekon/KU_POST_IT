@@ -13,6 +13,12 @@ import { useFormik } from "formik";
 import axios from "../../axios";
 import { useHistory, useParams } from "react-router-dom";
 import { User } from "../../App";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {Link as Routerlink } from "react-router-dom";
 
 export interface postinforprops {
   user: User | null;
@@ -67,6 +73,11 @@ interface ParamType {
 export default function PostForm({user}:postinforprops): JSX.Element {
   const history = useHistory();
   const param = useParams<ParamType>();
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
   const [subject, setSubject] = useState<Subject>({} as Subject);
   useEffect(() => {
     console.log(param.postId);
@@ -88,13 +99,19 @@ export default function PostForm({user}:postinforprops): JSX.Element {
       };
       axios.post("/answers/create", data).then(function (response) {
         console.log(response);
-        history.push(`/${subject.post_type}`);
+        if (response.status === 200 || response.status === 201) {
+          handleClickOpen();
+        }
+        // history.push(`/${subject.post_type}`);
       });
+      
     },
   });
 
-  const classes = useStyles();
+  
 
+  
+  
 
   return (
     <>
@@ -149,7 +166,7 @@ export default function PostForm({user}:postinforprops): JSX.Element {
                 <TextField
                   name="feedback"
                   size="small"
-                  label="ตอบคำถามอาจารย์ & สิ่งที่อยากบอกอาจารย์"
+                  label="ตอบคำถาม & สิ่งที่อยากบอก"
                   variant="outlined"
                   multiline
                   rows={7}
@@ -190,16 +207,35 @@ export default function PostForm({user}:postinforprops): JSX.Element {
                     >
                       Submit
                     </Button>
-                    
-                    
+                    <Dialog
+                      open={open}
+                      aria-labelledby="alert-dialog-title"
+                      aria-describedby="alert-dialog-description"
+                    >
+                      <DialogTitle id="alert-dialog-title">{"Congratulations"}</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                        Your answer form has been submitted.
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Routerlink to={`/${subject.post_type}`} style={{ textDecoration:"none" }}> 
+                        <Button  color="primary" autoFocus>
+                          OK
+                        </Button>
+                        </Routerlink>
+                      </DialogActions>
+                    </Dialog>
+                    <Routerlink to={`/${subject.post_type}`} style={{ textDecoration:"none" }}> 
                     <Button
                       variant="contained"
                       color="secondary"
                       size="large" 
-                      href={`/${subject.post_type}`}
+                      
                     >
                       Back
                     </Button>
+                    </Routerlink>
                   </Grid>
                 </Box>
               </form>

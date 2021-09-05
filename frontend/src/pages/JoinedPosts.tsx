@@ -17,6 +17,7 @@ import NavBar from "../components/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, Link } from "react-router-dom";
+
 import { useEffect, useState } from "react";
 import axios from "../axios";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
@@ -272,6 +273,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                             <Typography variant="subtitle1">
                               {obj.answer}
                             </Typography>
+
                             <Typography variant="subtitle1" color="secondary">
                               <Box>{obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}</Box>
                             </Typography>
@@ -295,4 +297,3 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
 }
   
 export default JoinedPosts;
-  

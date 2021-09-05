@@ -3,9 +3,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Link } from "@material-ui/core";
+import { Link as LinkMat } from "@material-ui/core";
 import { User } from "../App";
-import { useHistory } from "react-router-dom";
+import {  useHistory, Link } from "react-router-dom";
 import axios from "../axios";
 
 const ITEM_HEIGHT = 48;
@@ -59,21 +59,21 @@ export default function LongMenu({ setUser }: LongMenuProps) {
           },
         }}
       >
-        <Link
-          href="/myprofile"
-          style={{ textDecoration: "none", color: "black" }}
-        >
+        <Link to="/myprofile" style={{ textDecoration: "none", color: "black" }} >
           <MenuItem style={{ paddingLeft: 13 }}>Edit profile</MenuItem>
         </Link>
-        <Link href="/myposts" style={{ textDecoration: "none", color: "black" }}>
+        <Link to="/myposts" style={{ textDecoration: "none", color: "black" }}>
           <MenuItem style={{ paddingLeft: 13 }}>View my posts</MenuItem>
         </Link>
-        <Link
+        <Link to="/joinedposts" style={{ textDecoration: "none", color: "black" }}>
+          <MenuItem style={{ paddingLeft: 13 }}>Joined posts</MenuItem>
+        </Link>
+        <LinkMat
           onClick={() => onLogout()}
           style={{ textDecoration: "none", color: "black" }}
-        >
+        >   
           <MenuItem style={{ paddingLeft: 13 }}>Sign out</MenuItem>
-        </Link>
+        </LinkMat>
       </Menu>
     </div>
   );

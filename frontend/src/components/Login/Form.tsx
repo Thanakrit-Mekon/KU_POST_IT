@@ -14,6 +14,7 @@ import SimpleModal from "./Modal";
 import axios from "../../axios";
 import { useHistory } from "react-router-dom";
 import { LoginProps } from "../../pages/Login";
+import { Link as Router } from "react-router-dom";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -70,8 +71,7 @@ function Form({ setUser }: LoginProps) {
           setUser(response.data[0]);
           if (response.data[0].location) {
             history.push("/intern");
-          } 
-          else {
+          } else {
             history.push("/ta");
           }
         })
@@ -143,7 +143,7 @@ function Form({ setUser }: LoginProps) {
           <Grid container justifyContent="flex-end">
             <Grid item>
               Don't have an account?
-              <Link href="/register" variant="body2">
+              <Link component={Router} to="/register" variant="body2">
                 Sign-up here.
               </Link>
             </Grid>

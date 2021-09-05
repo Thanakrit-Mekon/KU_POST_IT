@@ -1,22 +1,22 @@
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
-import RegistrationCard from '../components/Register/RegistrationCard';
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
+import RegistrationCard from "../components/Register/RegistrationCard";
 
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
     },
     row: {
       flexGrow: 1,
     },
     bgTeal: {
-      backgroundColor: '#5E9EA0',
+      backgroundColor: "#5E9EA0",
     },
     fullHeight: {
-      height: '100%',
+      height: "100%",
     },
   })
 );
@@ -36,11 +36,11 @@ function Register(): JSX.Element {
         <Grid item sm={1} md={2} className={classes.bgTeal} />
       </Grid>
       <Grid container>
-        <Grid item xs={1} md={2} />
-        <Grid item xs={10} md={8}>
+        <Grid item md={2} />
+        <Grid item xs={12} md={8}>
           <RegistrationCard />
         </Grid>
-        <Grid item xs={1} md={2} className={classes.bgTeal} />
+        <Grid item md={2} className={classes.bgTeal} />
       </Grid>
       <Grid container className={classes.row}>
         <Grid item xs={1} md={2} />
