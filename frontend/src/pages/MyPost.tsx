@@ -19,11 +19,11 @@ import { useEffect, useState } from "react";
 import axios from "../axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -49,8 +49,6 @@ const ColorButton = withStyles((theme: Theme) => ({
     },
   },
 }))(Button);
-
-
 
 export interface MyPostProps {
   user: User | null;
@@ -93,19 +91,21 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
       })
       .then((response) => {
         console.log(response);
+        handleClose();
       });
   };
 
   const [open, setOpen] = React.useState(false);
-  
-  const handleClickOpen = () => {
+  const [postId, setPostId] = useState("");
+
+  const handleClickOpen = (t: string) => {
     setOpen(true);
+    setPostId(t);
   };
-  
+
   const handleClose = () => {
     setOpen(false);
   };
-  
 
   return (
     <div>
@@ -160,48 +160,51 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       justifyContent="space-between"
                       style={{ marginTop: 20 }}
                     >
-                      <Link to={`/myposts/${obj._id}`}
-                      style={{ textDecoration: "none" }}>
-                      <Button
-                        variant="contained"
-                        color="primary"
+                      <Link
+                        to={`/myposts/${obj._id}`}
+                        style={{ textDecoration: "none" }}
                       >
-                        View
-                      </Button>
+                        <Button variant="contained" color="primary">
+                          View
+                        </Button>
                       </Link>
-                      <Link to="/posts/edit"
-                      style={{ textDecoration: "none" }}>
-                      <ColorButton
-                        variant="contained"
-                        color="primary"
-                      >
-                        Edit
-                      </ColorButton>
+                      <Link to="/posts/edit" style={{ textDecoration: "none" }}>
+                        <ColorButton variant="contained" color="primary">
+                          Edit
+                        </ColorButton>
                       </Link>
                       <Button
-                        onClick={handleClickOpen}
+                        onClick={() => handleClickOpen(obj._id)}
                         variant="contained"
                         color="secondary"
                       >
                         Delete
                       </Button>
-                      <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description">
-                      <DialogTitle id="alert-dialog-title">{"Do you really want to delete this post?"}</DialogTitle>
-                      <DialogContent>
-                      </DialogContent>
-                      <DialogActions>
-                      <Button onClick={handleClose} color="primary">
-                        Cancel
-                      </Button>
-                      <Button onClick={() => DeletePost(obj._id)} color="primary" autoFocus>
-                       Delete
-                      </Button>
-                      </DialogActions>
-                      </Dialog>
+                      {postId === obj._id && (
+                        <Dialog
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Do you really want to delete this post?"}
+                          </DialogTitle>
+                          <DialogContent></DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                              Cancel
+                            </Button>
+                            <Button
+                              onClick={() => DeletePost(obj._id)}
+                              color="primary"
+                              autoFocus
+                            >
+                              Delete
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      )}
                     </Grid>
                   </Grid>
                 </Card>
