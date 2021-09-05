@@ -4,7 +4,7 @@ import PostForm from "../components/CreatePost/PostForm";
 const useStyles = makeStyles(() =>
   createStyles({
     bg: {
-      height: "100vh",
+      minHeight: "100vh",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
