@@ -111,7 +111,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
         >
           <Typography variant="h4">
             <Grid item>
-              {subjects.title} Software Engineering
+              {subjects.title}
               <Chip
                 className={classes.cooler3}
                 style={{ marginLeft: 20 }}
