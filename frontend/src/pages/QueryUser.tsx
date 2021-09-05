@@ -18,7 +18,6 @@ import axios from "../axios";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { User } from "../App";
 
-
 interface Subject {
   candidate: number;
   contact: string;
@@ -69,10 +68,9 @@ function QueryUser({ user, setUser }: queryuserprops) {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [state, setState] = useState({
     checkedA: false,
-    
   });
 
-  const handleChange = (event : any) => {
+  const handleChange = (event: any) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
   var usertype = -1;
@@ -128,7 +126,6 @@ function QueryUser({ user, setUser }: queryuserprops) {
             </Typography>
           </Grid>
           <Grid item>
-
             {(location.pathname === "/ta" && usertype === 2) ||
             (location.pathname === "/coop" && usertype === 1) ||
             (location.pathname === "/intern" && usertype === 3) ? (
@@ -136,15 +133,12 @@ function QueryUser({ user, setUser }: queryuserprops) {
                 <Button className={classes.change} variant="contained">
                   Create Post
                 </Button>
-                
               </Link>
             ) : (
               <></>
             )}
-            
           </Grid>
         </Grid>
-        
         <Grid
           container
           direction="row"
@@ -152,93 +146,96 @@ function QueryUser({ user, setUser }: queryuserprops) {
           alignItems="center"
         >
           <FormControlLabel
-          control={<Switch
-              checked={state.checkedA}
-              onChange={handleChange}
-              name="checkedA"
-              color="primary"
-
-            /> }
-          label="Show only unjoined posts"
-        />
-         
-            
+            control={
+              <Switch
+                checked={state.checkedA}
+                onChange={handleChange}
+                name="checkedA"
+                color="primary"
+              />
+            }
+            label="Show only unjoined posts"
+          />
         </Grid>
-        <Grid container spacing={5}>
+        <Grid container spacing={6}>
           {subjects.map((obj) => {
-             if (state.checkedA && obj.thisusersubmit) {
+            if (state.checkedA && obj.thisusersubmit) {
+              return <></>;
+            } else {
               return (
-                <></>
-              );
-              }
-              else {
-            return (
-              
-              <Grid item sm={4}>
-                <Card style={{ padding: 20 , height :270}}>
-                  <Grid container direction="column" alignItems="center">
-                    <Avatar />
-                    {obj.name ? (
-                      <Box>{obj.name}</Box>
-                    ) : (
+                <Grid item xs={4}>
+                  <Card
+                    style={{
+                      padding: 10,
+                      height: 250,
+                      display: "grid",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Grid container direction="column" alignItems="center">
+                      <Avatar />
+                      {obj.name ? (
+                        <Box>{obj.name}</Box>
+                      ) : (
+                        <Box>
+                          {obj.first_name} {obj.last_name}
+                        </Box>
+                      )}
+
+                      <Typography color="primary">
+                        <Box fontWeight="bold" color="primary">
+                          {obj.title}
+                        </Box>
+                      </Typography>
                       <Box>
-                        {obj.first_name} {obj.last_name}
+                        {obj.isDueDate &&
+                          "Duedate : " +
+                            obj.dueDate.slice(8, 10) +
+                            "/" +
+                            obj.dueDate.slice(5, 7) +
+                            "/" +
+                            obj.dueDate.slice(0, 4)}
                       </Box>
-                    )}
-
-                    <Typography color="primary">
-                      <Box fontWeight="bold" color="primary">
-                        {obj.title}
+                      <Box>
+                        {obj.hasPeriod &&
+                          "Work peroid : " +
+                            obj.startDate.slice(8, 10) +
+                            "/" +
+                            obj.startDate.slice(5, 7) +
+                            "/" +
+                            obj.startDate.slice(0, 4) +
+                            " - " +
+                            obj.endDate.slice(8, 10) +
+                            "/" +
+                            obj.endDate.slice(5, 7) +
+                            "/" +
+                            obj.endDate.slice(0, 4)}
                       </Box>
-                    </Typography>
-                    <Box>
-                      {obj.isDueDate &&
-                        "Duedate : " +
-                          obj.dueDate.slice(8, 10) +
-                          "/" +
-                          obj.dueDate.slice(5, 7) +
-                          "/" +
-                          obj.dueDate.slice(0, 4)}
-                    </Box>
-                    <Box>
-                      {obj.hasPeriod &&
-                        "Work peroid : " +
-                          obj.startDate.slice(8, 10) +
-                          "/" +
-                          obj.startDate.slice(5, 7) +
-                          "/" +
-                          obj.startDate.slice(0, 4) +
-                          " - "+
-                          obj.endDate.slice(8, 10) +
-                          "/" +
-                          obj.endDate.slice(5, 7) +
-                          "/" +
-                          obj.endDate.slice(0, 4)} 
 
-                    </Box>
+                      {/* <Icon className="fa fa-user" /> */}
+                      <Box alignItems="space-between">
+                        <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.quantity}{" "}
+                        คน{"     "}
+                        <FontAwesomeIcon icon={faUser} /> สมัครแล้ว{" "}
+                        {obj.candidate} คน
+                      </Box>
 
-                    {/* <Icon className="fa fa-user" /> */}
-                    <Box alignItems="space-between">
-                      <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.quantity}{" "}
-                      คน{"     "}
-                      <FontAwesomeIcon icon={faUser} /> สมัครแล้ว{" "}
-                      {obj.candidate} คน
-                    </Box>
-
-                    <Grid
-                      container
-                      justifyContent="center"
-                      style={{ marginTop: 20 }}
-                    >
-                      <Link
-                        to={`/posts/${obj.id}`}
-                        style={{ textDecoration: "none" }}
+                      <Grid
+                        container
+                        justifyContent="center"
+                        style={{ marginTop: 20 }}
                       >
                         {usertype === 1 &&
                           (!obj.thisusersubmit ? (
-                            <Button variant="contained" color="primary">
-                              Join
-                            </Button>
+                            <Link
+                              to={`/posts/${obj.id}`}
+                              style={{ textDecoration: "none" }}
+                            >
+                              <Button variant="contained" color="primary">
+                                Join
+                              </Button>
+                            </Link>
                           ) : (
                             <Button
                               variant="contained"
@@ -248,16 +245,12 @@ function QueryUser({ user, setUser }: queryuserprops) {
                               Join
                             </Button>
                           ))}
-                      </Link>
-                      {/* <Button variant="contained" color="secondary">
-                          Close
-                        </Button> */}
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Card>
-              </Grid> 
-            );
-                      }
+                  </Card>
+                </Grid>
+              );
+            }
           })}
         </Grid>
       </Container>

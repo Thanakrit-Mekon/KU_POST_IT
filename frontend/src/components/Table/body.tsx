@@ -11,12 +11,12 @@ import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import React from "react";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,8 +47,6 @@ export interface Bodyprops {
   setUser: (user: User | null) => void;
 }
 
-
-
 interface Subject {
   contact: string;
   create: string;
@@ -65,7 +63,7 @@ interface Subject {
   user_name: string;
   __v: number;
   _id: string;
-  numberAppli:string;
+  numberAppli: string;
 }
 
 function Body({ user, setUser }: Bodyprops): JSX.Element {
@@ -83,13 +81,15 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
 
   const [subjects, setSubjects] = useState<Subject>({} as Subject);
   useEffect(() => {
-    axios.get('/csv/headTable').then((response) => {
-      setSubjects(response.data);
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error.message);
-    });
+    axios
+      .get("/csv/headTable")
+      .then((response) => {
+        setSubjects(response.data);
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
   }, []);
   console.log(subjects);
 
@@ -110,7 +110,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
               <Chip
                 className={classes.cooler3}
                 style={{ marginLeft: 20 }}
-                label = {`${subjects.numberAppli} คน`}
+                label={`${subjects.numberAppli} คน`}
               />
             </Grid>
           </Typography>
@@ -135,7 +135,9 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{"PIPI KENG JUNG"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">
+              {"PIPI KENG JUNG"}
+            </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 submit success!!
@@ -148,8 +150,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             </DialogActions>
           </Dialog>
 
-          <Link to={`/myposts`}
-              style={{ textDecoration: "none" }}>
+          <Link to={`/myposts`} style={{ textDecoration: "none" }}>
             <Button
               href="/myposts"
               style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}

@@ -143,6 +143,7 @@ function FormCreatePost() {
         .post("/posts/create", userData)
         .then(function (response) {
           console.log(response);
+          handleClickOpen();
         })
         .catch(function (error) {
           console.log(error);
@@ -224,7 +225,6 @@ function FormCreatePost() {
               variant="contained"
               color="primary"
               style={{ marginRight: 10 }}
-              onClick={handleClickOpen}
             >
               <Dialog
                 open={open}
@@ -239,7 +239,7 @@ function FormCreatePost() {
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Link to = "/myposts" style={{ textDecoration: "none" }}>
+                  <Link to="/myposts" style={{ textDecoration: "none" }}>
                     <Button onClick={handleClose} color="primary" autoFocus>
                       Continue
                     </Button>
