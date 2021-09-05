@@ -144,7 +144,8 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(2),
-    width: 500
+    //width: 500,
+    minWidth: 500
   },
 }))(MuiDialogContent);
 
@@ -259,7 +260,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                         </Button>
 
                         {scroll===obj.id && <Dialog
-                          //maxWidth="md"
+                          maxWidth="lg"
                           aria-labelledby="customized-dialog-title"
                           open={open}
                           onClose={handleClose}
