@@ -41,7 +41,7 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
         alignItems="center"
       >
         <Grid item>
-          <img height="63" width="196" src="/img/logowebpsd.png" alt="logo" />
+          <img height="63" width="196" src="/img/logo.png" alt="logo" />
         </Grid>
         <Grid item>
           <Tabs className={classes.tabs} indicatorColor="primary" centered>
