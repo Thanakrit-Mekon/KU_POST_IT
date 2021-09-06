@@ -42,9 +42,10 @@ const useStyles = makeStyles(() =>
 
 interface CompanyProfileFormProps {
   user?: User | null;
+  setUser: (user: User | null) => void;
 }
 
-function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
+function CompanyProfileForm({ user, setUser }: CompanyProfileFormProps): JSX.Element {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -54,7 +55,6 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
 
   const handleClose = () => {
     setOpen(false);
-    // window.location.reload();
   };
 
   const formik = useFormik({
@@ -81,9 +81,10 @@ function CompanyProfileForm({ user }: CompanyProfileFormProps): JSX.Element {
         .patch("/user/updateuser", userData)
         .then(function (response) {
           console.log(response);
-          if (response.status === 200) {
-            handleOpen();
-          }
+          axios.get("/user/getuser").then((response) => {
+            setUser(response.data[0]);
+          });
+          handleOpen();
         })
         .catch(function (error) {
           console.log(error);

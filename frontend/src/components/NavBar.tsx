@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.contrastText,
     },
     pad: {
-      paddingLeft: 50,
+      paddingLeft: 30,
       //paddingRight: 50,
     },
     tabs: {
@@ -41,7 +41,7 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
         alignItems="center"
       >
         <Grid item>
-          <img height="60" width="100" src="/img/logo.png" alt="logo" />
+          <img height="63" width="196" src="/img/logowebpsd.png" alt="logo" />
         </Grid>
         <Grid item>
           <Tabs className={classes.tabs} indicatorColor="primary" centered>

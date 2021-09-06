@@ -42,9 +42,10 @@ const useStyles = makeStyles(() =>
 
 interface TeacherProfileFormProps {
   user?: User | null;
+  setUser: (user: User | null) => void;
 }
 
-function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
+function TeacherProfileForm({ user, setUser }: TeacherProfileFormProps): JSX.Element {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -54,7 +55,6 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
 
   const handleClose = () => {
     setOpen(false);
-    // window.location.reload();
   };
   const formik = useFormik({
     initialValues: {
@@ -78,9 +78,10 @@ function TeacherProfileForm({ user }: TeacherProfileFormProps): JSX.Element {
         .patch("/user/updateuser", userData)
         .then(function (response) {
           console.log(response);
-          if (response.status === 200) {
-            handleOpen();
-          }
+          axios.get("/user/getuser").then((response) => {
+            setUser(response.data[0]);
+          });
+          handleOpen();
         })
         .catch(function (error) {
           console.log(error);

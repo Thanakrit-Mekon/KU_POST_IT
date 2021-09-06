@@ -60,22 +60,22 @@ function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
           <Hidden smDown>
             <Box px={5}>
               {user?.location ? (
-                <CompanyProfileForm user={user} />
+                <CompanyProfileForm user={user} setUser={setUser} />
               ) : user?.student_id ? (
-                <StudentProfileForm user={user} />
+                <StudentProfileForm user={user} setUser={setUser} />
               ) : (
-                <TeacherProfileForm user={user} />
+                <TeacherProfileForm user={user} setUser={setUser} />
               )}
             </Box>
           </Hidden>
           <Hidden mdUp>
             <Box mt={5}>
               {user?.location ? (
-                <CompanyProfileForm user={user} />
+                <CompanyProfileForm user={user} setUser={setUser} />
               ) : user?.student_id ? (
-                <StudentProfileForm user={user} />
+                <StudentProfileForm user={user} setUser={setUser} />
               ) : (
-                <TeacherProfileForm user={user} />
+                <TeacherProfileForm user={user} setUser={setUser} />
               )}
             </Box>
           </Hidden>
