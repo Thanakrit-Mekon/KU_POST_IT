@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -18,7 +18,7 @@ import { Link as Router } from "react-router-dom";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
-  password: yup.string().min(8).required(),
+  password: yup.string().min(8,"At least 8 characters").required(),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Form({ setUser }: LoginProps) {
+  const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState("");
   const classes = useStyles();
   const history = useHistory();
 
@@ -75,8 +76,9 @@ function Form({ setUser }: LoginProps) {
             history.push("/ta");
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(function (error) {
+          console.log(error.response);
+          setOldPasswordErrorMessage("E-mail or password is Invalid");
         });
     },
   });
@@ -124,6 +126,11 @@ function Form({ setUser }: LoginProps) {
                   formik.touched.password && Boolean(formik.errors.password)
                 }
               />
+              {oldPasswordErrorMessage && (
+                <Typography align="left" variant="subtitle1" color="secondary">
+                  {oldPasswordErrorMessage}
+                </Typography>
+              )}
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <SimpleModal />

@@ -1,6 +1,6 @@
 import Create from "../components/Login/create";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid , Hidden } from "@material-ui/core";
 import { User } from "../App";
 
 const useStyles = makeStyles(() =>
@@ -9,6 +9,7 @@ const useStyles = makeStyles(() =>
       minHeight: "100vh",
       display: "flex",
       flexDirection: "column",
+      backgroundColor: "#ffffff",
     },
     row: {
       flexGrow: 1,
@@ -30,33 +31,41 @@ function Login({ setUser }: LoginProps): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Hidden xsDown>
       <Grid container className={classes.row}>
-        <Grid item sm={1} md={2} />
-        <Grid item xs={10} md={8}>
+        <Grid item xs={1} sm={2} />
+        <Grid item xs={10} sm={8}>
           <Grid container className={classes.fullHeight}>
             <Grid item xs={7} />
             <Grid item xs={5} className={classes.bgTeal} />
           </Grid>
         </Grid>
-        <Grid item sm={1} md={2} className={classes.bgTeal} />
+        <Grid item xs={1} sm={2} className={classes.bgTeal} />
       </Grid>
+      </Hidden>
       <Grid container>
-        <Grid item xs={1} md={2} />
-        <Grid item xs={10} md={8}>
+      <Hidden xsDown>
+        <Grid item xs={1} sm={2} />
+        </Hidden>
+        <Grid item xs={12} sm={8}>
           <Create setUser={setUser} />
         </Grid>
-        <Grid item xs={1} md={2} className={classes.bgTeal} />
+        <Hidden xsDown>
+        <Grid item xs={1} sm={2} className={classes.bgTeal} />
+        </Hidden>
       </Grid>
+      <Hidden xsDown>
       <Grid container className={classes.row}>
-        <Grid item xs={1} md={2} />
-        <Grid item xs={10} md={8}>
+        <Grid item xs={1} sm={2} />
+        <Grid item xs={10} sm={8}>
           <Grid container className={classes.fullHeight}>
             <Grid item xs={7} />
             <Grid item xs={5} className={classes.bgTeal} />
           </Grid>
         </Grid>
-        <Grid item xs={1} md={2} className={classes.bgTeal} />
+        <Grid item xs={1} sm={2} className={classes.bgTeal} />
       </Grid>
+      </Hidden>
     </div>
   );
 }
