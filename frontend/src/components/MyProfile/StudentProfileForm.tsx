@@ -43,10 +43,13 @@ const useStyles = makeStyles(() =>
 
 interface StudentProfileFormProps {
   user?: User | null;
+  setUser: (user: User | null) => void;
 }
 
-function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
+function StudentProfileForm({ user, setUser }: StudentProfileFormProps): JSX.Element {
   const classes = useStyles();
+
+  // Dialog Open/Close
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -55,8 +58,8 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
 
   const handleClose = () => {
     setOpen(false);
-    // window.location.reload();
   };
+
   const formik = useFormik({
     initialValues: {
       firstName: `${user?.first_name}`,
@@ -82,10 +85,10 @@ function StudentProfileForm({ user }: StudentProfileFormProps): JSX.Element {
         .patch("/user/updateuser", userDatasent)
         .then(function (response) {
           console.log(response);
-          if (response.status === 200) {
-            handleOpen();
-          }
-          //   window.location.reload();
+          axios.get("/user/getuser").then((response) => {
+            setUser(response.data[0]);
+          });
+          handleOpen();
         })
         .catch(function (error) {
           console.log(error);
