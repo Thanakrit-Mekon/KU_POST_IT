@@ -94,15 +94,12 @@ export default function PostForm({ user }: postinforprops): JSX.Element {
       const data = {
         answer: values.feedback,
         post_id: subject.id,
-        post_type: subject.post_type,
       };
       if (data.answer === "") data.answer = "-";
       console.log(data);
       axios.post("/answers/create", data).then(function (response) {
         console.log(response);
-        if (response.status === 200 || response.status === 201) {
-          handleClickOpen();
-        }
+        handleClickOpen();
         // history.push(`/${subject.post_type}`);
       });
     },
