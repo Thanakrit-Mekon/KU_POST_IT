@@ -18,13 +18,18 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  useMediaQuery,
+  useTheme,
+  Hidden,
+  Box,
+  FormHelperText,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -54,10 +59,15 @@ const years = [
 ];
 
 const useStyles = makeStyles((theme) => ({
-  buttons: {
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
+  button: {
+    [theme.breakpoints.down("xs")]: {
+      display: "block",
+      width: "100%",
+    },
+  },
+  error: {
+    color: "red",
+    paddingLeft: "5px",
   },
 }));
 
@@ -72,36 +82,34 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const validationSchema = yup.object({
-  title: yup.string().required(),
-  contact: yup.string().required(),
-  number: yup.number().required(),
+  title: yup.string().required("Title cannot be empty"),
+  contact: yup.string().required("Contact cannot be empty"),
+  number: yup
+    .number()
+    .typeError("you must specify a number")
+    .required("Cannot be empty"),
   more: yup.string(),
+  isDueDate: yup.boolean().required(),
+  hasPeriod: yup.boolean().required(),
+  dueDate: yup.date().when("isDueDate", (isDueDate, schema) => {
+    if (isDueDate) return schema.min(Date());
+  }),
+  startDate: yup.date().when("hasPeriod", (hasPeriod, schema) => {
+    if (hasPeriod) return schema.min(Date());
+  }),
+  endDate: yup.date().when("hasPeriod", (hasPeriod, schema) => {
+    if (hasPeriod) return schema.min(yup.ref("startDate"));
+  }),
 });
 
 function FormCreatePost() {
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
-
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date()
-  );
-
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
-
-  const [startDate, setStartDate] = React.useState<Date | null>(new Date());
-  const handleStartDateChange = (date: Date | null) => {
-    setStartDate(date);
-  };
-
-  const [endDate, setEndDate] = React.useState<Date | null>(new Date());
-  const handleEndDateChange = (date: Date | null) => {
-    setEndDate(date);
-  };
-
-  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -111,8 +119,10 @@ function FormCreatePost() {
       number: "",
       more: "",
       isDueDate: "false",
-      dueDate: "",
+      dueDate: new Date(),
       hasPeriod: "false",
+      endDate: new Date(),
+      startDate: new Date(),
       requirements: [
         {
           faculty: "",
@@ -131,10 +141,10 @@ function FormCreatePost() {
         desc: values.more,
         qualification: values.requirements,
         isDueDate: values.isDueDate,
-        dueDate: selectedDate,
+        dueDate: values.dueDate,
         hasPeriod: values.hasPeriod,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: values.startDate,
+        endDate: values.endDate,
       };
 
       if (values.type === "true") userData.qualification = [];
@@ -209,57 +219,15 @@ function FormCreatePost() {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="space-between"
-        style={{ marginBottom: 20 }}
+      <Typography
+        component="h1"
+        variant="h4"
+        color="primary"
+        style={{ marginBottom: 20, marginTop: isMobile ? 15 : 0 }}
+        align={isMobile ? "center" : "left"}
       >
-        <Typography component="h1" variant="h4" color="primary">
-          Create Post
-        </Typography>
-        <div className={classes.buttons}>
-          <div>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              style={{ marginRight: 10 }}
-            >
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Your post already create.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Link to="/myposts" style={{ textDecoration: "none" }}>
-                    <Button onClick={handleClose} color="primary" autoFocus>
-                      Continue
-                    </Button>
-                  </Link>
-                </DialogActions>
-              </Dialog>
-              Post
-            </Button>
-          </div>
-          <Link to="/ta" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              aria-label="outlined secondary button group"
-            >
-              Cancel
-            </Button>
-          </Link>
-        </div>
-      </Grid>
+        Create Post
+      </Typography>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={9}>
           <TextField
@@ -272,8 +240,13 @@ function FormCreatePost() {
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
           />
+          {formik.touched.title && formik.errors.title && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.title}
+            </FormHelperText>
+          )}
         </Grid>
-        <Grid item sm={3} style={{ marginBottom: "1rem" }}>
+        <Grid item xs={12} sm={3} style={{ marginBottom: "1rem" }}>
           <TextField
             size="medium"
             fullWidth
@@ -283,7 +256,12 @@ function FormCreatePost() {
             value={formik.values.number}
             onChange={formik.handleChange}
             error={formik.touched.number && Boolean(formik.errors.number)}
-          ></TextField>
+          />
+          {formik.touched.number && formik.errors.number && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.number}
+            </FormHelperText>
+          )}
         </Grid>
       </Grid>
 
@@ -331,8 +309,14 @@ function FormCreatePost() {
                 margin="dense"
                 id="due date picker"
                 label="Due Date Picker"
-                value={selectedDate}
-                onChange={handleDateChange}
+                name="dueDate"
+                value={formik.values.dueDate}
+                onChange={(value) => formik.setFieldValue("dueDate", value)}
+                error={
+                  formik.values.isDueDate &&
+                  formik.touched.dueDate &&
+                  Boolean(formik.errors.dueDate)
+                }
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
@@ -363,7 +347,7 @@ function FormCreatePost() {
           marginBottom: 20,
         }}
       >
-        <Grid container justifyContent="flex-start" alignItems="center">
+        <Grid container justifyContent="space-between" alignItems="center">
           <div>
             <FormControlLabel
               value="false"
@@ -377,7 +361,7 @@ function FormCreatePost() {
             />
           </div>
           {formik.values.hasPeriod === "true" && (
-            <>
+            <Grid justifyContent="space-between">
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                   disableToolbar
@@ -386,8 +370,14 @@ function FormCreatePost() {
                   margin="dense"
                   id="start date picker"
                   label="Start Date Picker"
-                  value={startDate}
-                  onChange={handleStartDateChange}
+                  name="startDate"
+                  value={formik.values.startDate}
+                  onChange={(value) => formik.setFieldValue("startDate", value)}
+                  error={
+                    formik.values.hasPeriod &&
+                    formik.touched.startDate &&
+                    Boolean(formik.errors.startDate)
+                  }
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
@@ -401,14 +391,20 @@ function FormCreatePost() {
                   margin="dense"
                   id="end date picker"
                   label="End Date Picker"
-                  value={endDate}
-                  onChange={handleEndDateChange}
+                  name="endDate"
+                  value={formik.values.endDate}
+                  onChange={(value) => formik.setFieldValue("endDate", value)}
+                  error={
+                    formik.values.hasPeriod &&
+                    formik.touched.endDate &&
+                    Boolean(formik.errors.endDate)
+                  }
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
                 />
               </MuiPickersUtilsProvider>
-            </>
+            </Grid>
           )}
         </Grid>
       </RadioGroup>
@@ -429,6 +425,7 @@ function FormCreatePost() {
         row
         color="primary"
         style={{
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: 20,
@@ -446,27 +443,29 @@ function FormCreatePost() {
             label="Specific Faculty"
           />
         </div>
-        {formik.values.type !== "true" && (
-          <div>
-            <Fab
-              size="small"
-              color="primary"
-              style={{ marginRight: 10 }}
-              onClick={onAddRequirement}
-            >
-              <AddIcon />
-            </Fab>
-            <Fab size="small" color="secondary" onClick={onRemoveRequirement}>
-              <RemoveIcon />
-            </Fab>
-          </div>
-        )}
+        <Hidden xsDown>
+          {formik.values.type !== "true" && (
+            <Grid>
+              <Fab
+                size="small"
+                color="primary"
+                style={{ marginRight: 10 }}
+                onClick={onAddRequirement}
+              >
+                <AddIcon />
+              </Fab>
+              <Fab size="small" color="secondary" onClick={onRemoveRequirement}>
+                <RemoveIcon />
+              </Fab>
+            </Grid>
+          )}
+        </Hidden>
       </RadioGroup>
       {formik.values.type !== "true" &&
         formik.values.requirements.map((r, index) => {
           return (
             <Grid container spacing={1} style={{ marginBottom: 5 }}>
-              <Grid item sm={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   size="medium"
                   select
@@ -487,7 +486,7 @@ function FormCreatePost() {
                     })}
                 </TextField>
               </Grid>
-              <Grid item sm={4}>
+              <Grid item xs={8} sm={4}>
                 <TextField
                   size="medium"
                   select
@@ -514,7 +513,7 @@ function FormCreatePost() {
                     })}
                 </TextField>
               </Grid>
-              <Grid item sm={2}>
+              <Grid item xs={4} sm={2}>
                 <TextField
                   size="medium"
                   select
@@ -537,20 +536,42 @@ function FormCreatePost() {
             </Grid>
           );
         })}
+      <Hidden smUp>
+        {formik.values.type !== "true" && (
+          <Box textAlign="right" marginY={2}>
+            <Fab
+              size="small"
+              color="primary"
+              style={{ marginRight: 10 }}
+              onClick={onAddRequirement}
+            >
+              <AddIcon />
+            </Fab>
+            <Fab size="small" color="secondary" onClick={onRemoveRequirement}>
+              <RemoveIcon />
+            </Fab>
+          </Box>
+        )}
+      </Hidden>
       <Grid container spacing={1}>
-        <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+        <Grid item xs={12} style={{ marginBottom: "1rem" }}>
           <TextField
             size="medium"
             fullWidth
             variant="outlined"
             label="Contact"
             multiline
-            rows={2}
+            rows={1}
             name="contact"
             value={formik.values.contact}
             onChange={formik.handleChange}
             error={formik.touched.contact && Boolean(formik.errors.contact)}
           />
+          {formik.touched.contact && formik.errors.contact && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.contact}
+            </FormHelperText>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12}>
@@ -567,6 +588,56 @@ function FormCreatePost() {
           error={formik.touched.more && Boolean(formik.errors.more)}
         />
       </Grid>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ marginTop: isMobile ? 10 : 20 }}
+        spacing={isMobile ? 2 : 0}
+      >
+        <Grid item xs={6} sm={1} style={{ marginRight: isMobile ? 0 : 20 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Post
+          </Button>
+        </Grid>
+        <Grid item xs={6} sm={1}>
+          <Link to="/ta" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              aria-label="outlined secondary button group"
+              className={classes.button}
+            >
+              Cancel
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Your post already create.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Link to="/myposts" style={{ textDecoration: "none" }}>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              Continue
+            </Button>
+          </Link>
+        </DialogActions>
+      </Dialog>
     </form>
   );
 }

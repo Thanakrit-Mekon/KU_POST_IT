@@ -46,7 +46,10 @@ interface StudentProfileFormProps {
   setUser: (user: User | null) => void;
 }
 
-function StudentProfileForm({ user, setUser }: StudentProfileFormProps): JSX.Element {
+function StudentProfileForm({
+  user,
+  setUser,
+}: StudentProfileFormProps): JSX.Element {
   const classes = useStyles();
 
   // Dialog Open/Close
