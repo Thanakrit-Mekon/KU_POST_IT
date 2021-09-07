@@ -22,13 +22,14 @@ import {
   useTheme,
   Hidden,
   Box,
+  FormHelperText,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -64,6 +65,10 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  error: {
+    color: "red",
+    paddingLeft: "5px",
+  },
 }));
 
 const GreenRadio = withStyles({
@@ -77,10 +82,24 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const validationSchema = yup.object({
-  title: yup.string().required(),
-  contact: yup.string().required(),
-  number: yup.number().required(),
+  title: yup.string().required("Title cannot be empty"),
+  contact: yup.string().required("Contact cannot be empty"),
+  number: yup
+    .number()
+    .typeError("you must specify a number")
+    .required("Cannot be empty"),
   more: yup.string(),
+  isDueDate: yup.boolean().required(),
+  hasPeriod: yup.boolean().required(),
+  dueDate: yup.date().when("isDueDate", (isDueDate, schema) => {
+    if (isDueDate) return schema.min(Date());
+  }),
+  startDate: yup.date().when("hasPeriod", (hasPeriod, schema) => {
+    if (hasPeriod) return schema.min(Date());
+  }),
+  endDate: yup.date().when("hasPeriod", (hasPeriod, schema) => {
+    if (hasPeriod) return schema.min(yup.ref("startDate"));
+  }),
 });
 
 function FormCreatePost() {
@@ -92,26 +111,6 @@ function FormCreatePost() {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
-    new Date()
-  );
-
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
-
-  const [startDate, setStartDate] = React.useState<Date | null>(new Date());
-  const handleStartDateChange = (date: Date | null) => {
-    setStartDate(date);
-  };
-
-  const [endDate, setEndDate] = React.useState<Date | null>(new Date());
-  const handleEndDateChange = (date: Date | null) => {
-    setEndDate(date);
-  };
-
-  const history = useHistory();
-
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -120,8 +119,10 @@ function FormCreatePost() {
       number: "",
       more: "",
       isDueDate: "false",
-      dueDate: "",
+      dueDate: new Date(),
       hasPeriod: "false",
+      endDate: new Date(),
+      startDate: new Date(),
       requirements: [
         {
           faculty: "",
@@ -140,10 +141,10 @@ function FormCreatePost() {
         desc: values.more,
         qualification: values.requirements,
         isDueDate: values.isDueDate,
-        dueDate: selectedDate,
+        dueDate: values.dueDate,
         hasPeriod: values.hasPeriod,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: values.startDate,
+        endDate: values.endDate,
       };
 
       if (values.type === "true") userData.qualification = [];
@@ -239,6 +240,11 @@ function FormCreatePost() {
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
           />
+          {formik.touched.title && formik.errors.title && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.title}
+            </FormHelperText>
+          )}
         </Grid>
         <Grid item xs={12} sm={3} style={{ marginBottom: "1rem" }}>
           <TextField
@@ -250,7 +256,12 @@ function FormCreatePost() {
             value={formik.values.number}
             onChange={formik.handleChange}
             error={formik.touched.number && Boolean(formik.errors.number)}
-          ></TextField>
+          />
+          {formik.touched.number && formik.errors.number && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.number}
+            </FormHelperText>
+          )}
         </Grid>
       </Grid>
 
@@ -298,8 +309,14 @@ function FormCreatePost() {
                 margin="dense"
                 id="due date picker"
                 label="Due Date Picker"
-                value={selectedDate}
-                onChange={handleDateChange}
+                name="dueDate"
+                value={formik.values.dueDate}
+                onChange={(value) => formik.setFieldValue("dueDate", value)}
+                error={
+                  formik.values.isDueDate &&
+                  formik.touched.dueDate &&
+                  Boolean(formik.errors.dueDate)
+                }
                 KeyboardButtonProps={{
                   "aria-label": "change date",
                 }}
@@ -353,8 +370,14 @@ function FormCreatePost() {
                   margin="dense"
                   id="start date picker"
                   label="Start Date Picker"
-                  value={startDate}
-                  onChange={handleStartDateChange}
+                  name="startDate"
+                  value={formik.values.startDate}
+                  onChange={(value) => formik.setFieldValue("startDate", value)}
+                  error={
+                    formik.values.hasPeriod &&
+                    formik.touched.startDate &&
+                    Boolean(formik.errors.startDate)
+                  }
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
@@ -368,8 +391,14 @@ function FormCreatePost() {
                   margin="dense"
                   id="end date picker"
                   label="End Date Picker"
-                  value={endDate}
-                  onChange={handleEndDateChange}
+                  name="endDate"
+                  value={formik.values.endDate}
+                  onChange={(value) => formik.setFieldValue("endDate", value)}
+                  error={
+                    formik.values.hasPeriod &&
+                    formik.touched.endDate &&
+                    Boolean(formik.errors.endDate)
+                  }
                   KeyboardButtonProps={{
                     "aria-label": "change date",
                   }}
@@ -538,6 +567,11 @@ function FormCreatePost() {
             onChange={formik.handleChange}
             error={formik.touched.contact && Boolean(formik.errors.contact)}
           />
+          {formik.touched.contact && formik.errors.contact && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.contact}
+            </FormHelperText>
+          )}
         </Grid>
       </Grid>
       <Grid item xs={12}>
