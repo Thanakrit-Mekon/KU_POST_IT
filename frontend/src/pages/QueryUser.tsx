@@ -82,6 +82,8 @@ const useStyles = makeStyles((theme) =>
       },
       padding: 20,
       minHeight: 220,
+      display: "flex",
+      alignItems: "center",
       boxShadow:
         "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
     },
@@ -354,28 +356,28 @@ function QueryUser({ user, setUser }: queryuserprops) {
                           }
                         </Box>
 
-                        <Grid container justifyContent="space-around" style={{ marginTop: 10 }}>
-                          <Box>
-                            <Icon
-                            fontSize="small"
-                            color="primary"
-                            className={classes.usericon}
-                            >
-                              <FontAwesomeIcon icon={faUser}/>
-                            </Icon>
-                            Need {obj.quantity} people
-                          </Box>
-                          <Box>
-                            <Icon
-                            fontSize="small"
-                            color="primary"
-                            className={classes.usericon}
-                            >
-                              <FontAwesomeIcon icon={faUser}/>
-                            </Icon>
-                            Joined {obj.candidate} people
-                          </Box>
-                        </Grid>
+                          <Grid container justifyContent="space-around" style={{ marginTop: 10 }}>
+                            <Box>
+                              <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                              >
+                                <FontAwesomeIcon icon={faUser}/>
+                              </Icon>
+                              Need {obj.quantity} people
+                            </Box>
+                            <Box>
+                              <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                              >
+                                <FontAwesomeIcon icon={faUser}/>
+                              </Icon>
+                              Joined {obj.candidate} people
+                            </Box>
+                          </Grid>
 
                         {usertype === 1 &&
                           (!obj.thisusersubmit ? (
