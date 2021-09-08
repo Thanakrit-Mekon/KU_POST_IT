@@ -6,8 +6,8 @@ import MyPost from "./pages/MyPost";
 import MyProfile from "./pages/MyProfile";
 import Login from "./pages/Login";
 import CsvTable from "./pages/csvTable";
-import QueryUser from "./pages/QueryUser";
-import Postinfor from "./pages/Postinfor";
+import Feed from "./pages/Feed";
+import PostInformation from "./pages/PostInformation";
 import ChangePassword from "./pages/ChangePassword";
 import JoinedPosts from "./pages/JoinedPosts";
 import "@fontsource/roboto";
@@ -79,7 +79,7 @@ function App(): JSX.Element {
             path={["/ta", "/coop", "/intern"]}
             isAuthenticated={isAuthenticated}
           >
-            <QueryUser user={user} setUser={setUser} />
+            <Feed user={user} setUser={setUser} />
           </PrivateRoute>
           <PrivateRoute path="/posts/new" isAuthenticated={isAuthenticated}>
             <CreatePost />
@@ -91,7 +91,7 @@ function App(): JSX.Element {
             <EditPost />
           </PrivateRoute>
           <PrivateRoute path="/posts/:postId" isAuthenticated={isAuthenticated}>
-            <Postinfor user={user} setUser={setUser} />
+            <PostInformation />
           </PrivateRoute>
           <PrivateRoute
             path="/myposts/:postId"

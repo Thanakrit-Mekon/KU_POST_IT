@@ -1,11 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import InforFrom from "../components/EditPost/InforFrom";
-import { User } from "../App";
+import InformationForm from "../components/PostInformation/InformationForm";
 
-export interface postinforprops {
-  user: User | null;
-  setUser: (user: User | null) => void;
-}
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -19,11 +14,11 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function Postinfor({ user }: postinforprops): JSX.Element {
+function Postinfor(): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.bg}>
-      <InforFrom user={user} />
+      <InformationForm />
     </div>
   );
 }
