@@ -90,7 +90,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
       .get(`/csv/headTable/${param.postId}`)
       .then((response) => {
         setSubjects(response.data);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -123,7 +123,9 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             Refresh
           </Button>
         </Grid>
-        <DataTable />
+        <DataTable user={null} setUser={function (user: User | null): void {
+          throw new Error("Function not implemented.");
+        } } />
         <Grid container justifyContent="center" alignItems="center">
           <Button
             style={{ marginTop: 50, marginBottom: 50 }}
