@@ -10,6 +10,12 @@ import axios from "../../axios";
 import { useParams } from "react-router-dom";
 import { Bodyprops } from "./body";
 import Button from '@material-ui/core/Button';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 
 interface Faculty {
   id: string;
@@ -103,6 +109,7 @@ function DataTable({ user, setUser }: Bodyprops): JSX.Element {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const param = useParams<ParamType>();
+
   useEffect(() => {
     axios
       .get(`/csv/DataCSV/${param.postId}`)
