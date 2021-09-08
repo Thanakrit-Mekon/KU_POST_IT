@@ -3,11 +3,13 @@ import {
   DataGrid,
   GridColDef,
   GridValueGetterParams,
-} from "@material-ui/data-grid";
+} 
+from "@material-ui/data-grid";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { useParams } from "react-router-dom";
 import { Bodyprops } from "./body";
+import Button from '@material-ui/core/Button';
 
 interface Faculty {
   id: string;
@@ -39,7 +41,7 @@ const columns: GridColDef[] = [
   {
     field: "email",
     headerName: "Email",
-    width: 150,
+    width: 200,
     editable: true,
   },
   {
@@ -51,43 +53,34 @@ const columns: GridColDef[] = [
   {
     field: "department",
     headerName: "Department",
-    width: 170,
+    width: 200,
     editable: true,
   },
   {
     field: "year",
     headerName: "Year",
-    type: "number",
+    type: "string",
     width: 130,
-    editable: true,
   },
   {
-    field: "information",
-    headerName: "Information",
-    description: "Information from question.",
+    field: "answer",
+    headerName: " ",
+    description: "Student's answer",
     sortable: false,
-    type: "number",
-    width: 200,
+    type: "string",
+    renderCell: () => (
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        style={{ marginLeft: 16 }}
+      >
+        Answer
+      </Button>
+    ),
   },
+  
 ];
-
-
-// function createData(id: number, firstname: string, lastname: string, email: string, faculty: string , department:string,year:string) {
-//   return { id, firstname, lastname,email,faculty,department,year };
-// }
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-];
-
 
 interface Subject {
   Post_id:string;
@@ -98,6 +91,7 @@ interface Subject {
   Faculty:string;
   Department:string;
   Year:string;
+  Answer:string;
 }
 
 interface ParamType {
@@ -123,14 +117,14 @@ function DataTable({ user, setUser }: Bodyprops): JSX.Element {
   console.log(subjects);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
+    axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/dropdowns/alldepartment`)
+      .get(`/dropdowns/alldepartment`)
       .then((response) => {
         setDepartments(response.data);
       });
@@ -150,7 +144,7 @@ function DataTable({ user, setUser }: Bodyprops): JSX.Element {
 
   const r = subjects.map((subject,i)=>{
       //return createData(  i+1 , subject.Name, subject.Surname ,subject.Email, subject.Faculty, subject.Department, subject.Year );
-      return {id : i+1 , firstName : subject.Name, lastName: subject.Surname ,email: subject.Email,faculty: facultyCodeToFacultyName(subject.Faculty),department: departmentCodeToDepartmentName(subject.Department),year: subject.Year}
+      return {id : i+1 , firstName : subject.Name, lastName: subject.Surname ,email: subject.Email,faculty: facultyCodeToFacultyName(subject.Faculty),department: departmentCodeToDepartmentName(subject.Department),year: subject.Year,answer: subject.Answer}
     }) 
   ;
 
