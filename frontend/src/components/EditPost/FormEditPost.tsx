@@ -17,7 +17,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@material-ui/core";
-import { useFormik } from "formik";
+import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
 import { useHistory, Link, useParams, useLocation } from "react-router-dom";
@@ -27,9 +27,165 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { useState } from "react";
 
 interface ParamType {
   PostId: string;
+}
+
+interface Subject {
+  contact: string;
+  desc: string;
+  dueDate: any;
+  endDate: string;
+  hasPeriod: boolean;
+  isDueDate: boolean;
+  is_all: boolean;
+  last_modify: string;
+  qualification: {
+    faculty_code: string;
+    department_code: string;
+    year: string;
+  }[]
+  quantity: string;
+  startDate: string;
+  title: string;
+}
+const faculty_name =
+{
+  'A': 'Agriculture',
+  'B': 'Fisheries',
+  'C': 'Forestry',
+  'D': 'Science',
+  'E': 'Engineering',
+  'F': 'Education',
+  'G': 'Economics',
+  'H': 'Social Sciences',
+  'I': 'Veterinary Medicine',
+  'K': 'Agro-Industry',
+  'L': 'Humanities',
+  'N': 'Business Administration',
+  'P': 'Veterinary Technology',
+  'R': 'Architecture',
+  'T': 'Environment',
+}
+
+const department_name =
+{
+  'A00': 'Undeclared',
+  'A99': 'Declared',
+  'A01': 'Farm Mechanics',
+  'A02': 'Entomology',
+  'A03': 'Plant Pathology',
+  'A04': 'Soil Science',
+  'A05': 'Agronomy',
+  'A06': 'Horticulture',
+  'A07': 'Animal Husbandry',
+  'A08': 'Home Economics',
+  'A11': 'Agricultural Extension and Communication',
+  'B00': 'Undeclared',
+  'B01': 'Fishery Management',
+  'B02': 'Fishery Biology',
+  'B03': 'Aquaculture',
+  'B04': 'Fishery Product',
+  'B05': 'Marine Science',
+  'C00': 'Undeclared',
+  'XC00': 'Interdisciplinary',
+  'C01': 'Forest Management',
+  'C03': 'Forest Products',
+  'C05': 'Forest Engineering',
+  'C02': 'Forest Biology',
+  'XC05': 'Silviculture',
+  'XC02': 'DConservation',
+  'D00': 'Undeclared',
+  'XD00': 'Interdisciplinary',
+  'D01': 'Mathematics',
+  'D02': 'Chemistry',
+  'D04': 'Statistics',
+  'D06': 'Nuclear Science',
+  'D07': 'Physics',
+  'D08': 'General Science',
+  'D09': 'Microbiology',
+  'D10': 'Genetics',
+  'D11': 'Botany',
+  'D12': 'Zoology',
+  'D13': 'Biochemistry',
+  'D14': 'Computer Science',
+  'D15': 'Environment',
+  'E00': 'Undeclared',
+  'XE66': 'Safety Engineering',
+  'E01': 'Civil-Water Resources Engineering',
+  'E02': 'Agricultural Engineering',
+  'E03': 'Mechanical Engineering',
+  'E04': 'Civil Engineering - Irrigation',
+  'E05': 'Electrical Engineering',
+  'E06': 'Civil Engineering',
+  'E08': 'Industrial Engineering',
+  'E09': 'Computer Engineering',
+  'E10': 'Chemical Engineering',
+  'E12': 'Food Engineering',
+  'E13': 'Aerospace Engineering',
+  'E14': 'Environmental Engineering',
+  'E16': 'Material Engineering',
+  'F00': 'Undeclared',
+  'F01': 'Education',
+  'F04': 'Education technology',
+  'XF11': 'Psychology and Guidance',
+  'F31': 'Agricultural',
+  'F35': 'Physical Education',
+  'XF15': 'Sports and Exercise Science',
+  'XF19': 'Vocational Education',
+  'G00': 'Undeclared',
+  'G01': 'Economics',
+  'G02': 'Agricultural and Resource Economics',
+  'G03': 'Cooperatives Economics',
+  'H00': 'Undeclared',
+  'H01': 'Sociology and Anthropology',
+  'H02': 'Psychology',
+  'H03': 'Political Science and Public Administration',
+  'H04': 'Geography and Geo-Informatrics',
+  'H06': 'Law',
+  'H07': 'History',
+  'I00': 'Undeclared',
+  'I01': 'Anatomy',
+  'I02': 'Pathology',
+  'I03': 'Pharmacology and Toxicology',
+  'I04': 'Physiology',
+  'I05': 'Medicine',
+  'I06': 'Surgery',
+  'I07': 'Farm Resources and Production Medicine',
+  'I08': 'Public Health',
+  'I09': 'Microbiology',
+  'I12': 'Parasitology',
+  'K00': 'Undeclared',
+  'K01': 'Packing and Materials Technology',
+  'K02': 'Biotechnology',
+  'K03': 'Argo-Industrial Product Development',
+  'K04': 'Food Science and Technology',
+  'K05': 'Textile Science and Technology',
+  'K06': 'Chemical and Physical Processing Technology',
+  'L00': 'Undeclared',
+  'L01': 'Library and Information Science',
+  'L02': 'Philosophy and Religion',
+  'L03': 'Foreign Language',
+  'L04': 'Linguistics',
+  'L05': 'Litrature',
+  'L06': 'Tourism and Hospitality Industry',
+  'L07': 'Western Music',
+  'L80': 'Communicative Thai Language',
+  'N00': 'Undeclared',
+  'XN00': 'Interdisciplinary',
+  'N01': 'Finance',
+  'N02': 'Business Management',
+  'N03': 'Operations Management',
+  'N04': 'Marketing',
+  'N05': 'Accounting',
+  'R01': 'Architecture',
+  'P00': 'Veterinary Technology',
+  'S00': 'Sriracha Campus',
+  'F34': 'Vocational Education',
+  'F36': 'Vocational Education',
+  'A10': 'Tropical Agriculture',
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -58,12 +214,67 @@ const validationSchema = yup.object({
 });
 
 function FormEditPost() {
+  const [subject,setSubject] = useState<Subject>({} as Subject);
+
   const param = useParams<ParamType>();
   const location = useLocation();
 
   console.log(location.pathname)
 
   const classes = useStyles();
+
+  const history = useHistory();
+
+  const formik = useFormik({
+    initialValues: {
+      title: `${subject.title}`,
+      type: subject.is_all,
+      contact: `${subject.contact}`,
+      number: `${subject.quantity}`,
+      more: `${subject.desc}`,
+      isDueDate: subject.isDueDate,
+      dueDate: `${subject.dueDate}`,
+      hasPeriod: subject.hasPeriod,
+      requirements: [
+        {
+          faculty: "",
+          department: "",
+          year: "",
+        },
+      ],
+    },
+    enableReinitialize: true,
+    validationSchema,
+    onSubmit: (values) => {
+      const userData = {
+        title: values.title,
+        is_all: values.type,
+        contact: values.contact,
+        quantity: values.number,
+        desc: values.more,
+        qualification: values.requirements,
+        isDueDate: values.isDueDate,
+        dueDate: selectedDate,
+        hasPeriod: values.hasPeriod,
+        startDate: startDate,
+        endDate: endDate,
+      };
+
+      if (String(values.type) === "true") userData.qualification = [];
+      console.log(userData);
+      axios
+        .post("/posts/create", userData)
+        .then(function (response) {
+          console.log(response);
+          if (response.status === 201) {
+            handleClickOpen();
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  });
 
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
@@ -83,69 +294,21 @@ function FormEditPost() {
     setEndDate(date);
   };
 
-  const history = useHistory();
-
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      type: "true",
-      contact: "",
-      number: "",
-      more: "",
-      isDueDate: "false",
-      dueDate: "",
-      hasPeriod: "false",
-      requirements: [
-        {
-          faculty: "",
-          department: "",
-          year: "",
-        },
-      ],
-    },
-    validationSchema,
-    onSubmit: (values) => {
-      const userData = {
-        title: values.title,
-        is_all: values.type,
-        contact: values.contact,
-        quantity: values.number,
-        desc: values.more,
-        qualification: values.requirements,
-        isDueDate: values.isDueDate,
-        dueDate: selectedDate,
-        hasPeriod: values.hasPeriod,
-        startDate: startDate,
-        endDate: endDate,
-      };
-
-      if (values.type === "true") userData.qualification = [];
-      console.log(userData);
-      axios
-        .post("/posts/create", userData)
-        .then(function (response) {
-          console.log(response);
-          if (response.status === 201) {
-            handleClickOpen();
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-  });
-
   console.log(param.PostId)
   console.log(location.pathname.slice(12))
   
   useEffect(() => {
-    axios.get(`/myposts/specificPost/${location.pathname.slice(12)}`).then((response) => {
+    axios.get(`/posts/specificPost/${location.pathname.slice(12)}`).then((response) => {
       console.log(response)
+      setSubject(response.data)
+      setSelectedDate(response.data.dueDate)
+      setStartDate(response.data.startDate)
+      setEndDate(response.data.endDate)
     })
     .catch(function(error){
       console.log(error)
     });
-  }, [location.pathname.slice(12)]);
+  }, []);
 
   const handleRequirementChange = (
     e: React.ChangeEvent<any>,
@@ -277,7 +440,7 @@ function FormEditPost() {
       <RadioGroup
         aria-label="isDueDate"
         name="isDueDate"
-        value={formik.values.isDueDate}
+        value= {`${formik.values.isDueDate}`}
         onChange={formik.handleChange}
         row
         color="primary"
@@ -290,17 +453,17 @@ function FormEditPost() {
         <Grid container justifyContent="flex-start" alignItems="center">
           <div>
             <FormControlLabel
-              value="false"
+              value= "false"
               control={<GreenRadio />}
               label="No Due Date"
             />
             <FormControlLabel
-              value="true"
+              value= "true"
               control={<GreenRadio />}
               label="Set Due Date"
             />
           </div>
-          {formik.values.isDueDate === "true" && (
+          {String(formik.values.isDueDate) === "true" && (
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 disableToolbar
@@ -309,7 +472,7 @@ function FormEditPost() {
                 margin="dense"
                 id="due date picker"
                 label="Due Date Picker"
-                value={selectedDate}
+                value= {selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
@@ -331,7 +494,7 @@ function FormEditPost() {
       <RadioGroup
         aria-label="hasPeriod"
         name="hasPeriod"
-        value={formik.values.hasPeriod}
+        value={`${formik.values.hasPeriod}`}
         onChange={formik.handleChange}
         row
         color="primary"
@@ -354,11 +517,12 @@ function FormEditPost() {
               label="Set Period "
             />
           </div>
-          {formik.values.hasPeriod === "true" && (
+          
+          {String(formik.values.hasPeriod) === "true" && (
             <>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
-                  disableToolbar
+                  disabled
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="dense"
@@ -373,7 +537,7 @@ function FormEditPost() {
               </MuiPickersUtilsProvider>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
-                  disableToolbar
+                disabled
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="dense"
@@ -402,7 +566,7 @@ function FormEditPost() {
       <RadioGroup
         aria-label="type"
         name="type"
-        value={formik.values.type}
+        value={`${formik.values.type}`}
         onChange={formik.handleChange}
         row
         color="primary"
@@ -415,17 +579,17 @@ function FormEditPost() {
         <div>
           <FormControlLabel
             value="true"
-            control={<GreenRadio />}
+            control={<GreenRadio disabled/>}
             label="All Faculties"
           />
           <FormControlLabel
             value="false"
-            control={<GreenRadio />}
+            control={<GreenRadio disabled/>}
             label="Specific Faculty"
           />
         </div>
       </RadioGroup>
-      {formik.values.type !== "true" &&
+      {String(formik.values.type) !== "true" &&
         formik.values.requirements.map((r, index) => {
           return (
             <Grid container spacing={1} style={{ marginBottom: 5 }}>
