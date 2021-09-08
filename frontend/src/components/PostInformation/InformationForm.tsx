@@ -27,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   Card: {
-    width: 900,
+    
+    width: "100%",
+  
 
     padding: theme.spacing(2),
     alignContent: "center",
@@ -101,14 +103,18 @@ export default function PostForm(): JSX.Element {
 
   return (
     <>
-      <main className={classes.layout}>
-        <Paper className={classes.Card}>
+      
+        
+      <Grid container direction="row" justifyContent="center">
           <Typography variant="h4" align="center">
             <Box fontWeight="bold" my={2}>
               {subject.title}
             </Box>
           </Typography>
-          <Grid container direction="row" justifyContent="center">
+          </Grid>
+
+      <Grid container direction="row" justifyContent="center">
+          
             {subject.qualification?.map((obj) => {
               return (
                 <Chip
@@ -161,11 +167,11 @@ export default function PostForm(): JSX.Element {
                   onChange={formik.handleChange}
                 />
 
-                <Box mt={4} ml={35} mr={35}>
+                <Box mt={4} >
                   <Grid
                     container
                     direction="row"
-                    justifyContent="space-around"
+                    justifyContent="center"
                     alignItems="center"
                     style={{ paddingTop: "20" }}
                   >
@@ -174,6 +180,7 @@ export default function PostForm(): JSX.Element {
                       color="primary"
                       size="large"
                       type="submit"
+                      style = {{marginRight : 50}}
                     >
                       Submit
                     </Button>
@@ -218,8 +225,7 @@ export default function PostForm(): JSX.Element {
               </form>
             </Grid>
           </Grid>
-        </Paper>
-      </main>
+      
     </>
   );
 }
