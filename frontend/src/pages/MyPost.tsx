@@ -10,6 +10,7 @@ import {
   withStyles,
   createStyles,
   Theme,
+  Icon,
 } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -28,16 +29,48 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     icon: {
+      [theme.breakpoints.down("xs")]: {
+        height: "50px",
+        width: "50px",
+      },
       height: "75px",
       width: "75px",
       borderRadius: "50px",
       background: "#e0e0e0",
       boxShadow: "20px 20px 60px #bebebe-20px -20px 60px #ffffff",
     },
+    description: {
+      [theme.breakpoints.down("xs")]: {
+        marginBottom: 8,
+      },
+      marginBottom: 40,
+    },
     card: {
+      [theme.breakpoints.down("xs")]: {
+        padding: 10,
+        fontSize: 10,
+        minHeight: 180,
+      },
+      padding: 20,
+      minHeight: 220,
+      display: "flex",
+      alignItems: "center",
       boxShadow:
         "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
     },
+    usericon: {
+      [theme.breakpoints.down("xs")]: {
+        marginRight: 5,
+        fontSize: 13,
+      },
+      marginRight: 10,
+    },
+    cardtitle: {
+      [theme.breakpoints.down("xs")]: {
+        fontSize: 13,
+      },
+      fontSize: 15,
+    }
   })
 );
 
@@ -56,22 +89,34 @@ export interface MyPostProps {
 }
 
 interface Subject {
+  candidate: number;
   contact: string;
   create: string;
   desc: string;
+  _id: string;
   is_activate: string;
   is_all: boolean;
   last_modify: string;
   post_type: string;
   qualification: {
+    department_code: string;
+    faculty_code: string;
     year: string;
   }[];
-  quantity: string;
+  thisusersubmit: boolean;
   title: string;
   user_name: string;
-  __v: number;
-  _id: string;
+  first_name: string;
+  last_name: string;
+  name: string;
+  quantity: string;
+  isDueDate: boolean;
+  dueDate: string;
+  startDate: string;
+  endDate: string;
+  hasPeriod: boolean;
 }
+
 
 function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -110,7 +155,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   return (
     <div>
       <NavBar user={user} setUser={setUser} />
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Typography variant="h4">
           <Box
             fontWeight="bold"
@@ -123,53 +168,106 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
         <Grid container spacing={5}>
           {subjects.map((obj) => {
             return (
-              <Grid item sm={4} key={obj._id}>
-                <Card style={{ padding: 20 }} className={classes.card}>
-                  <Grid container direction="column" alignItems="center">
-                    <Avatar
-                      alt="Travis Howard"
-                      src="/img/mascot.png"
-                      className={classes.icon}
-                    />
-                    <Box style={{ marginTop: 10, marginBottom: 7 }}>
-                      {obj.user_name}
-                    </Box>
-                    <Box
-                      fontWeight="bold"
-                      fontSize="15px"
-                      color="primary.main"
-                      style={{ marginBottom: 7 }}
+              <Grid item xs={12} md={6}>
+                  <Card className={classes.card}>
+                    <Grid 
+                      container 
+                      direction="row" 
+                      alignItems="center" 
+                      spacing={2}
                     >
-                      {obj.title}
-                    </Box>
-                    <Box
-                      alignItems="center"
-                      color="primary.main"
-                      className="icon"
-                    >
-                      <i
-                        className="fas fa-camera fa-lg"
-                        style={{ marginBottom: 7, marginRight: 10 }}
-                      >
-                        <FontAwesomeIcon icon={faUser} />
-                      </i>
-                      {obj.quantity}{" "}
-                    </Box>
-                    <Grid
-                      container
-                      justifyContent="space-between"
-                      style={{ marginTop: 20 }}
-                    >
+                      <Grid item xs={5}>
+                        <Grid container 
+                          direction="column" 
+                          alignItems="center"
+                        >
+                          <Avatar
+                            alt="Travis Howard"
+                            src="/img/mascot.png"
+                            className={classes.icon}
+                          />
+                            <Box 
+                              textAlign="center" 
+                              style={{ marginTop: 10, marginBottom: 7 }}
+                            >
+                              {obj.user_name}
+                            </Box>
+                          
+
+                          <Typography color="primary">
+                            <Box 
+                              className={classes.cardtitle} 
+                              fontWeight="bold" 
+                              textAlign="center" 
+                              color="primary"
+                            >
+                              {obj.title}
+                            </Box>
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Box mt={1}>
+                          {obj.isDueDate ?
+                            "Duedate : " +
+                              obj.dueDate.slice(8, 10) +
+                              "/" +
+                              obj.dueDate.slice(5, 7) +
+                              "/" +
+                              obj.dueDate.slice(0, 4) :
+                              "No Duedate"
+                          }
+                        </Box>
+                        <Box mt={1}>
+                          {obj.hasPeriod ?
+                            "Work peroid : " +
+                              obj.startDate.slice(8, 10) +
+                              "/" +
+                              obj.startDate.slice(5, 7) +
+                              "/" +
+                              obj.startDate.slice(0, 4) +
+                              " - " +
+                              obj.endDate.slice(8, 10) +
+                              "/" +
+                              obj.endDate.slice(5, 7) +
+                              "/" +
+                              obj.endDate.slice(0, 4) :
+                              "No Work period"
+                          }
+                        </Box>
+
+                          <Grid container justifyContent="space-around" style={{ marginTop: 10 }}>
+                            <Box>
+                              <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                              >
+                                <FontAwesomeIcon icon={faUser}/>
+                              </Icon>
+                              Need {obj.quantity} people
+                            </Box>
+                            <Box>
+                              <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                              >
+                                <FontAwesomeIcon icon={faUser}/>
+                              </Icon>
+                              Joined {obj.candidate} people
+                            </Box>
+                          </Grid>
                       <Link
                         to={`/myposts/${obj._id}`}
                         style={{ textDecoration: "none" }}
                       >
-                        <Button variant="contained" color="primary">
+                        <Button variant="contained" style={{ marginTop: 20,marginLeft: 20 ,marginRight: 20 }} color="primary">
                           View
                         </Button>
                       </Link>
                       <Link to="/posts/edit" style={{ textDecoration: "none" }}>
-                        <ColorButton variant="contained" color="primary">
+                        <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }}>
                           Edit
                         </ColorButton>
                       </Link>
@@ -177,6 +275,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         onClick={() => handleClickOpen(obj._id)}
                         variant="contained"
                         color="secondary"
+                        style={{ marginTop: 20 }}
                       >
                         Delete
                       </Button>
