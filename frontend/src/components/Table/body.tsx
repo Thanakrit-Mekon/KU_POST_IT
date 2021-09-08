@@ -119,9 +119,6 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
               />
             </Grid>
           </Typography>
-          <Button className={classes.cooler} variant="contained">
-            Refresh
-          </Button>
         </Grid>
         <DataTable user={null} setUser={function (user: User | null): void {
           throw new Error("Function not implemented.");
