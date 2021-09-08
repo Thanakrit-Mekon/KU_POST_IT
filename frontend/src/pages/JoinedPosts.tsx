@@ -7,7 +7,9 @@ import {
     Chip,
     Avatar,
     Button,
+    Icon,
     Dialog,
+    Hidden,
     IconButton,
     Theme, 
     withStyles, 
@@ -60,7 +62,7 @@ interface Subject {
     hasPeriod: boolean;
 }
   
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
     createStyles({
       change: {
         color: "white",
@@ -68,9 +70,27 @@ const useStyles = makeStyles(() =>
         "&:hover": { backgroundColor: "#F9A41A" },
       },
       submitted: {
+        [theme.breakpoints.down("xs")]: {
+          padding: 10,
+          fontSize: 10,
+          minHeight: 180,
+        },
+        padding: 20,
+        minHeight: 220,
+        boxShadow:
+          "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
         backgroundColor: "#ECECEC"
       },
       unsubmitted: {
+        [theme.breakpoints.down("xs")]: {
+          padding: 10,
+          fontSize: 10,
+          minHeight: 180,
+        },
+        padding: 20,
+        minHeight: 220,
+        boxShadow:
+          "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
         backgroundColor: "#FFFFFF"
       },
       open: {
@@ -97,6 +117,41 @@ const useStyles = makeStyles(() =>
         color: "#FFFFFF",
         boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
         backgroundColor: "#d9534f"
+      },
+      card: {
+        [theme.breakpoints.down("xs")]: {
+          padding: 10,
+          fontSize: 10,
+          minHeight: 180,
+        },
+        padding: 20,
+        minHeight: 220,
+        boxShadow:
+          "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+      },
+      icon: {
+        [theme.breakpoints.down("xs")]: {
+          height: "50px",
+          width: "50px",
+        },
+        height: "75px",
+        width: "75px",
+        borderRadius: "50px",
+        background: "#e0e0e0",
+        boxShadow: "20px 20px 60px #bebebe-20px -20px 60px #ffffff",
+      },
+      cardtitle: {
+        [theme.breakpoints.down("xs")]: {
+          fontSize: 13,
+        },
+        fontSize: 15,
+      },
+      usericon: {
+        [theme.breakpoints.down("xs")]: {
+          marginRight: 5,
+          fontSize: 13,
+        },
+        marginRight: 10,
       },
     })
 );
@@ -197,65 +252,135 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
     return (
       <div>
         <NavBar user={user} setUser={setUser} />
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           <Grid
             container
             direction="row"
             justifyContent="space-between"
-            alignItems="center"
+            alignItems="flex-end"
           >
             <Grid item>
-              <Typography variant="h4" color="primary">
-                <Box fontWeight="bold" style={{ marginTop: 50, marginBottom: 5 }}>
-                  Joined Posts
-                </Box>
-              </Typography>
-              <Typography variant="subtitle1">
-                {/* <Box mb={5}>
-                  สำหรับนิสิตที่ต้องการดูโพสที่ตนได้ทำการสมัครแล้ว นิสิตสามารถเลือกดูโพสที่นิสิตสมัครได้ในทุกหมวดหมู่
-                </Box> */}
-              </Typography>
+              <Hidden xsDown>
+                <Typography variant="h4" color="primary">
+                  <Box fontWeight="bold" mt={6} mb={1} style={{marginBottom: 30 }}>
+                    Joined Posts
+                  </Box>
+                </Typography>
+              </Hidden>
+              <Hidden smUp>
+                <Typography variant="h5" color="primary">
+                  <Box fontWeight="bold" mt={6} mb={1} style={{marginBottom: 20 }}>
+                    Joined Posts
+                  </Box>
+                </Typography>
+              </Hidden>
             </Grid>
           </Grid>
   
-          <Grid container spacing={5}>
+          <Grid container spacing={3}>
             {subjects.map((obj) => {
               return (
-                <Grid item sm={4}>
-                  <Card style={{ padding: 20 }} className={(obj.is_activate===false) ? classes.submitted : classes.unsubmitted}>
-                    <Grid container direction="column" alignItems="center">
+                <Grid item xs={12} md={6}>
+                  <Card className={(obj.is_activate===false) ? classes.submitted : classes.unsubmitted}>
+                    <Grid  
+                      container 
+                      direction="row" 
+                      alignItems="center" 
+                      spacing={2}
+                    >
+                      <Grid item xs={5}>
+                        <Grid container 
+                          direction="column" 
+                          alignItems="center"
+                        >
                       <Chip style={{alignSelf:"flex-start"}} size="small" className={(obj.is_activate===false) ? classes.closed : classes.open} label={(obj.is_activate===false) ? "closed" : "open"}/>
-                      <Avatar />
-                      {obj.name ? <Box>{obj.name}</Box> : <Box>{obj.first_name}  {obj.last_name}</Box>}
-                      
+                      <Avatar
+                            alt="Travis Howard"
+                            src="/img/mascot.png"
+                            className={classes.icon}
+                      />
+                      {obj.name ? (
+                            <Box 
+                              textAlign="center" 
+                              style={{ marginTop: 10, marginBottom: 7 }}
+                            >
+                              {obj.name}
+                            </Box>
+                          ) : (
+                            <Box 
+                              textAlign="center" 
+                              style={{ marginTop: 10, marginBottom: 7 }}
+                            >
+                              {obj.first_name} {obj.last_name}
+                            </Box>
+                      )}
                       <Typography color="primary">
-                        <Box fontWeight="bold" color="primary">
+                        <Box 
+                          className={classes.cardtitle} 
+                          fontWeight="bold" 
+                          textAlign="center" 
+                          color="primary"
+                        >
                           {obj.title}
                         </Box>
                       </Typography>
-                      <Box>
-                        {obj.isDueDate && "สิ้นสุดการรับสมัคร : "+obj.dueDate.slice(8,10)+"/"+obj.dueDate.slice(5,7)+"/"+obj.dueDate.slice(0,4)  }
-                      </Box>
-                      <Box>
-                        {obj.hasPeriod && "เริ่มทำงาน : "+obj.startDate.slice(8,10)+"/"+obj.startDate.slice(5,7)+"/"+obj.startDate.slice(0,4)}
-                      </Box>
-                      <Box>
-                        {obj.hasPeriod && "ถึงวันที่ "+obj.endDate.slice(8,10)+"/"+obj.endDate.slice(5,7)+"/"+obj.endDate.slice(0,4) }
-                      </Box>
-                      {/* <Icon className="fa fa-user" /> */}
-                      <Box alignItems="space-between">
-                        <FontAwesomeIcon icon={faUser} /> ต้องการ {obj.quantity}{" "}
-                        คน{"     "}
-                        <FontAwesomeIcon icon={faUser} /> สมัครแล้ว {obj.candidate}{" "}
-                        คน
-                      </Box>
+                      </Grid>
+                    </Grid>
+
+                      <Grid item xs={7}>
+                        <Box mt={1}>
+                          {obj.isDueDate ?
+                            "Duedate : " +
+                              obj.dueDate.slice(8, 10) +
+                              "/" +
+                              obj.dueDate.slice(5, 7) +
+                              "/" +
+                              obj.dueDate.slice(0, 4) :
+                              "No Duedate"
+                          }
+                        </Box>
+                        <Box mt={1}>
+                          {obj.hasPeriod ?
+                            "Work peroid : " +
+                              obj.startDate.slice(8, 10) +
+                              "/" +
+                              obj.startDate.slice(5, 7) +
+                              "/" +
+                              obj.startDate.slice(0, 4) +
+                              " - " +
+                              obj.endDate.slice(8, 10) +
+                              "/" +
+                              obj.endDate.slice(5, 7) +
+                              "/" +
+                              obj.endDate.slice(0, 4) :
+                              "No Work period"
+                          }
+                        </Box>
+                      
+                        <Grid container justifyContent="space-around" style={{ marginTop: 10 }}>
+                          <Box>
+                            <Icon
+                            fontSize="small"
+                            color="primary"
+                            className={classes.usericon}
+                            >
+                              <FontAwesomeIcon icon={faUser}/>
+                            </Icon>
+                            Need {obj.quantity} people
+                          </Box>
+                          <Box>
+                            <Icon
+                            fontSize="small"
+                            color="primary"
+                            className={classes.usericon}
+                            >
+                              <FontAwesomeIcon icon={faUser}/>
+                            </Icon>
+                            Joined {obj.candidate} people
+                          </Box>
+                        </Grid>
   
-                      <Grid
-                        container
-                        justifyContent="center"
-                        style={{ marginTop: 20 }}
-                      >
-                        <Button variant="contained" color="primary" onClick={() => handleClickOpen(obj.id)}>
+                        <Button variant="contained" color="primary" style={{ marginTop: 20 }} fullWidth onClick={() => handleClickOpen(obj.id)}>
                           View
                         </Button>
 
@@ -290,16 +415,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                             <Typography variant="subtitle1">
                               {obj.answer}
                             </Typography>
-                            
-                            {/* <Typography variant="subtitle1" color="secondary">
-                              <Box>{obj.status ? "คุณได้รับเลือก" : (obj.is_activate===true) ? "ยังไม่ได้พิจารณา" : "คุณไม่ถูกรับเลือก"}</Box>
-                            </Typography> */}
                         </DialogContent>
-                        {/* <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                          Back
-                        </Button>
-                        </DialogActions> */}
                         </Dialog>}
                       </Grid>
                     </Grid>
