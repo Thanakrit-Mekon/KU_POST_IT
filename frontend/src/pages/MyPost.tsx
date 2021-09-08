@@ -266,19 +266,40 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                           View
                         </Button>
                       </Link>
+                      {( obj.is_activate ? (
                       <Link to="/posts/edit" style={{ textDecoration: "none" }}>
                         <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }}>
                           Edit
                         </ColorButton>
                       </Link>
+                      ) : (
+                        <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }} disabled>
+                          Edit
+                        </ColorButton>
+
+                      ))}
+
+                      {( obj.is_activate ? (
                       <Button
                         onClick={() => handleClickOpen(obj._id)}
                         variant="contained"
                         color="secondary"
                         style={{ marginTop: 20 }}
                       >
-                        Delete
+                        Cancel
                       </Button>
+                      
+                      ) : (
+                        <Button
+                        onClick={() => handleClickOpen(obj._id)}
+                        variant="contained"
+                        color="secondary"
+                        style={{ marginTop: 20 }}
+                        disabled
+                      >
+                        Cancel
+                      </Button>
+                      ))}
                       {postId === obj._id && (
                         <Dialog
                           open={open}
@@ -287,23 +308,23 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                           aria-describedby="alert-dialog-description"
                         >
                           <DialogTitle id="alert-dialog-title">
-                            {"Do you really want to delete this post?"}
+                            {"Do you want to cancel this post?"}
                           </DialogTitle>
                           <DialogContent></DialogContent>
                           <DialogActions>
                             <Button onClick={handleClose} color="primary">
-                              Cancel
+                              Decline
                             </Button>
                             <Button
                               onClick={() => DeletePost(obj._id)}
                               color="primary"
                               autoFocus
                             >
-                              Delete
+                              Accept
                             </Button>
                           </DialogActions>
                         </Dialog>
-                      )}
+                        )}
                     </Grid>
                   </Grid>
                 </Card>
