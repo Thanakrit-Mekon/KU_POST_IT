@@ -3,7 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
-import DataTable from "../Table/dataTable";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import { Theme } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
@@ -11,12 +10,98 @@ import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
 import { Link , useParams } from "react-router-dom";
-import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import * as React from "react";
+import {DataGrid, GridColDef, GridValueGetterParams} from "@material-ui/data-grid";
+
+
+interface Faculty {
+  id: string;
+  faculty_name: string;
+  faculty_code: string;
+}
+
+interface Department {
+  id: string;
+  faculty_code: string;
+  department_name: string;
+  department_code: string;
+}
+
+const columns: GridColDef[] = [
+  { field: "id", headerName: "#", width: 90 },
+  {
+    field: "firstName",
+    headerName: "First name",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "lastName",
+    headerName: "Last name",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    width: 200,
+    editable: true,
+  },
+  {
+    field: "faculty",
+    headerName: "Faculty",
+    width: 150,
+    editable: true,
+  },
+  {
+    field: "department",
+    headerName: "Department",
+    width: 200,
+    editable: true,
+  },
+  {
+    field: "year",
+    headerName: "Year",
+    type: "string",
+    width: 130,
+  },
+  {
+    field: "answer",
+    headerName: " ",
+    description: "Student's answer",
+    sortable: false,
+    type: "string",
+    renderCell: () => (
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        style={{ marginLeft: 16 }}
+        //onClick={handleClickOpen}
+      >
+        Answer
+      </Button>
+    ),
+  },
+  
+];
+
+interface Data {
+  Post_id:string;
+  Username:string;
+  Name:string;
+  Surname:string;
+  Email:string;
+  Faculty:string;
+  Department:string;
+  Year:string;
+  Answer:string;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,6 +132,8 @@ export interface Bodyprops {
   setUser: (user: User | null) => void;
 }
 
+
+
 interface Subject {
   contact: string;
   create: string;
@@ -64,14 +151,28 @@ interface Subject {
   __v: number;
   _id: string;
   numberAppli: string;
+  Post_id:string;
+  Username:string;
+  Name:string;
+  Surname:string;
+  Email:string;
+  Faculty:string;
+  Department:string;
+  Year:string;
+  Answer:string;
 }
 
 interface ParamType {
   postId: string;
 }
 
+
+
 function Body({ user, setUser }: Bodyprops): JSX.Element {
   const classes = useStyles();
+  const [faculties, setFaculties] = useState<Faculty[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [Data, setData] = useState<Data[]>([]);
 
   const [open, setOpen] = React.useState(false);
 
@@ -96,7 +197,49 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
         console.log(error.message);
       });
   }, [param.postId]);
-  console.log(subjects);
+  //console.log(subjects);
+
+  useEffect(() => {
+    axios
+      .get(`/csv/DataCSV/${param.postId}`)
+      .then((response) => {
+        setData(response.data);
+        //console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  }, [param.postId]);
+  //console.log(Data);
+
+  useEffect(() => {
+    axios.get("/dropdowns/faculties").then((response) => {
+      setFaculties(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`/dropdowns/alldepartment`)
+      .then((response) => {
+        setDepartments(response.data);
+      });
+  }, []);
+
+  const facultyCodeToFacultyName = (facultyCode:string) => {
+    const facultyName = faculties.find(({faculty_code})=>faculty_code===facultyCode)?.faculty_name 
+    return facultyName
+  }
+
+  const departmentCodeToDepartmentName = (departmentCode:string) => {
+    const departmentName = departments.find(({department_code})=>department_code===departmentCode)?.department_name 
+    return departmentName
+  }
+
+  const r = Data.map((data,i)=>{
+    //return createData(  i+1 , subject.Name, subject.Surname ,subject.Email, subject.Faculty, subject.Department, subject.Year );
+    return {id : i+1 , firstName : data.Name, lastName: data.Surname ,email: data.Email,faculty: facultyCodeToFacultyName(data.Faculty),department: departmentCodeToDepartmentName(data.Department),year: data.Year,answer: data.Answer}
+  });
 
   return (
     <Grid className={classes.root}>
@@ -120,9 +263,15 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             </Grid>
           </Typography>
         </Grid>
-        <DataTable user={null} setUser={function (user: User | null): void {
-          throw new Error("Function not implemented.");
-        } } />
+        <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={r}
+          columns={columns}
+          pageSize={10}
+          checkboxSelection
+          disableSelectionOnClick
+        />
+      </div>
         <Grid container justifyContent="center" alignItems="center">
           <Button
             style={{ marginTop: 50, marginBottom: 50 }}
