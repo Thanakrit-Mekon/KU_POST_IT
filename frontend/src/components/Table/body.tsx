@@ -128,6 +128,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   const [Data, setData] = useState<Data[]>([]);
 
   const [open, setOpen] = React.useState(false);
+  const [openAnswer, setOpenAnswer] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -135,6 +136,14 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClickOpenAnswer = () => {
+    setOpenAnswer(true);
+  };
+
+  const handleCloseAnswer = () => {
+    setOpenAnswer(false);
   };
 
   const [subjects, setSubjects] = useState<Subject>({} as Subject);
@@ -239,17 +248,37 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
       sortable: false,
       type: "string",
       renderCell: () => (
-        <Button
-          variant="contained"
-          color="primary"
-          size="small"
-          style={{ marginLeft: 16 }}
-          onClick={handleClickOpen}
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            style={{ marginLeft: 16 }}
+            onClick={handleClickOpenAnswer}
 
-        >
-          Answer
-        </Button>
-          
+          >
+            Answer
+          </Button>
+          <Dialog
+            open={openAnswer}
+            onClose={handleCloseAnswer}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Student's answer"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Let Google help apps determine location. This means sending anonymous location data to
+                Google, even when no apps are running.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseAnswer} color="primary" autoFocus>
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>  
+        </div>
       ),
     },
   ];
