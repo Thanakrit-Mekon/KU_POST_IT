@@ -32,64 +32,17 @@ interface Department {
   department_code: string;
 }
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "#", width: 90 },
-  {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 200,
-    editable: true,
-  },
-  {
-    field: "faculty",
-    headerName: "Faculty",
-    width: 150,
-    editable: true,
-  },
-  {
-    field: "department",
-    headerName: "Department",
-    width: 200,
-    editable: true,
-  },
-  {
-    field: "year",
-    headerName: "Year",
-    type: "string",
-    width: 130,
-  },
-  {
-    field: "answer",
-    headerName: " ",
-    description: "Student's answer",
-    sortable: false,
-    type: "string",
-    renderCell: () => (
-      <Button
-        variant="contained"
-        color="primary"
-        size="small"
-        style={{ marginLeft: 16 }}
-        //onClick={handleClickOpen}
-      >
-        Answer
-      </Button>
-    ),
-  },
+const Users = () => {
   
-];
+  
+
+}
+
+let initialFormData = { id: null, name: "", gender: "", email: "" };
+
+
+
+
 
 interface Data {
   Post_id:string;
@@ -241,6 +194,66 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     return {id : i+1 , firstName : data.Name, lastName: data.Surname ,email: data.Email,faculty: facultyCodeToFacultyName(data.Faculty),department: departmentCodeToDepartmentName(data.Department),year: data.Year,answer: data.Answer}
   });
 
+  const c: GridColDef[] = [
+    { field: "id", headerName: "#", width: 90 },
+    {
+      field: "firstName",
+      headerName: "First name",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "lastName",
+      headerName: "Last name",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "faculty",
+      headerName: "Faculty",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "department",
+      headerName: "Department",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "year",
+      headerName: "Year",
+      type: "string",
+      width: 130,
+    },
+    {
+      field: "answer",
+      headerName: " ",
+      description: "Student's answer",
+      sortable: false,
+      type: "string",
+      renderCell: () => (
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          style={{ marginLeft: 16 }}
+          onClick={handleClickOpen}
+
+        >
+          Answer
+        </Button>
+          
+      ),
+    },
+  ];
+
   return (
     <Grid className={classes.root}>
       <NavBar user={user} setUser={setUser} />
@@ -266,7 +279,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
         <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={r}
-          columns={columns}
+          columns={c}
           pageSize={10}
           checkboxSelection
           disableSelectionOnClick
