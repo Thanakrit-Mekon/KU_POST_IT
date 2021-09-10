@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) =>
     },
     bgWhite: {
       backgroundColor: "white",
+      [theme.breakpoints.down("xs")]: {
+        backgroundColor: "#5E9EA0",
+      },
     },
     leftCol: {
       borderRadius: "4px 0 0 4px",
@@ -41,6 +44,10 @@ const useStyles = makeStyles((theme) =>
           marginBottom: "70px",
         },
         objectFit: "cover",
+      },
+      [theme.breakpoints.down("xs")]: {
+        borderTopRightRadius: "25px",
+        borderTopLeftRadius: "25px",
       },
     },
   })
@@ -76,23 +83,32 @@ function Create({ setUser }: LoginProps): JSX.Element {
         <Box
           borderRadius="4px 0 0 4px"
           className={classes.content}
-          style={{ padding: "20px" }}
+          style={{ padding: "20px" ,
+          backgroundColor: "#ffffff",}}
         >
           <Form setUser={setUser} />
         </Box>
         </Hidden>
       </Grid>
       <Grid item sm={5} className={classes.bgTeal}>
+      <Hidden xsDown>
         <Box
           borderRadius="0 4px 4px 0"
           boxShadow={6}
           className={classes.content}
         >
-          <Hidden xsDown>
-              <img src="/img/mascot.png" alt="mascot" />
-            </Hidden>
+            <img src="/img/mascot.png" alt="mascot" />
             <img src="/img/logo.png" alt="logo" />
         </Box>
+      </Hidden>
+      <Hidden smUp>
+        <Box
+          borderRadius="0 4px 4px 0"
+          className={classes.content}
+        >
+            <img src="/img/logo.png" alt="logo" />
+        </Box>
+      </Hidden>
       </Grid>
     </Grid>
   );

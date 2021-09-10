@@ -147,10 +147,10 @@ function Form({ setUser }: LoginProps) {
           >
             Login
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="center" >
             <Grid item>
-              Don't have an account?
-              <Link component={Router} to="/register" variant="body2">
+              Don't have an account ?
+              <Link component={Router} to="/register" variant="body2" style={{marginLeft : 5 }} >
                 Sign-up here.
               </Link>
             </Grid>
