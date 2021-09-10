@@ -11,6 +11,7 @@ import {
   createStyles,
   Theme,
   Icon,
+  Hidden,
 } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -156,6 +157,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
     <div>
       <NavBar user={user} setUser={setUser} />
       <Container maxWidth="lg">
+      <Hidden xsDown>
         <Typography variant="h4">
           <Box
             fontWeight="bold"
@@ -165,6 +167,18 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
             My Post
           </Box>
         </Typography>
+        </Hidden>
+        <Hidden smUp>
+        <Typography variant="h5">
+          <Box
+            fontWeight="bold"
+            color="primary.main"
+            style={{ marginTop: 50, marginBottom: 50 }}
+          >
+            My Post
+          </Box>
+        </Typography>
+        </Hidden>
         <Grid container spacing={5}>
           {subjects.map((obj) => {
             return (
@@ -262,43 +276,103 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         to={`/myposts/${obj._id}`}
                         style={{ textDecoration: "none" }}
                       >
+                        <Hidden xsDown>
                         <Button variant="contained" style={{ marginTop: 20,marginLeft: 20 ,marginRight: 20 }} color="primary">
                           View
                         </Button>
+                        </Hidden>
+                        <Hidden smUp>
+                        <Button variant="contained" 
+                                style={{ marginTop: 10}} 
+                                color="primary" 
+                                size="small"
+                                fullWidth
+                                >
+                          View
+                        </Button>
+                        </Hidden>
                       </Link>
                       {( obj.is_activate ? (
                       <Link to="/posts/edit" style={{ textDecoration: "none" }}>
+                        <Hidden xsDown>
                         <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }}>
                           Edit
                         </ColorButton>
-                      </Link>
-                      ) : (
-                        <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }} disabled>
+                        </Hidden>
+                        <Hidden smUp>
+                        <ColorButton variant="contained" 
+                                     color="primary" 
+                                     style={{ marginTop: 10}} 
+                                     size="small"
+                                     fullWidth>
                           Edit
                         </ColorButton>
-
+                        </Hidden>
+                      </Link>
+                      ) : (
+                        <><Hidden xsDown>
+                            <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }} disabled>
+                              Edit
+                            </ColorButton>
+                          </Hidden><Hidden smUp>
+                              <ColorButton variant="contained" 
+                                           color="primary" 
+                                           style={{ marginTop: 10}} 
+                                           disabled 
+                                           size="small"
+                                           fullWidth>
+                                Edit
+                              </ColorButton>
+                            </Hidden></>
                       ))}
+                      
 
                       {( obj.is_activate ? (
-                      <Button
-                        onClick={() => handleClickOpen(obj._id)}
-                        variant="contained"
-                        color="secondary"
-                        style={{ marginTop: 20 }}
-                      >
-                        Cancel
-                      </Button>
+                      <><Hidden xsDown>
+                          <Button
+                            onClick={() => handleClickOpen(obj._id)}
+                            variant="contained"
+                            color="secondary"
+                            style={{ marginTop: 20 }}
+                          >
+                            Cancel
+                          </Button>
+                        </Hidden><Hidden smUp>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginTop: 10}}
+                              size="small"
+                              fullWidth
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden></>
                       
                       ) : (
-                        <Button
-                        onClick={() => handleClickOpen(obj._id)}
-                        variant="contained"
-                        color="secondary"
-                        style={{ marginTop: 20 }}
-                        disabled
-                      >
-                        Cancel
-                      </Button>
+                        <><Hidden xsDown>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginTop: 20 }}
+                              disabled
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden><Hidden smUp>
+                              <Button
+                                onClick={() => handleClickOpen(obj._id)}
+                                variant="contained"
+                                color="secondary"
+                                style={{ marginTop: 10 }}
+                                disabled
+                                fullWidth
+                              >
+                                Cancel
+                              </Button>
+                            </Hidden></>
                       ))}
                       {postId === obj._id && (
                         <Dialog
