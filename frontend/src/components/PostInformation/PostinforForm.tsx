@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       borderTopRightRadius: "25px",
       borderTopLeftRadius: "25px",
-      
     },
   },
   buttons: {
@@ -65,14 +64,14 @@ export default function PostForm(): JSX.Element {
           </Grid>
         </Hidden>
         <Hidden smUp>
-        <Paper className={classes.paper} elevation={-1}>
+          <Paper className={classes.paper} elevation={-1}>
             <InformationForm />
-        </Paper>
+          </Paper>
         </Hidden>
         <Hidden xsDown>
-        <Paper className={classes.paper}>
+          <Paper className={classes.paper}>
             <InformationForm />
-        </Paper>
+          </Paper>
         </Hidden>
       </main>
     </>

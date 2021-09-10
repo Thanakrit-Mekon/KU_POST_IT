@@ -65,50 +65,45 @@ function Create({ setUser }: LoginProps): JSX.Element {
     setTabIndex(index);
   };
 
-
   return (
     <Grid container className={classes.container}>
       <Grid item sm={7} className={classes.bgWhite}>
         <Hidden xsDown>
-        <Box
-          borderRadius="4px 0 0 4px"
-          boxShadow={4}
-          className={classes.content}
-          style={{ padding: "20px" }}
-        >
-          <Form setUser={setUser} />
-        </Box>
+          <Box
+            borderRadius="4px 0 0 4px"
+            boxShadow={4}
+            className={classes.content}
+            style={{ padding: "20px" }}
+          >
+            <Form setUser={setUser} />
+          </Box>
         </Hidden>
         <Hidden smUp>
-        <Box
-          borderRadius="4px 0 0 4px"
-          className={classes.content}
-          style={{ padding: "20px" ,
-          backgroundColor: "#ffffff",}}
-        >
-          <Form setUser={setUser} />
-        </Box>
+          <Box
+            borderRadius="4px 0 0 4px"
+            className={classes.content}
+            style={{ padding: "20px", backgroundColor: "#ffffff" }}
+          >
+            <Form setUser={setUser} />
+          </Box>
         </Hidden>
       </Grid>
       <Grid item sm={5} className={classes.bgTeal}>
-      <Hidden xsDown>
-        <Box
-          borderRadius="0 4px 4px 0"
-          boxShadow={6}
-          className={classes.content}
-        >
+        <Hidden xsDown>
+          <Box
+            borderRadius="0 4px 4px 0"
+            boxShadow={6}
+            className={classes.content}
+          >
             <img src="/img/mascot.png" alt="mascot" />
             <img src="/img/logo.png" alt="logo" />
-        </Box>
-      </Hidden>
-      <Hidden smUp>
-        <Box
-          borderRadius="0 4px 4px 0"
-          className={classes.content}
-        >
+          </Box>
+        </Hidden>
+        <Hidden smUp>
+          <Box borderRadius="0 4px 4px 0" className={classes.content}>
             <img src="/img/logo.png" alt="logo" />
-        </Box>
-      </Hidden>
+          </Box>
+        </Hidden>
       </Grid>
     </Grid>
   );

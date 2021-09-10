@@ -8,7 +8,7 @@ import {
   Button,
   Switch,
   FormControlLabel,
-  makeStyles, 
+  makeStyles,
   createStyles,
   Icon,
   Hidden,
@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) =>
         fontSize: 13,
       },
       fontSize: 15,
-    }
+    },
   })
 );
 
@@ -127,11 +127,9 @@ function QueryUser({ user, setUser }: queryuserprops) {
 
   if (user?.location) {
     usertype = 3;
-  } 
-  else if (user?.student_id) {
+  } else if (user?.student_id) {
     usertype = 1;
-  } 
-  else {
+  } else {
     usertype = 2;
   }
 
@@ -187,11 +185,15 @@ function QueryUser({ user, setUser }: queryuserprops) {
               (location.pathname === "/coop" && usertype === 1) ||
               (location.pathname === "/intern" && usertype === 3) ? (
                 <Box textAlign="end" mb={1}>
-                <Link to="/posts/new" style={{ textDecoration: "none" }}>
-                  <Button className={classes.change} size="medium" variant="contained">
-                    Create Post
-                  </Button>
-                </Link>
+                  <Link to="/posts/new" style={{ textDecoration: "none" }}>
+                    <Button
+                      className={classes.change}
+                      size="medium"
+                      variant="contained"
+                    >
+                      Create Post
+                    </Button>
+                  </Link>
                 </Box>
               ) : (
                 <></>
@@ -202,11 +204,15 @@ function QueryUser({ user, setUser }: queryuserprops) {
               (location.pathname === "/coop" && usertype === 1) ||
               (location.pathname === "/intern" && usertype === 3) ? (
                 <Box textAlign="end" mb={1}>
-                <Link to="/posts/new" style={{ textDecoration: "none" }}>
-                  <Button className={classes.change} size="small" variant="contained">
-                    Create Post
-                  </Button>
-                </Link>
+                  <Link to="/posts/new" style={{ textDecoration: "none" }}>
+                    <Button
+                      className={classes.change}
+                      size="small"
+                      variant="contained"
+                    >
+                      Create Post
+                    </Button>
+                  </Link>
                 </Box>
               ) : (
                 <></>
@@ -222,76 +228,72 @@ function QueryUser({ user, setUser }: queryuserprops) {
         >
           <Grid item>
             <Typography className={classes.description} variant="subtitle1">
-                {location.pathname === "/ta"
-                  ? "สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็น TA ช่วยในรายวิชาต่างๆ นิสิตสามารถเลือกสมัครเป็น TA ในแต่ล่ะวิชาได้"
-                  : location.pathname === "/coop"
-                  ? "สำหรับนิสิตที่ต้องการหานิสิตมาเป็นเพื่อนร่วมทำโครงการ นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตในแต่ละโครงการได้"
-                  : "สำหรับตัวแทนบริษัทที่ต้องการหานิสิตมาเป็นนิสิตฝึกงาน นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตฝึกงานในแต่ละบริษัทได้"}
+              {location.pathname === "/ta"
+                ? "สำหรับอาจารย์ที่ต้องการหานิสิตมาเป็น TA ช่วยในรายวิชาต่างๆ นิสิตสามารถเลือกสมัครเป็น TA ในแต่ล่ะวิชาได้"
+                : location.pathname === "/coop"
+                ? "สำหรับนิสิตที่ต้องการหานิสิตมาเป็นเพื่อนร่วมทำโครงการ นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตในแต่ละโครงการได้"
+                : "สำหรับตัวแทนบริษัทที่ต้องการหานิสิตมาเป็นนิสิตฝึกงาน นิสิตสามารถเลือกเข้าร่วมเป็นนิสิตฝึกงานในแต่ละบริษัทได้"}
             </Typography>
-            </Grid>
+          </Grid>
           <Hidden mdDown>
-          <Grid item>
+            <Grid item>
               {usertype == 1 && (
-              <FormControlLabel
-              control={
-                <Switch
-                  checked={state.checkedA}
-                  onChange={handleChange}
-                  name="checkedA"
-                  color="primary"
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={state.checkedA}
+                      onChange={handleChange}
+                      name="checkedA"
+                      color="primary"
+                    />
+                  }
+                  label="Show only unjoined posts"
+                  className={classes.description}
+                  style={{ margin: 0 }}
                 />
-              }
-              label="Show only unjoined posts"
-              className={classes.description}
-              style={{ margin: 0 }}
-            />
-            )}
-          </Grid>
+              )}
+            </Grid>
           </Hidden>
-          </Grid>
-          <Hidden lgUp>
+        </Grid>
+        <Hidden lgUp>
           <Grid
             container
             direction="row"
             justifyContent="flex-end"
             alignItems="flex-start"
           >
-              {usertype == 1 && (
+            {usertype == 1 && (
               <FormControlLabel
-              control={
-                <Switch
-                  checked={state.checkedA}
-                  onChange={handleChange}
-                  name="checkedA"
-                  color="primary"
-                />
-              }
-              label="Show only unjoined posts"
-              style={{ margin: 0 }}
-            />
+                control={
+                  <Switch
+                    checked={state.checkedA}
+                    onChange={handleChange}
+                    name="checkedA"
+                    color="primary"
+                  />
+                }
+                label="Show only unjoined posts"
+                style={{ margin: 0 }}
+              />
             )}
           </Grid>
-          </Hidden>
+        </Hidden>
         <Grid container spacing={3}>
           {subjects.map((obj) => {
             if (state.checkedA && obj.thisusersubmit) {
               return <></>;
-            } 
-            else {
+            } else {
               return (
                 <Grid item xs={12} md={6}>
                   <Card className={classes.card}>
-                    <Grid 
-                      container 
-                      direction="row" 
-                      alignItems="center" 
+                    <Grid
+                      container
+                      direction="row"
+                      alignItems="center"
                       spacing={2}
                     >
                       <Grid item xs={5}>
-                        <Grid container 
-                          direction="column" 
-                          alignItems="center"
-                        >
+                        <Grid container direction="column" alignItems="center">
                           <Avatar
                             alt="Travis Howard"
                             src="/img/mascot.png"
@@ -299,15 +301,15 @@ function QueryUser({ user, setUser }: queryuserprops) {
                           />
 
                           {obj.name ? (
-                            <Box 
-                              textAlign="center" 
+                            <Box
+                              textAlign="center"
                               style={{ marginTop: 10, marginBottom: 7 }}
                             >
                               {obj.name}
                             </Box>
                           ) : (
-                            <Box 
-                              textAlign="center" 
+                            <Box
+                              textAlign="center"
                               style={{ marginTop: 10, marginBottom: 7 }}
                             >
                               {obj.first_name} {obj.last_name}
@@ -315,10 +317,10 @@ function QueryUser({ user, setUser }: queryuserprops) {
                           )}
 
                           <Typography color="primary">
-                            <Box 
-                              className={classes.cardtitle} 
-                              fontWeight="bold" 
-                              textAlign="center" 
+                            <Box
+                              className={classes.cardtitle}
+                              fontWeight="bold"
+                              textAlign="center"
                               color="primary"
                             >
                               {obj.title}
@@ -328,19 +330,18 @@ function QueryUser({ user, setUser }: queryuserprops) {
                       </Grid>
                       <Grid item xs={7}>
                         <Box mt={1}>
-                          {obj.isDueDate ?
-                            "Duedate : " +
+                          {obj.isDueDate
+                            ? "Duedate : " +
                               obj.dueDate.slice(8, 10) +
                               "/" +
                               obj.dueDate.slice(5, 7) +
                               "/" +
-                              obj.dueDate.slice(0, 4) :
-                              "No Duedate"
-                          }
+                              obj.dueDate.slice(0, 4)
+                            : "No Duedate"}
                         </Box>
                         <Box mt={1}>
-                          {obj.hasPeriod ?
-                            "Work peroid : " +
+                          {obj.hasPeriod
+                            ? "Work peroid : " +
                               obj.startDate.slice(8, 10) +
                               "/" +
                               obj.startDate.slice(5, 7) +
@@ -351,33 +352,36 @@ function QueryUser({ user, setUser }: queryuserprops) {
                               "/" +
                               obj.endDate.slice(5, 7) +
                               "/" +
-                              obj.endDate.slice(0, 4) :
-                              "No Work period"
-                          }
+                              obj.endDate.slice(0, 4)
+                            : "No Work period"}
                         </Box>
 
-                          <Grid container justifyContent="space-around" style={{ marginTop: 10 }}>
-                            <Box>
-                              <Icon
+                        <Grid
+                          container
+                          justifyContent="space-around"
+                          style={{ marginTop: 10 }}
+                        >
+                          <Box>
+                            <Icon
                               fontSize="small"
                               color="primary"
                               className={classes.usericon}
-                              >
-                                <FontAwesomeIcon icon={faUser}/>
-                              </Icon>
-                              Need {obj.quantity} people
-                            </Box>
-                            <Box>
-                              <Icon
+                            >
+                              <FontAwesomeIcon icon={faUser} />
+                            </Icon>
+                            Need {obj.quantity} people
+                          </Box>
+                          <Box>
+                            <Icon
                               fontSize="small"
                               color="primary"
                               className={classes.usericon}
-                              >
-                                <FontAwesomeIcon icon={faUser}/>
-                              </Icon>
-                              Joined {obj.candidate} people
-                            </Box>
-                          </Grid>
+                            >
+                              <FontAwesomeIcon icon={faUser} />
+                            </Icon>
+                            Joined {obj.candidate} people
+                          </Box>
+                        </Grid>
 
                         {usertype === 1 &&
                           (!obj.thisusersubmit ? (
@@ -385,7 +389,12 @@ function QueryUser({ user, setUser }: queryuserprops) {
                               to={`/posts/${obj.id}`}
                               style={{ textDecoration: "none" }}
                             >
-                              <Button variant="contained" color="primary" style={{ marginTop: 20 }} fullWidth>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ marginTop: 20 }}
+                                fullWidth
+                              >
                                 Join
                               </Button>
                             </Link>

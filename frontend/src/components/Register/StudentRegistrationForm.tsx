@@ -151,11 +151,9 @@ function StudentRegistrationForm(): JSX.Element {
         get_notify: true,
         phone: values.phone,
       };
-      console.log(userData);
       axios
         .post("/user/student", userData)
         .then(function (response) {
-          console.log(response);
           handleClickOpen();
         })
         .catch(function (error) {

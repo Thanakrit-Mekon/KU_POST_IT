@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: 13,
       },
       fontSize: 15,
-    }
+    },
   })
 );
 
@@ -118,7 +118,6 @@ interface Subject {
   hasPeriod: boolean;
 }
 
-
 function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   useEffect(() => {
@@ -157,201 +156,184 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
     <div>
       <NavBar user={user} setUser={setUser} />
       <Container maxWidth="lg">
-      <Hidden xsDown>
-        <Typography variant="h4">
-          <Box
-            fontWeight="bold"
-            color="primary.main"
-            style={{ marginTop: 50, marginBottom: 50 }}
-          >
-            My Post
-          </Box>
-        </Typography>
+        <Hidden xsDown>
+          <Typography variant="h4">
+            <Box
+              fontWeight="bold"
+              color="primary.main"
+              style={{ marginTop: 50, marginBottom: 50 }}
+            >
+              My Post
+            </Box>
+          </Typography>
         </Hidden>
         <Hidden smUp>
-        <Typography variant="h5">
-          <Box
-            fontWeight="bold"
-            color="primary.main"
-            style={{ marginTop: 50, marginBottom: 50 }}
-          >
-            My Post
-          </Box>
-        </Typography>
+          <Typography variant="h5">
+            <Box
+              fontWeight="bold"
+              color="primary.main"
+              style={{ marginTop: 50, marginBottom: 50 }}
+            >
+              My Post
+            </Box>
+          </Typography>
         </Hidden>
         <Grid container spacing={5}>
           {subjects.map((obj) => {
             return (
               <Grid item xs={12} md={6}>
-                  <Card className={classes.card}>
-                    <Grid 
-                      container 
-                      direction="row" 
-                      alignItems="center" 
-                      spacing={2}
-                    >
-                      <Grid item xs={5}>
-                        <Grid container 
-                          direction="column" 
-                          alignItems="center"
+                <Card className={classes.card}>
+                  <Grid
+                    container
+                    direction="row"
+                    alignItems="center"
+                    spacing={2}
+                  >
+                    <Grid item xs={5}>
+                      <Grid container direction="column" alignItems="center">
+                        <Avatar
+                          alt="Travis Howard"
+                          src="/img/mascot.png"
+                          className={classes.icon}
+                        />
+                        <Box
+                          textAlign="center"
+                          style={{ marginTop: 10, marginBottom: 7 }}
                         >
-                          <Avatar
-                            alt="Travis Howard"
-                            src="/img/mascot.png"
-                            className={classes.icon}
-                          />
-                            <Box 
-                              textAlign="center" 
-                              style={{ marginTop: 10, marginBottom: 7 }}
-                            >
-                              {obj.user_name}
-                            </Box>
-                          
+                          {obj.user_name}
+                        </Box>
 
-                          <Typography color="primary">
-                            <Box 
-                              className={classes.cardtitle} 
-                              fontWeight="bold" 
-                              textAlign="center" 
-                              color="primary"
-                            >
-                              {obj.title}
-                            </Box>
-                          </Typography>
-                        </Grid>
+                        <Typography color="primary">
+                          <Box
+                            className={classes.cardtitle}
+                            fontWeight="bold"
+                            textAlign="center"
+                            color="primary"
+                          >
+                            {obj.title}
+                          </Box>
+                        </Typography>
                       </Grid>
-                      <Grid item xs={7}>
-                        <Box mt={1}>
-                          {obj.isDueDate ?
-                            "Duedate : " +
-                              obj.dueDate.slice(8, 10) +
-                              "/" +
-                              obj.dueDate.slice(5, 7) +
-                              "/" +
-                              obj.dueDate.slice(0, 4) :
-                              "No Duedate"
-                          }
-                        </Box>
-                        <Box mt={1}>
-                          {obj.hasPeriod ?
-                            "Work peroid : " +
-                              obj.startDate.slice(8, 10) +
-                              "/" +
-                              obj.startDate.slice(5, 7) +
-                              "/" +
-                              obj.startDate.slice(0, 4) +
-                              " - " +
-                              obj.endDate.slice(8, 10) +
-                              "/" +
-                              obj.endDate.slice(5, 7) +
-                              "/" +
-                              obj.endDate.slice(0, 4) :
-                              "No Work period"
-                          }
-                        </Box>
+                    </Grid>
+                    <Grid item xs={7}>
+                      <Box mt={1}>
+                        {obj.isDueDate
+                          ? "Duedate : " +
+                            obj.dueDate.slice(8, 10) +
+                            "/" +
+                            obj.dueDate.slice(5, 7) +
+                            "/" +
+                            obj.dueDate.slice(0, 4)
+                          : "No Duedate"}
+                      </Box>
+                      <Box mt={1}>
+                        {obj.hasPeriod
+                          ? "Work peroid : " +
+                            obj.startDate.slice(8, 10) +
+                            "/" +
+                            obj.startDate.slice(5, 7) +
+                            "/" +
+                            obj.startDate.slice(0, 4) +
+                            " - " +
+                            obj.endDate.slice(8, 10) +
+                            "/" +
+                            obj.endDate.slice(5, 7) +
+                            "/" +
+                            obj.endDate.slice(0, 4)
+                          : "No Work period"}
+                      </Box>
 
-                          <Grid container justifyContent="space-around" style={{ marginTop: 10 }}>
-                            <Box>
-                              <Icon
-                              fontSize="small"
-                              color="primary"
-                              className={classes.usericon}
-                              >
-                                <FontAwesomeIcon icon={faUser}/>
-                              </Icon>
-                              Need {obj.quantity} people
-                            </Box>
-                            <Box>
-                              <Icon
-                              fontSize="small"
-                              color="primary"
-                              className={classes.usericon}
-                              >
-                                <FontAwesomeIcon icon={faUser}/>
-                              </Icon>
-                              Joined {obj.candidate} people
-                            </Box>
-                          </Grid>
+                      <Grid
+                        container
+                        justifyContent="space-around"
+                        style={{ marginTop: 10 }}
+                      >
+                        <Box>
+                          <Icon
+                            fontSize="small"
+                            color="primary"
+                            className={classes.usericon}
+                          >
+                            <FontAwesomeIcon icon={faUser} />
+                          </Icon>
+                          Need {obj.quantity} people
+                        </Box>
+                        <Box>
+                          <Icon
+                            fontSize="small"
+                            color="primary"
+                            className={classes.usericon}
+                          >
+                            <FontAwesomeIcon icon={faUser} />
+                          </Icon>
+                          Joined {obj.candidate} people
+                        </Box>
+                      </Grid>
                       <Link
                         to={`/myposts/${obj._id}`}
                         style={{ textDecoration: "none" }}
                       >
                         <Hidden xsDown>
-                        <Button variant="contained" style={{ marginTop: 20,marginLeft: 20 ,marginRight: 20 }} color="primary">
-                          View
-                        </Button>
+                          <Button
+                            variant="contained"
+                            style={{
+                              marginTop: 20,
+                              marginLeft: 20,
+                              marginRight: 20,
+                            }}
+                            color="primary"
+                          >
+                            View
+                          </Button>
                         </Hidden>
-                        <Hidden smUp>
-                        <Button variant="contained" 
-                                style={{ marginTop: 10}} 
-                                color="primary" 
-                                size="small"
-                                fullWidth
-                                >
-                          View
-                        </Button>
-                        </Hidden>
+                        
                       </Link>
-                      {( obj.is_activate ? (
-                      <Link to="/posts/edit" style={{ textDecoration: "none" }}>
-                        <Hidden xsDown>
-                        <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }}>
-                          Edit
-                        </ColorButton>
-                        </Hidden>
-                        <Hidden smUp>
-                        <ColorButton variant="contained" 
-                                     color="primary" 
-                                     style={{ marginTop: 10}} 
-                                     size="small"
-                                     fullWidth>
-                          Edit
-                        </ColorButton>
-                        </Hidden>
-                      </Link>
-                      ) : (
-                        <><Hidden xsDown>
-                            <ColorButton variant="contained" color="primary" style={{ marginTop: 20, marginRight: 20 }} disabled>
+                      {obj.is_activate ? (
+                        <Link
+                          to = {`/posts/edit/${obj._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Hidden xsDown>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginTop: 20, marginRight: 20 }}
+                            >
                               Edit
                             </ColorButton>
-                          </Hidden><Hidden smUp>
-                              <ColorButton variant="contained" 
-                                           color="primary" 
-                                           style={{ marginTop: 10}} 
-                                           disabled 
-                                           size="small"
-                                           fullWidth>
-                                Edit
-                              </ColorButton>
-                            </Hidden></>
-                      ))}
-                      
+                          </Hidden>
+                        </Link>
+                      ) : (
+                        <>
+                          <Hidden xsDown>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginTop: 20, marginRight: 20 }}
+                              disabled
+                            >
+                              Edit
+                            </ColorButton>
+                          </Hidden>
+                        </>
+                      )}
 
-                      {( obj.is_activate ? (
-                      <><Hidden xsDown>
-                          <Button
-                            onClick={() => handleClickOpen(obj._id)}
-                            variant="contained"
-                            color="secondary"
-                            style={{ marginTop: 20 }}
-                          >
-                            Cancel
-                          </Button>
-                        </Hidden><Hidden smUp>
+                      {obj.is_activate ? (
+                        <>
+                          <Hidden xsDown>
                             <Button
                               onClick={() => handleClickOpen(obj._id)}
                               variant="contained"
                               color="secondary"
-                              style={{ marginTop: 10}}
-                              size="small"
-                              fullWidth
+                              style={{ marginTop: 20 }}
                             >
                               Cancel
                             </Button>
-                          </Hidden></>
-                      
+                          </Hidden>
+                        </>
                       ) : (
-                        <><Hidden xsDown>
+                        <>
+                          <Hidden xsDown>
                             <Button
                               onClick={() => handleClickOpen(obj._id)}
                               variant="contained"
@@ -361,19 +343,9 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             >
                               Cancel
                             </Button>
-                          </Hidden><Hidden smUp>
-                              <Button
-                                onClick={() => handleClickOpen(obj._id)}
-                                variant="contained"
-                                color="secondary"
-                                style={{ marginTop: 10 }}
-                                disabled
-                                fullWidth
-                              >
-                                Cancel
-                              </Button>
-                            </Hidden></>
-                      ))}
+                          </Hidden>
+                        </>
+                      )}
                       {postId === obj._id && (
                         <Dialog
                           open={open}
@@ -398,8 +370,111 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             </Button>
                           </DialogActions>
                         </Dialog>
-                        )}
+                      )}
                     </Grid>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                    <Link
+                        to={`/myposts/${obj._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                    <Hidden smUp>
+                          <Button
+                            variant="contained"
+                            style={{ marginBottom: 10 ,marginLeft: 15,marginRight: 7.5 }}
+                            color="primary"
+                          >
+                            View
+                          </Button>
+                        </Hidden>
+                    </Link>
+                    {obj.is_activate ? (
+                        <Link
+                          to = {`/posts/edit/${obj._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Hidden smUp>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginBottom: 10,marginRight: 7.5, marginLeft: 7.5 }}
+                            >
+                              Edit
+                            </ColorButton>
+                          </Hidden>
+                        </Link>
+                      ) : (
+                        <>
+                          <Hidden smUp>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginBottom: 10,marginRight: 7.5, marginLeft: 7.5 }}
+                              disabled
+                            >
+                              Edit
+                            </ColorButton>
+                          </Hidden>
+                        </>
+                      )}
+                      {obj.is_activate ? (
+                        <>
+                          <Hidden smUp>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginBottom: 10,marginRight: 15, marginLeft: 7.5}}
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden>
+                        </>
+                      ) : (
+                        <>
+                          <Hidden smUp>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginBottom: 10, marginRight: 15, marginLeft: 7.5 }}
+                              disabled
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden>
+                        </>
+                      )}
+                      {postId === obj._id && (
+                        <Dialog
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Do you want to cancel this post?"}
+                          </DialogTitle>
+                          <DialogContent></DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                              Decline
+                            </Button>
+                            <Button
+                              onClick={() => DeletePost(obj._id)}
+                              color="primary"
+                              autoFocus
+                            >
+                              Accept
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      )}
+                      </Grid>
                   </Grid>
                 </Card>
               </Grid>

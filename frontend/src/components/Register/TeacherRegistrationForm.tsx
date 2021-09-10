@@ -117,11 +117,9 @@ function TeacherRegistrationForm(): JSX.Element {
         department_code: values.department,
         phone: values.phone,
       };
-      console.log(userData);
       axios
         .post("/user/teacher", userData)
         .then(function (response) {
-          console.log(response);
           handleClickOpen();
         })
         .catch(function (error) {

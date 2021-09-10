@@ -50,11 +50,11 @@ function MyProfile({ user, setUser }: MyProfileProps): JSX.Element {
       <Grid container>
         <Grid item xs={1} />
         <Grid item xs={10} md={3} lg={2}>
-            <ProfileImage />
+          <ProfileImage />
         </Grid>
         <Hidden mdUp>
-          <Grid item xs={1}/>
-          <Grid item xs={1}/>
+          <Grid item xs={1} />
+          <Grid item xs={1} />
         </Hidden>
         <Grid item xs={10} md={6} lg={6}>
           <Hidden smDown>

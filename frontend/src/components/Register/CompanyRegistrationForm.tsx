@@ -18,13 +18,7 @@ import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
-  password: yup
-    .string()
-    .min(8)
-    // .matches(
-    //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
-    // )
-    .required(),
+  password: yup.string().min(8).required(),
   confirmPassword: yup
     .string()
     .min(8)
@@ -100,11 +94,9 @@ function CompanyRegistrationForm(): JSX.Element {
         contact: values.contact,
         name: values.companyName,
       };
-      console.log(userData);
       axios
         .post("/user/company", userData)
         .then(function (response) {
-          console.log(response);
           handleClickOpen();
         })
         .catch(function (error) {

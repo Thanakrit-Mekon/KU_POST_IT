@@ -9,20 +9,31 @@ import Container from "@material-ui/core/Container";
 import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
-import { Link , useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import * as React from "react";
-import {DataGrid, GridColDef, GridValueGetterParams} from "@material-ui/data-grid";
-
+import {
+  DataGrid,
+  GridApi,
+  GridCellValue,
+  GridColDef,
+} from "@material-ui/data-grid";
 
 interface Faculty {
   id: string;
   faculty_name: string;
   faculty_code: string;
+}
+
+interface StudentProps {
+  post_id: string;
+  student: {
+    email: string;
+  }[];
 }
 
 interface Department {
@@ -32,28 +43,16 @@ interface Department {
   department_code: string;
 }
 
-const Users = () => {
-  
-  
-
-}
-
-let initialFormData = { id: null, name: "", gender: "", email: "" };
-
-
-
-
-
 interface Data {
-  Post_id:string;
-  Username:string;
-  Name:string;
-  Surname:string;
-  Email:string;
-  Faculty:string;
-  Department:string;
-  Year:string;
-  Answer:string;
+  Post_id: string;
+  Username: string;
+  Name: string;
+  Surname: string;
+  Email: string;
+  Faculty: string;
+  Department: string;
+  Year: string;
+  Answer: string;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -85,8 +84,6 @@ export interface Bodyprops {
   setUser: (user: User | null) => void;
 }
 
-
-
 interface Subject {
   contact: string;
   create: string;
@@ -104,31 +101,32 @@ interface Subject {
   __v: number;
   _id: string;
   numberAppli: string;
-  Post_id:string;
-  Username:string;
-  Name:string;
-  Surname:string;
-  Email:string;
-  Faculty:string;
-  Department:string;
-  Year:string;
-  Answer:string;
+  Post_id: string;
+  Username: string;
+  Name: string;
+  Surname: string;
+  Email: string;
+  Faculty: string;
+  Department: string;
+  Year: string;
+  Answer: string;
 }
 
 interface ParamType {
   postId: string;
 }
 
-
-
 function Body({ user, setUser }: Bodyprops): JSX.Element {
   const classes = useStyles();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [Data, setData] = useState<Data[]>([]);
-
   const [open, setOpen] = React.useState(false);
+  const [answer, setAnswer] = useState("");
   const [openAnswer, setOpenAnswer] = React.useState(false);
+  const [selectedStudents, setSelectedStudents] = useState<StudentProps>(
+    {} as StudentProps
+  );
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -138,7 +136,8 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     setOpen(false);
   };
 
-  const handleClickOpenAnswer = () => {
+  const handleClickOpenAnswer = (answer: string) => {
+    setAnswer(answer);
     setOpenAnswer(true);
   };
 
@@ -153,26 +152,22 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
       .get(`/csv/headTable/${param.postId}`)
       .then((response) => {
         setSubjects(response.data);
-        //console.log(response.data);
       })
       .catch(function (error) {
         console.log(error.message);
       });
   }, [param.postId]);
-  //console.log(subjects);
 
   useEffect(() => {
     axios
       .get(`/csv/DataCSV/${param.postId}`)
       .then((response) => {
         setData(response.data);
-        //console.log(response.data);
       })
       .catch(function (error) {
         console.log(error.message);
       });
   }, [param.postId]);
-  //console.log(Data);
 
   useEffect(() => {
     axios.get("/dropdowns/faculties").then((response) => {
@@ -181,26 +176,36 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`/dropdowns/alldepartment`)
-      .then((response) => {
-        setDepartments(response.data);
-      });
+    axios.get(`/dropdowns/alldepartment`).then((response) => {
+      setDepartments(response.data);
+    });
   }, []);
 
-  const facultyCodeToFacultyName = (facultyCode:string) => {
-    const facultyName = faculties.find(({faculty_code})=>faculty_code===facultyCode)?.faculty_name 
-    return facultyName
-  }
+  const facultyCodeToFacultyName = (facultyCode: string) => {
+    const facultyName = faculties.find(
+      ({ faculty_code }) => faculty_code === facultyCode
+    )?.faculty_name;
+    return facultyName;
+  };
 
-  const departmentCodeToDepartmentName = (departmentCode:string) => {
-    const departmentName = departments.find(({department_code})=>department_code===departmentCode)?.department_name 
-    return departmentName
-  }
+  const departmentCodeToDepartmentName = (departmentCode: string) => {
+    const departmentName = departments.find(
+      ({ department_code }) => department_code === departmentCode
+    )?.department_name;
+    return departmentName;
+  };
 
-  const r = Data.map((data,i)=>{
-    //return createData(  i+1 , subject.Name, subject.Surname ,subject.Email, subject.Faculty, subject.Department, subject.Year );
-    return {id : i+1 , firstName : data.Name, lastName: data.Surname ,email: data.Email,faculty: facultyCodeToFacultyName(data.Faculty),department: departmentCodeToDepartmentName(data.Department),year: data.Year,answer: data.Answer}
+  const r = Data.map((data, i) => {
+    return {
+      id: i + 1,
+      firstName: data.Name,
+      lastName: data.Surname,
+      email: data.Email,
+      faculty: facultyCodeToFacultyName(data.Faculty),
+      department: departmentCodeToDepartmentName(data.Department),
+      year: data.Year,
+      answer: data.Answer,
+    };
   });
 
   const c: GridColDef[] = [
@@ -247,39 +252,33 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
       description: "Student's answer",
       sortable: false,
       type: "string",
-      renderCell: () => (
-        <div>
+      renderCell: (params) => {
+        const onClick = () => {
+          const api: GridApi = params.api;
+          const fields = api
+            .getAllColumns()
+            .map((c) => c.field)
+            .filter((c) => c !== "__check__" && !!c);
+          const thisRow: Record<string, GridCellValue> = {};
+          console.log(params);
+          fields.forEach((f) => {
+            thisRow[f] = params.getValue(params.row.id, f);
+          });
+          return handleClickOpenAnswer(params.row.answer);
+        };
+
+        return (
           <Button
             variant="contained"
             color="primary"
             size="small"
             style={{ marginLeft: 16 }}
-            onClick={handleClickOpenAnswer}
-
+            onClick={onClick}
           >
             Answer
           </Button>
-          <Dialog
-            open={openAnswer}
-            onClose={handleCloseAnswer}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"Student's answer"}</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Let Google help apps determine location. This means sending anonymous location data to
-                Google, even when no apps are running.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseAnswer} color="primary" autoFocus>
-                Close
-              </Button>
-            </DialogActions>
-          </Dialog>  
-        </div>
-      ),
+        );
+      },
     },
   ];
 
@@ -306,21 +305,37 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
           </Typography>
         </Grid>
         <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={r}
-          columns={c}
-          pageSize={10}
-          checkboxSelection
-          disableSelectionOnClick
-        />
-      </div>
+          <DataGrid
+            rows={r}
+            columns={c}
+            pageSize={10}
+            checkboxSelection
+            disableSelectionOnClick
+            onSelectionModelChange={(ids) => {
+              let student: any[] = [];
+              const selectedIDs = new Set(ids);
+              const selectedRowData = r.filter((row) =>
+                selectedIDs.has(row.id)
+              );
+              selectedRowData.forEach((row) => {
+                student.push({ email: row.email });
+              });
+              const ans = {
+                post_id: param.postId,
+                student: student,
+              };
+              setSelectedStudents(ans);
+            }}
+            {...r}
+          />
+        </div>
         <Grid container justifyContent="center" alignItems="center">
           <Button
             style={{ marginTop: 50, marginBottom: 50 }}
             className={classes.cooler2}
             variant="contained"
             color="primary"
-            onClick={handleClickOpen}
+            onClick={() => handleClickOpen}
           >
             Submit
           </Button>
@@ -330,9 +345,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">
-              {"PIPI KENG JUNG"}
-            </DialogTitle>
+            <DialogTitle id="alert-dialog-title">"PIPI KENG JUNG"</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 submit success!!
@@ -358,6 +371,24 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
           </Link>
         </Grid>
       </Container>
+      <Dialog
+        open={openAnswer}
+        onClose={handleCloseAnswer}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Student's answer"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {answer}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAnswer} color="primary" autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }

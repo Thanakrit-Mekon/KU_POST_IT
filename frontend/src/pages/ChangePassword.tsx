@@ -50,35 +50,34 @@ function ChangePassword({ user, setUser }: ChangePasswordProps): JSX.Element {
               </Box>
             </Hidden>
             <Hidden mdUp>
-              <Box mt={3}fontWeight="fontWeightBold">
+              <Box mt={3} fontWeight="fontWeightBold">
                 New Password must contain :
               </Box>
             </Hidden>
           </Typography>
-
         </Grid>
         <Grid item xs={1} />
       </Grid>
       <Grid container>
-        <Grid item xs={1} md={1}/>
+        <Grid item xs={1} md={1} />
         <Hidden smDown>
-        <Grid item xs={10} md={5} lg={3} style={{ paddingLeft: 25 }}>
-          <PasswordRequirement />
-        </Grid>
+          <Grid item xs={10} md={5} lg={3} style={{ paddingLeft: 25 }}>
+            <PasswordRequirement />
+          </Grid>
         </Hidden>
         <Hidden mdUp>
           <Grid item xs={10}>
             <PasswordRequirement />
           </Grid>
-          <Grid item xs={1}/>
-          <Grid item xs={1}/>
+          <Grid item xs={1} />
+          <Grid item xs={1} />
         </Hidden>
         <Grid item xs={10} md={5}>
           <Box mt={3}>
             <ChangePasswordForm />
           </Box>
         </Grid>
-        <Grid item xs={1} md={1} lg={3}/>
+        <Grid item xs={1} md={1} lg={3} />
       </Grid>
       <Grid container className={classes.row}></Grid>
     </div>

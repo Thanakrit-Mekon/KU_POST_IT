@@ -45,7 +45,10 @@ interface TeacherProfileFormProps {
   setUser: (user: User | null) => void;
 }
 
-function TeacherProfileForm({ user, setUser }: TeacherProfileFormProps): JSX.Element {
+function TeacherProfileForm({
+  user,
+  setUser,
+}: TeacherProfileFormProps): JSX.Element {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -179,26 +182,26 @@ function TeacherProfileForm({ user, setUser }: TeacherProfileFormProps): JSX.Ele
           }}
         >
           <Hidden mdDown>
-              <RouterLink to="/ta" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="large"
-                      color="secondary"
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Back To Home
-                  </Button>
-              </RouterLink>
-              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="large"
-                      className={classes.bgyellow}
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Change Password
-                  </Button>
-              </RouterLink>
+            <RouterLink to="/ta" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="large"
+                color="secondary"
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Back To Home
+              </Button>
+            </RouterLink>
+            <RouterLink to="/changepassword" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="large"
+                className={classes.bgyellow}
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Change Password
+              </Button>
+            </RouterLink>
             <Button
               variant="contained"
               size="large"
@@ -208,28 +211,28 @@ function TeacherProfileForm({ user, setUser }: TeacherProfileFormProps): JSX.Ele
             >
               Save Changes
             </Button>
-            </Hidden>
-            <Hidden smDown lgUp>
-              <RouterLink to="/ta" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="medium"
-                      color="secondary"
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Back To Home
-                  </Button>
-              </RouterLink>
-              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="medium"
-                      className={classes.bgyellow}
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Change Password
-                  </Button>
-              </RouterLink>
+          </Hidden>
+          <Hidden smDown lgUp>
+            <RouterLink to="/ta" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="medium"
+                color="secondary"
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Back To Home
+              </Button>
+            </RouterLink>
+            <RouterLink to="/changepassword" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="medium"
+                className={classes.bgyellow}
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Change Password
+              </Button>
+            </RouterLink>
             <Button
               variant="contained"
               size="medium"
@@ -239,28 +242,28 @@ function TeacherProfileForm({ user, setUser }: TeacherProfileFormProps): JSX.Ele
             >
               Save Changes
             </Button>
-            </Hidden>
-            <Hidden mdUp>
-              <RouterLink to="/ta" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="small"
-                      color="secondary"
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Back To Home
-                  </Button>
-              </RouterLink>
-              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="small"
-                      className={classes.bgyellow}
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Change Password
-                  </Button>
-              </RouterLink>
+          </Hidden>
+          <Hidden mdUp>
+            <RouterLink to="/ta" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="small"
+                color="secondary"
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Back To Home
+              </Button>
+            </RouterLink>
+            <RouterLink to="/changepassword" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.bgyellow}
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Change Password
+              </Button>
+            </RouterLink>
             <Button
               variant="contained"
               size="small"
@@ -270,7 +273,7 @@ function TeacherProfileForm({ user, setUser }: TeacherProfileFormProps): JSX.Ele
             >
               Save Changes
             </Button>
-            </Hidden>
+          </Hidden>
         </Box>
       </form>
       <Dialog
