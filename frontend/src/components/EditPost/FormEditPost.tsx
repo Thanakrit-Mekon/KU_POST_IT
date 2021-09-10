@@ -93,12 +93,15 @@ const validationSchema = yup.object({
 function FormEditPost() {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
-
   const [subject, setSubject] = useState<Subject>({} as Subject);
 
   const location = useLocation();
-
   const classes = useStyles();
+  const history = useHistory();
+
+  function handleClick() {
+    history.goBack();
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -169,7 +172,7 @@ function FormEditPost() {
         setEndDate(response.data.endDate);
       })
       .catch(function (error) {});
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     axios.get("/dropdowns/faculties").then((response) => {
@@ -249,15 +252,14 @@ function FormEditPost() {
               Save
             </Button>
           </div>
-          <Link to="/ta" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              aria-label="outlined secondary button group"
-            >
-              Cancel
-            </Button>
-          </Link>
+          <Button
+            variant="outlined"
+            color="secondary"
+            aria-label="outlined secondary button group"
+            onClick={() => handleClick()}
+          >
+            Cancel
+          </Button>
         </div>
       </Grid>
       <Grid container spacing={1}>

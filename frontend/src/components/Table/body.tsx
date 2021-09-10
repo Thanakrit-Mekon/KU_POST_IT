@@ -19,7 +19,6 @@ import * as React from "react";
 import {
   DataGrid,
   GridColDef,
-  GridValueGetterParams,
 } from "@material-ui/data-grid";
 
 interface Faculty {
@@ -34,10 +33,6 @@ interface Department {
   department_name: string;
   department_code: string;
 }
-
-const Users = () => {};
-
-let initialFormData = { id: null, name: "", gender: "", email: "" };
 
 interface Data {
   Post_id: string;

@@ -29,7 +29,7 @@ import * as yup from "yup";
 import axios from "../../axios";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -103,13 +103,20 @@ const validationSchema = yup.object({
 });
 
 function FormCreatePost() {
+  const history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
+
+  const [faculties, setFaculties] = useState<Faculty[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
+
+  function handleClick() {
+    history.goBack();
+  }
+
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
     defaultMatches: true,
   });
-  const [faculties, setFaculties] = useState<Faculty[]>([]);
-  const [departments, setDepartments] = useState<Department[]>([]);
 
   const formik = useFormik({
     initialValues: {
@@ -606,16 +613,15 @@ function FormCreatePost() {
           </Button>
         </Grid>
         <Grid item xs={6} sm={1}>
-          <Link to="/ta" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              aria-label="outlined secondary button group"
-              className={classes.button}
-            >
-              Cancel
-            </Button>
-          </Link>
+          <Button
+            variant="outlined"
+            color="secondary"
+            aria-label="outlined secondary button group"
+            className={classes.button}
+            onClick={() => handleClick()}
+          >
+            Cancel
+          </Button>
         </Grid>
       </Grid>
       <Dialog
