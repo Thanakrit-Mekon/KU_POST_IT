@@ -15,6 +15,7 @@ import axios from "../../axios";
 import { useHistory } from "react-router-dom";
 import { LoginProps } from "../../pages/Login";
 import { Link as Router } from "react-router-dom";
+import { FormHelperText } from "@material-ui/core";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -127,9 +128,11 @@ function Form({ setUser }: LoginProps) {
                 }
               />
               {oldPasswordErrorMessage && (
-                <Typography align="left" variant="subtitle1" color="secondary">
-                  {oldPasswordErrorMessage}
-                </Typography>
+                  <Grid item xs={12}>
+                  <FormHelperText style={{color:"red"}}>
+                   {oldPasswordErrorMessage}  
+                  </FormHelperText>
+                  </Grid>
               )}
               <Grid container justifyContent="flex-end">
                 <Grid item>
