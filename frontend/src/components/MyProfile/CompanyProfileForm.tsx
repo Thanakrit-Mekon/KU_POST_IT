@@ -45,7 +45,10 @@ interface CompanyProfileFormProps {
   setUser: (user: User | null) => void;
 }
 
-function CompanyProfileForm({ user, setUser }: CompanyProfileFormProps): JSX.Element {
+function CompanyProfileForm({
+  user,
+  setUser,
+}: CompanyProfileFormProps): JSX.Element {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -189,26 +192,26 @@ function CompanyProfileForm({ user, setUser }: CompanyProfileFormProps): JSX.Ele
           }}
         >
           <Hidden mdDown>
-              <RouterLink to="/intern" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="large"
-                      color="secondary"
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Back To Home
-                  </Button>
-              </RouterLink>
-              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="large"
-                      className={classes.bgyellow}
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Change Password
-                  </Button>
-              </RouterLink>
+            <RouterLink to="/intern" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="large"
+                color="secondary"
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Back To Home
+              </Button>
+            </RouterLink>
+            <RouterLink to="/changepassword" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="large"
+                className={classes.bgyellow}
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Change Password
+              </Button>
+            </RouterLink>
             <Button
               variant="contained"
               size="large"
@@ -218,28 +221,28 @@ function CompanyProfileForm({ user, setUser }: CompanyProfileFormProps): JSX.Ele
             >
               Save Changes
             </Button>
-            </Hidden>
-            <Hidden smDown lgUp>
-              <RouterLink to="/intern" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="medium"
-                      color="secondary"
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Back To Home
-                  </Button>
-              </RouterLink>
-              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="medium"
-                      className={classes.bgyellow}
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Change Password
-                  </Button>
-              </RouterLink>
+          </Hidden>
+          <Hidden smDown lgUp>
+            <RouterLink to="/intern" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="medium"
+                color="secondary"
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Back To Home
+              </Button>
+            </RouterLink>
+            <RouterLink to="/changepassword" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="medium"
+                className={classes.bgyellow}
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Change Password
+              </Button>
+            </RouterLink>
             <Button
               variant="contained"
               size="medium"
@@ -249,28 +252,28 @@ function CompanyProfileForm({ user, setUser }: CompanyProfileFormProps): JSX.Ele
             >
               Save Changes
             </Button>
-            </Hidden>
-            <Hidden mdUp>
-              <RouterLink to="/intern" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="small"
-                      color="secondary"
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Back To Home
-                  </Button>
-              </RouterLink>
-              <RouterLink to="/changepassword" style={{ textDecoration:"none" }}>
-                  <Button
-                      variant="outlined"
-                      size="small"
-                      className={classes.bgyellow}
-                      style={{ marginBottom: "1rem", marginRight: "1rem" }}
-                  >
-                      Change Password
-                  </Button>
-              </RouterLink>
+          </Hidden>
+          <Hidden mdUp>
+            <RouterLink to="/intern" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="small"
+                color="secondary"
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Back To Home
+              </Button>
+            </RouterLink>
+            <RouterLink to="/changepassword" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.bgyellow}
+                style={{ marginBottom: "1rem", marginRight: "1rem" }}
+              >
+                Change Password
+              </Button>
+            </RouterLink>
             <Button
               variant="contained"
               size="small"

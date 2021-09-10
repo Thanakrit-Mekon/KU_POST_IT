@@ -59,7 +59,7 @@ interface Subject {
     faculty_code: string;
     department_code: string;
     year: string;
-  }[]
+  }[];
   quantity: string;
   startDate: string;
   title: string;
@@ -94,7 +94,7 @@ function FormEditPost() {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
-  const [subject,setSubject] = useState<Subject>({} as Subject);
+  const [subject, setSubject] = useState<Subject>({} as Subject);
 
   const location = useLocation();
 
@@ -110,7 +110,7 @@ function FormEditPost() {
       isDueDate: subject.isDueDate,
       dueDate: `${subject.dueDate}`,
       hasPeriod: subject.hasPeriod,
-      requirements: subject.qualification
+      requirements: subject.qualification,
     },
     enableReinitialize: true,
     validationSchema,
@@ -137,8 +137,7 @@ function FormEditPost() {
             handleClickOpen();
           }
         })
-        .catch(function (error) {
-        });
+        .catch(function (error) {});
     },
   });
 
@@ -161,14 +160,15 @@ function FormEditPost() {
   };
 
   useEffect(() => {
-    axios.get(`/posts/specificPost/${location.pathname.slice(12)}`).then((response) => {
-      setSubject(response.data)
-      setSelectedDate(response.data.dueDate)
-      setStartDate(response.data.startDate)
-      setEndDate(response.data.endDate)
-    })
-    .catch(function(error){
-    });
+    axios
+      .get(`/posts/specificPost/${location.pathname.slice(12)}`)
+      .then((response) => {
+        setSubject(response.data);
+        setSelectedDate(response.data.dueDate);
+        setStartDate(response.data.startDate);
+        setEndDate(response.data.endDate);
+      })
+      .catch(function (error) {});
   }, []);
 
   useEffect(() => {
@@ -178,22 +178,24 @@ function FormEditPost() {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(`/dropdowns/alldepartment`)
-      .then((response) => {
-        setDepartments(response.data);
-      });
+    axios.get(`/dropdowns/alldepartment`).then((response) => {
+      setDepartments(response.data);
+    });
   }, []);
 
-  const facultyCodeToFacultyName = (facultyCode:string) => {
-    const facultyName = faculties.find(({faculty_code})=>faculty_code===facultyCode)?.faculty_name 
-    return facultyName
-  }
+  const facultyCodeToFacultyName = (facultyCode: string) => {
+    const facultyName = faculties.find(
+      ({ faculty_code }) => faculty_code === facultyCode
+    )?.faculty_name;
+    return facultyName;
+  };
 
-  const departmentCodeToDepartmentName = (departmentCode:string) => {
-    const departmentName = departments.find(({department_code})=>department_code===departmentCode)?.department_name 
-    return departmentName
-  }
+  const departmentCodeToDepartmentName = (departmentCode: string) => {
+    const departmentName = departments.find(
+      ({ department_code }) => department_code === departmentCode
+    )?.department_name;
+    return departmentName;
+  };
 
   const [open, setOpen] = React.useState(false);
 
@@ -237,7 +239,7 @@ function FormEditPost() {
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Link to = "/myposts" style={{ textDecoration: "none" }}>
+                  <Link to="/myposts" style={{ textDecoration: "none" }}>
                     <Button onClick={handleClose} color="primary" autoFocus>
                       Continue
                     </Button>
@@ -297,7 +299,7 @@ function FormEditPost() {
       <RadioGroup
         aria-label="isDueDate"
         name="isDueDate"
-        value= {`${formik.values.isDueDate}`}
+        value={`${formik.values.isDueDate}`}
         onChange={formik.handleChange}
         row
         color="primary"
@@ -310,12 +312,12 @@ function FormEditPost() {
         <Grid container justifyContent="flex-start" alignItems="center">
           <div>
             <FormControlLabel
-              value= "false"
+              value="false"
               control={<GreenRadio />}
               label="No Due Date"
             />
             <FormControlLabel
-              value= "true"
+              value="true"
               control={<GreenRadio />}
               label="Set Due Date"
             />
@@ -329,7 +331,7 @@ function FormEditPost() {
                 margin="dense"
                 id="due date picker"
                 label="Due Date Picker"
-                value= {selectedDate}
+                value={selectedDate}
                 onChange={handleDateChange}
                 KeyboardButtonProps={{
                   "aria-label": "change date",
@@ -365,16 +367,16 @@ function FormEditPost() {
           <div>
             <FormControlLabel
               value="false"
-              control={<GreenRadio disabled/>}
+              control={<GreenRadio disabled />}
               label="To Be Announced"
             />
             <FormControlLabel
               value="true"
-              control={<GreenRadio disabled/>}
+              control={<GreenRadio disabled />}
               label="Set Period "
             />
           </div>
-          
+
           {String(formik.values.hasPeriod) === "true" && (
             <>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -394,7 +396,7 @@ function FormEditPost() {
               </MuiPickersUtilsProvider>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
-                disabled
+                  disabled
                   variant="inline"
                   format="MM/dd/yyyy"
                   margin="dense"
@@ -436,17 +438,18 @@ function FormEditPost() {
         <div>
           <FormControlLabel
             value="true"
-            control={<GreenRadio disabled/>}
+            control={<GreenRadio disabled />}
             label="All Faculties"
           />
           <FormControlLabel
             value="false"
-            control={<GreenRadio disabled/>}
+            control={<GreenRadio disabled />}
             label="Specific Faculty"
           />
         </div>
       </RadioGroup>
-      {String(formik.values.type) !== "true" && formik.values.requirements &&
+      {String(formik.values.type) !== "true" &&
+        formik.values.requirements &&
         formik.values.requirements.map((r, index) => {
           return (
             <Grid container spacing={1} style={{ marginBottom: 5 }}>
@@ -457,10 +460,11 @@ function FormEditPost() {
                   variant="outlined"
                   label="Faculty"
                   name="faculty"
-                  value={facultyCodeToFacultyName(formik.values.requirements[index].faculty_code)}
+                  value={facultyCodeToFacultyName(
+                    formik.values.requirements[index].faculty_code
+                  )}
                   disabled
-                >
-                </TextField>
+                ></TextField>
               </Grid>
               <Grid item sm={4}>
                 <TextField
@@ -469,10 +473,11 @@ function FormEditPost() {
                   variant="outlined"
                   label="Department"
                   name="department"
-                  value={departmentCodeToDepartmentName(formik.values.requirements[index].department_code)}
+                  value={departmentCodeToDepartmentName(
+                    formik.values.requirements[index].department_code
+                  )}
                   disabled
-                >
-                </TextField>
+                ></TextField>
               </Grid>
               <Grid item sm={2}>
                 <TextField
@@ -483,8 +488,7 @@ function FormEditPost() {
                   name="year"
                   value={formik.values.requirements[index].year}
                   disabled
-                >
-                </TextField>
+                ></TextField>
               </Grid>
             </Grid>
           );

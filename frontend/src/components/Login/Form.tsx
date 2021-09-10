@@ -18,7 +18,7 @@ import { Link as Router } from "react-router-dom";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
-  password: yup.string().min(8,"At least 8 characters").required(),
+  password: yup.string().min(8, "At least 8 characters").required(),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -147,10 +147,15 @@ function Form({ setUser }: LoginProps) {
           >
             Login
           </Button>
-          <Grid container justifyContent="center" >
+          <Grid container justifyContent="center">
             <Grid item>
               Don't have an account ?
-              <Link component={Router} to="/register" variant="body2" style={{marginLeft : 5 }} >
+              <Link
+                component={Router}
+                to="/register"
+                variant="body2"
+                style={{ marginLeft: 5 }}
+              >
                 Sign-up here.
               </Link>
             </Grid>

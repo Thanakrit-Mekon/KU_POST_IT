@@ -2,7 +2,6 @@ import { makeStyles, createStyles } from "@material-ui/core/styles";
 import InformationForm from "../components/PostInformation/InformationForm";
 import PostinforForm from "../components/PostInformation/PostinforForm";
 
-
 const useStyles = makeStyles((theme) =>
   createStyles({
     bg: {
@@ -23,7 +22,7 @@ function Postinfor(): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.bg}>
-      <PostinforForm/>
+      <PostinforForm />
     </div>
   );
 }

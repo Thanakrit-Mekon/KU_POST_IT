@@ -8,7 +8,7 @@ import {
   Chip,
   TextField,
   Divider,
-  makeStyles ,
+  makeStyles,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import axios from "../../axios";
@@ -27,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   Card: {
-    
     width: "100%",
-  
 
     padding: theme.spacing(2),
     alignContent: "center",
@@ -103,129 +101,121 @@ export default function PostForm(): JSX.Element {
 
   return (
     <>
-      
-        
       <Grid container direction="row" justifyContent="center">
-          <Typography variant="h4" align="center">
-            <Box fontWeight="bold" my={2}>
-              {subject.title}
-            </Box>
+        <Typography variant="h4" align="center">
+          <Box fontWeight="bold" my={2}>
+            {subject.title}
+          </Box>
+        </Typography>
+      </Grid>
+
+      <Grid container direction="row" justifyContent="center">
+        {subject.qualification?.map((obj) => {
+          return (
+            <Chip
+              style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
+              label={`${obj.faculty_code} | ${obj.department_code} | ชั้นปีที่ ${obj.year}`}
+              color="primary"
+              key={obj.department_code}
+            />
+          );
+        })}
+      </Grid>
+
+      <Grid container direction="row">
+        <Grid item style={{ width: "100%", margin: 30 }}>
+          <Typography variant="h6" color="primary">
+            <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
           </Typography>
-          </Grid>
+          <Divider />
 
-      <Grid container direction="row" justifyContent="center">
-          
-            {subject.qualification?.map((obj) => {
-              return (
-                <Chip
-                  style={{ marginRight: "0.5rem" , marginBottom: "0.5rem"}}
-                  label={`${obj.faculty_code} | ${obj.department_code} | ชั้นปีที่ ${obj.year}`}
+          <Typography
+            variant="subtitle1"
+            style={{ marginTop: 10, marginBottom: 20 }}
+            component="p"
+          >
+            {subject.desc}
+          </Typography>
+
+          <Typography variant="h6" color="primary">
+            <Box mt={3}>ช่องทางการติดต่อ</Box>
+          </Typography>
+          <Divider />
+          <Typography
+            variant="subtitle1"
+            style={{ marginTop: 10, marginBottom: 20 }}
+            component="p"
+          >
+            {subject.contact}
+          </Typography>
+
+          <form onSubmit={formik.handleSubmit}>
+            <TextField
+              name="feedback"
+              size="small"
+              label="ตอบคำถาม & สิ่งที่อยากบอก"
+              variant="outlined"
+              multiline
+              rows={7}
+              fullWidth
+              value={formik.values.feedback}
+              onChange={formik.handleChange}
+            />
+
+            <Box mt={4}>
+              <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                style={{ paddingTop: "20" }}
+              >
+                <Button
+                  variant="contained"
                   color="primary"
-                  key={obj.department_code}
-                />
-              );
-            })}
-          </Grid>
-
-          <Grid container direction="row">
-            <Grid item style={{ width: "100%", margin: 30 }}>
-              <Typography variant="h6" color="primary">
-                <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
-              </Typography>
-              <Divider />
-
-              <Typography
-                variant="subtitle1"
-                style={{ marginTop: 10, marginBottom: 20 }}
-                component="p"
-              >
-                {subject.desc}
-              </Typography>
-
-              <Typography variant="h6" color="primary">
-                <Box mt={3}>ช่องทางการติดต่อ</Box>
-              </Typography>
-              <Divider />
-              <Typography
-                variant="subtitle1"
-                style={{ marginTop: 10, marginBottom: 20 }}
-                component="p"
-              >
-                {subject.contact}
-              </Typography>
-
-              <form onSubmit={formik.handleSubmit}>
-                <TextField
-                  name="feedback"
-                  size="small"
-                  label="ตอบคำถาม & สิ่งที่อยากบอก"
-                  variant="outlined"
-                  multiline
-                  rows={7}
-                  fullWidth
-                  value={formik.values.feedback}
-                  onChange={formik.handleChange}
-                />
-
-                <Box mt={4} >
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    style={{ paddingTop: "20" }}
-                  >
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      size="large"
-                      type="submit"
-                      style = {{marginRight : 50}}
-                    >
-                      Submit
-                    </Button>
-                    <Dialog
-                      open={open}
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description"
-                    >
-                      <DialogTitle id="alert-dialog-title">
-                        {"Congratulations"}
-                      </DialogTitle>
-                      <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                          Your answer form has been submitted.
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                        <Routerlink
-                          to={`/${subject.post_type}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <Button color="primary" autoFocus>
-                            OK
-                          </Button>
-                        </Routerlink>
-                      </DialogActions>
-                    </Dialog>
+                  size="large"
+                  type="submit"
+                  style={{ marginRight: 50 }}
+                >
+                  Submit
+                </Button>
+                <Dialog
+                  open={open}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Congratulations"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Your answer form has been submitted.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
                     <Routerlink
                       to={`/${subject.post_type}`}
                       style={{ textDecoration: "none" }}
                     >
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        size="large"
-                      >
-                        Back
+                      <Button color="primary" autoFocus>
+                        OK
                       </Button>
                     </Routerlink>
-                  </Grid>
-                </Box>
-              </form>
-            </Grid>
-          </Grid>
-      
+                  </DialogActions>
+                </Dialog>
+                <Routerlink
+                  to={`/${subject.post_type}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button variant="contained" color="secondary" size="large">
+                    Back
+                  </Button>
+                </Routerlink>
+              </Grid>
+            </Box>
+          </form>
+        </Grid>
+      </Grid>
     </>
   );
 }

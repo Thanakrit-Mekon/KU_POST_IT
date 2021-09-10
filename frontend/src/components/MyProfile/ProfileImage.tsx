@@ -1,4 +1,11 @@
-import { Avatar, Box, Button, Grid, Input, makeStyles } from "@material-ui/core";
+import {
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  Input,
+  makeStyles,
+} from "@material-ui/core";
 import { createRef, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +53,11 @@ function ProfileImage(): JSX.Element {
             <label htmlFor="avatar-image-upload">
               <Button
                 variant="outlined"
-                style={{ borderRadius: "50%", padding: "0" ,justifySelf:"center"}}
+                style={{
+                  borderRadius: "50%",
+                  padding: "0",
+                  justifySelf: "center",
+                }}
                 component="span"
                 onClick={handleClick}
               >
