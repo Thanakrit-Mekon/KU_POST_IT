@@ -300,7 +300,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       </Link>
                       {obj.is_activate ? (
                         <Link
-                          to="/posts/edit"
+                          to = {`/posts/edit/${obj._id}`}
                           style={{ textDecoration: "none" }}
                         >
                           <Hidden xsDown>
