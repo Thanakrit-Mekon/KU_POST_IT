@@ -1,23 +1,37 @@
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Typography,
-  MenuItem,
   RadioGroup,
   Button,
   Grid,
   TextField,
   FormControlLabel,
   Radio,
-  Fab,
   withStyles,
   RadioProps,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import axios from "axios";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
+import axios from "../../axios";
+import { useHistory, Link, useParams, useLocation } from "react-router-dom";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import { useState } from "react";
+
+interface ParamType {
+  PostId: string;
+}
 
 interface Faculty {
   id: string;
@@ -32,7 +46,24 @@ interface Department {
   department_code: string;
 }
 
-const years = [1, 2, 3, 4];
+interface Subject {
+  contact: string;
+  desc: string;
+  dueDate: any;
+  endDate: string;
+  hasPeriod: boolean;
+  isDueDate: boolean;
+  is_all: boolean;
+  last_modify: string;
+  qualification: {
+    faculty_code: string;
+    department_code: string;
+    year: string;
+  }[]
+  quantity: string;
+  startDate: string;
+  title: string;
+}
 
 const useStyles = makeStyles((theme) => ({
   buttons: {
@@ -60,78 +91,118 @@ const validationSchema = yup.object({
 });
 
 function FormEditPost() {
-  const classes = useStyles();
-
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
 
+  const [subject,setSubject] = useState<Subject>({} as Subject);
+
+  const location = useLocation();
+
+  const classes = useStyles();
+
   const formik = useFormik({
     initialValues: {
-      title: "",
-      type: "any",
-      contact: "",
-      number: "",
-      more: "",
-      requirements: [
-        {
-          faculty: "",
-          department: "",
-          year: "",
-        },
-      ],
+      title: `${subject.title}`,
+      type: subject.is_all,
+      contact: `${subject.contact}`,
+      number: `${subject.quantity}`,
+      more: `${subject.desc}`,
+      isDueDate: subject.isDueDate,
+      dueDate: `${subject.dueDate}`,
+      hasPeriod: subject.hasPeriod,
+      requirements: subject.qualification
     },
+    enableReinitialize: true,
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      const userData = {
+        title: values.title,
+        is_all: values.type,
+        contact: values.contact,
+        quantity: values.number,
+        desc: values.more,
+        qualification: values.requirements,
+        isDueDate: values.isDueDate,
+        dueDate: selectedDate,
+        hasPeriod: values.hasPeriod,
+        startDate: startDate,
+        endDate: endDate,
+      };
+
+      if (String(values.type) === "true") userData.qualification = [];
+      axios
+        .post("/posts/create", userData)
+        .then(function (response) {
+          if (response.status === 201) {
+            handleClickOpen();
+          }
+        })
+        .catch(function (error) {
+        });
     },
   });
 
+  const [selectedDate, setSelectedDate] = React.useState<Date | null>(
+    new Date()
+  );
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
+
+  const [startDate, setStartDate] = React.useState<Date | null>(new Date());
+  const handleStartDateChange = (date: Date | null) => {
+    setStartDate(date);
+  };
+
+  const [endDate, setEndDate] = React.useState<Date | null>(new Date());
+  const handleEndDateChange = (date: Date | null) => {
+    setEndDate(date);
+  };
+
   useEffect(() => {
-    axios.get("http://localhost:3000/dropdowns/faculties").then((response) => {
+    axios.get(`/posts/specificPost/${location.pathname.slice(12)}`).then((response) => {
+      setSubject(response.data)
+      setSelectedDate(response.data.dueDate)
+      setStartDate(response.data.startDate)
+      setEndDate(response.data.endDate)
+    })
+    .catch(function(error){
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
     });
   }, []);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/dropdowns/alldepartment`)
+      .get(`/dropdowns/alldepartment`)
       .then((response) => {
         setDepartments(response.data);
       });
   }, []);
 
-  const handleRequirementChange = (
-    e: React.ChangeEvent<any>,
-    index: number
-  ) => {
-    formik.setFieldValue(
-      `requirements[${index}].${e.target.name}`,
-      e.target.value
-    );
+  const facultyCodeToFacultyName = (facultyCode:string) => {
+    const facultyName = faculties.find(({faculty_code})=>faculty_code===facultyCode)?.faculty_name 
+    return facultyName
+  }
+
+  const departmentCodeToDepartmentName = (departmentCode:string) => {
+    const departmentName = departments.find(({department_code})=>department_code===departmentCode)?.department_name 
+    return departmentName
+  }
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  const onAddRequirement = () => {
-    const newR = {
-      faculty: "",
-      department: "",
-      year: "",
-    };
-    formik.setFieldValue("requirements", [...formik.values.requirements, newR]);
-  };
-
-  const onRemoveRequirement = () => {
-    if (formik.values.requirements.length !== 1) {
-      const newR = formik.values.requirements.filter((requirement, index) => {
-        return index !== formik.values.requirements.length - 1;
-      });
-      formik.setFieldValue("requirements", [...newR]);
-    }
-  };
-
-  const getDepartmentByFaculty = (falcultyCode: string) => {
-    return departments.filter(
-      (department) => department.faculty_code === falcultyCode
-    );
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -146,21 +217,45 @@ function FormEditPost() {
           Edit Post
         </Typography>
         <div className={classes.buttons}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ marginRight: 10 }}
-          >
-            Confirm
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            aria-label="outlined secondary button group"
-          >
-            Cancel
-          </Button>
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ marginRight: 10 }}
+            >
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Your edit already create.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Link to = "/myposts" style={{ textDecoration: "none" }}>
+                    <Button onClick={handleClose} color="primary" autoFocus>
+                      Continue
+                    </Button>
+                  </Link>
+                </DialogActions>
+              </Dialog>
+              Save
+            </Button>
+          </div>
+          <Link to="/ta" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              aria-label="outlined secondary button group"
+            >
+              Cancel
+            </Button>
+          </Link>
         </div>
       </Grid>
       <Grid container spacing={1}>
@@ -181,7 +276,7 @@ function FormEditPost() {
             size="medium"
             fullWidth
             variant="outlined"
-            label="Students"
+            label="Number of Students"
             name="number"
             value={formik.values.number}
             onChange={formik.handleChange}
@@ -189,19 +284,146 @@ function FormEditPost() {
           ></TextField>
         </Grid>
       </Grid>
+
       <Typography
         component="h6"
         variant="h5"
         align="left"
         color="primary"
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 10 }}
+      >
+        Due Date
+      </Typography>
+      <RadioGroup
+        aria-label="isDueDate"
+        name="isDueDate"
+        value= {`${formik.values.isDueDate}`}
+        onChange={formik.handleChange}
+        row
+        color="primary"
+        style={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Grid container justifyContent="flex-start" alignItems="center">
+          <div>
+            <FormControlLabel
+              value= "false"
+              control={<GreenRadio />}
+              label="No Due Date"
+            />
+            <FormControlLabel
+              value= "true"
+              control={<GreenRadio />}
+              label="Set Due Date"
+            />
+          </div>
+          {String(formik.values.isDueDate) === "true" && (
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="dense"
+                id="due date picker"
+                label="Due Date Picker"
+                value= {selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          )}
+        </Grid>
+      </RadioGroup>
+      <Typography
+        component="h6"
+        variant="h5"
+        align="left"
+        color="primary"
+        style={{ marginTop: 10 }}
+      >
+        Working Period
+      </Typography>
+      <RadioGroup
+        aria-label="hasPeriod"
+        name="hasPeriod"
+        value={`${formik.values.hasPeriod}`}
+        onChange={formik.handleChange}
+        row
+        color="primary"
+        style={{
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Grid container justifyContent="flex-start" alignItems="center">
+          <div>
+            <FormControlLabel
+              value="false"
+              control={<GreenRadio disabled/>}
+              label="To Be Announced"
+            />
+            <FormControlLabel
+              value="true"
+              control={<GreenRadio disabled/>}
+              label="Set Period "
+            />
+          </div>
+          
+          {String(formik.values.hasPeriod) === "true" && (
+            <>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disabled
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="dense"
+                  id="start date picker"
+                  label="Start Date Picker"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                disabled
+                  variant="inline"
+                  format="MM/dd/yyyy"
+                  margin="dense"
+                  id="end date picker"
+                  label="End Date Picker"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </>
+          )}
+        </Grid>
+      </RadioGroup>
+      <Typography
+        component="h6"
+        variant="h5"
+        align="left"
+        color="primary"
+        style={{ marginTop: "-10px" }}
       >
         Requirement
       </Typography>
       <RadioGroup
         aria-label="type"
         name="type"
-        value={formik.values.type}
+        value={`${formik.values.type}`}
         onChange={formik.handleChange}
         row
         color="primary"
@@ -213,102 +435,55 @@ function FormEditPost() {
       >
         <div>
           <FormControlLabel
-            value="any"
-            control={<GreenRadio />}
+            value="true"
+            control={<GreenRadio disabled/>}
             label="All Faculties"
           />
           <FormControlLabel
-            value="specific"
-            control={<GreenRadio />}
+            value="false"
+            control={<GreenRadio disabled/>}
             label="Specific Faculty"
           />
         </div>
-        {formik.values.type !== "any" && (
-          <div>
-            <Fab
-              size="small"
-              color="primary"
-              style={{ marginRight: 10 }}
-              onClick={onAddRequirement}
-            >
-              <AddIcon />
-            </Fab>
-            <Fab size="small" color="secondary" onClick={onRemoveRequirement}>
-              <RemoveIcon />
-            </Fab>
-          </div>
-        )}
       </RadioGroup>
-      {formik.values.type !== "any" &&
+      {String(formik.values.type) !== "true" && formik.values.requirements &&
         formik.values.requirements.map((r, index) => {
           return (
             <Grid container spacing={1} style={{ marginBottom: 5 }}>
               <Grid item sm={6}>
                 <TextField
                   size="medium"
-                  select
                   fullWidth
                   variant="outlined"
                   label="Faculty"
                   name="faculty"
-                  value={formik.values.requirements[index].faculty}
-                  onChange={(e) => handleRequirementChange(e, index)}
+                  value={facultyCodeToFacultyName(formik.values.requirements[index].faculty_code)}
+                  disabled
                 >
-                  {faculties &&
-                    faculties.map((faculty) => {
-                      return (
-                        <MenuItem key={faculty.id} value={faculty.faculty_code}>
-                          {faculty.faculty_name}
-                        </MenuItem>
-                      );
-                    })}
                 </TextField>
               </Grid>
               <Grid item sm={4}>
                 <TextField
                   size="medium"
-                  select
                   fullWidth
                   variant="outlined"
                   label="Department"
                   name="department"
-                  disabled={!formik.values.requirements[index].faculty}
-                  value={formik.values.requirements[index].department}
-                  onChange={(e) => handleRequirementChange(e, index)}
+                  value={departmentCodeToDepartmentName(formik.values.requirements[index].department_code)}
+                  disabled
                 >
-                  {formik.values.requirements[index].faculty &&
-                    getDepartmentByFaculty(
-                      formik.values.requirements[index].faculty
-                    ).map((department, index) => {
-                      return (
-                        <MenuItem
-                          key={department.id}
-                          value={department.department_code}
-                        >
-                          {department.department_name}
-                        </MenuItem>
-                      );
-                    })}
                 </TextField>
               </Grid>
               <Grid item sm={2}>
                 <TextField
                   size="medium"
-                  select
                   fullWidth
                   variant="outlined"
                   label="Year"
                   name="year"
                   value={formik.values.requirements[index].year}
-                  onChange={(e) => handleRequirementChange(e, index)}
+                  disabled
                 >
-                  {years.map((year, index) => {
-                    return (
-                      <MenuItem key={index} value={year}>
-                        {year}
-                      </MenuItem>
-                    );
-                  })}
                 </TextField>
               </Grid>
             </Grid>
