@@ -286,17 +286,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             View
                           </Button>
                         </Hidden>
-                        <Hidden smUp>
-                          <Button
-                            variant="contained"
-                            style={{ marginTop: 10 }}
-                            color="primary"
-                            size="small"
-                            fullWidth
-                          >
-                            View
-                          </Button>
-                        </Hidden>
+                        
                       </Link>
                       {obj.is_activate ? (
                         <Link
@@ -312,17 +302,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               Edit
                             </ColorButton>
                           </Hidden>
-                          <Hidden smUp>
-                            <ColorButton
-                              variant="contained"
-                              color="primary"
-                              style={{ marginTop: 10 }}
-                              size="small"
-                              fullWidth
-                            >
-                              Edit
-                            </ColorButton>
-                          </Hidden>
                         </Link>
                       ) : (
                         <>
@@ -332,18 +311,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               color="primary"
                               style={{ marginTop: 20, marginRight: 20 }}
                               disabled
-                            >
-                              Edit
-                            </ColorButton>
-                          </Hidden>
-                          <Hidden smUp>
-                            <ColorButton
-                              variant="contained"
-                              color="primary"
-                              style={{ marginTop: 10 }}
-                              disabled
-                              size="small"
-                              fullWidth
                             >
                               Edit
                             </ColorButton>
@@ -363,18 +330,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               Cancel
                             </Button>
                           </Hidden>
-                          <Hidden smUp>
-                            <Button
-                              onClick={() => handleClickOpen(obj._id)}
-                              variant="contained"
-                              color="secondary"
-                              style={{ marginTop: 10 }}
-                              size="small"
-                              fullWidth
-                            >
-                              Cancel
-                            </Button>
-                          </Hidden>
                         </>
                       ) : (
                         <>
@@ -385,18 +340,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               color="secondary"
                               style={{ marginTop: 20 }}
                               disabled
-                            >
-                              Cancel
-                            </Button>
-                          </Hidden>
-                          <Hidden smUp>
-                            <Button
-                              onClick={() => handleClickOpen(obj._id)}
-                              variant="contained"
-                              color="secondary"
-                              style={{ marginTop: 10 }}
-                              disabled
-                              fullWidth
                             >
                               Cancel
                             </Button>
@@ -429,6 +372,109 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         </Dialog>
                       )}
                     </Grid>
+                    <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                    <Link
+                        to={`/myposts/${obj._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                    <Hidden smUp>
+                          <Button
+                            variant="contained"
+                            style={{ marginBottom: 10 ,marginLeft: 15,marginRight: 7.5 }}
+                            color="primary"
+                          >
+                            View
+                          </Button>
+                        </Hidden>
+                    </Link>
+                    {obj.is_activate ? (
+                        <Link
+                          to = {`/posts/edit/${obj._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Hidden smUp>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginBottom: 10,marginRight: 7.5, marginLeft: 7.5 }}
+                            >
+                              Edit
+                            </ColorButton>
+                          </Hidden>
+                        </Link>
+                      ) : (
+                        <>
+                          <Hidden smUp>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginBottom: 10,marginRight: 7.5, marginLeft: 7.5 }}
+                              disabled
+                            >
+                              Edit
+                            </ColorButton>
+                          </Hidden>
+                        </>
+                      )}
+                      {obj.is_activate ? (
+                        <>
+                          <Hidden smUp>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginBottom: 10,marginRight: 15, marginLeft: 7.5}}
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden>
+                        </>
+                      ) : (
+                        <>
+                          <Hidden smUp>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginBottom: 10, marginRight: 15, marginLeft: 7.5 }}
+                              disabled
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden>
+                        </>
+                      )}
+                      {postId === obj._id && (
+                        <Dialog
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Do you want to cancel this post?"}
+                          </DialogTitle>
+                          <DialogContent></DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                              Decline
+                            </Button>
+                            <Button
+                              onClick={() => DeletePost(obj._id)}
+                              color="primary"
+                              autoFocus
+                            >
+                              Accept
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      )}
+                      </Grid>
                   </Grid>
                 </Card>
               </Grid>
