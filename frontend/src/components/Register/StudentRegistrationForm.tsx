@@ -10,6 +10,7 @@ import {
   createStyles,
   useMediaQuery,
   useTheme,
+  FormHelperText,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -19,25 +20,25 @@ import React from "react";
 import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
-  email: yup.string().email().required(),
+  email: yup.string().email("Enter a valid Email").required("Enter your Email"),
   password: yup
     .string()
-    .min(8)
+    .min(8,"At least 8 characters")
     // .matches(
     //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
     // )
-    .required(),
+    .required("Enter your password"),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null])
-    .required(),
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
+    .oneOf([yup.ref("password"), "Password must match"])
+    .required("Password must match"),
+  firstName: yup.string().required("firstname"),
+  lastName: yup.string().required("lastname"),
   studentId: yup
     .string()
-    .matches(/^['b']\d{10}/)
-    .required(),
-  phone: yup.number().required(),
+    .matches(/^['b']\d{10}/,"Must be bxxxxxxxxxx")
+    .required("Enter your student ID"),
+  phone: yup.number().required("Enter your phone number"),
 });
 
 interface Faculty {
@@ -70,6 +71,33 @@ const useStyles = makeStyles((theme) =>
       marginBottom: "1rem",
       [theme.breakpoints.down("xs")]: {
         marginBottom: "20px",
+      },
+    },
+
+    error3: {
+      marginTop: -12,
+      marginBottom:15, 
+      color:"red",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: -15,
+      },
+    },
+
+    error2: {
+      marginTop: -27,
+      marginBottom:15, 
+      color:"red",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: -15,
+      },
+    },
+
+    error1: {
+      marginTop: -12,
+      marginBottom:15, 
+      color:"red",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: -5,
       },
     },
   })
@@ -189,6 +217,19 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
+          {((formik.touched.lastName && formik.errors.lastName) || (formik.touched.firstName && formik.errors.firstName)) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error2}>
+              {(formik.touched.firstName && formik.errors.firstName && formik.touched.lastName && formik.errors.lastName) ?
+              (`Enter your ${formik.errors.firstName} and ${formik.errors.lastName}`):
+              (formik.touched.firstName && formik.errors.firstName) ?
+              (`Enter your ${formik.errors.firstName}`) :
+              (formik.touched.lastName && formik.errors.lastName) ?
+              (`Enter your ${formik.errors.lastName}`) :""
+              }
+            </FormHelperText>
+            </Grid>
+          )}
         </Grid>
         <Grid container>
           <Grid item xs={12} className={classes.textField}>
@@ -203,7 +244,14 @@ function StudentRegistrationForm(): JSX.Element {
               error={formik.touched.email && Boolean(formik.errors.email)}
               fullWidth
             />
-          </Grid>
+            </Grid>
+            {(formik.touched.email && formik.errors.email) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error1}>
+             {formik.errors.email}  
+            </FormHelperText>
+            </Grid>
+            )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -217,6 +265,13 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
+          {(formik.touched.password && formik.errors.password) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error1}>
+             {formik.errors.password}  
+            </FormHelperText>
+            </Grid>
+            )}
           <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
@@ -233,6 +288,13 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
+          {(formik.touched.confirmPassword && formik.errors.confirmPassword) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error3}>
+             {formik.errors.confirmPassword}  
+            </FormHelperText>
+            </Grid>
+            )}
           <Grid container spacing={isMobile ? 0 : 2}>
             <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
@@ -282,10 +344,9 @@ function StudentRegistrationForm(): JSX.Element {
           </Grid>
           <Grid
             container
-            spacing={isMobile ? 0 : 2}
             style={{ marginBottom: 5 }}
           >
-            <Grid item xs={12} sm={7} className={classes.textField}>
+            <Grid item xs={12} className={classes.textField}>
               <TextField
                 size="small"
                 label="Student ID"
@@ -300,7 +361,14 @@ function StudentRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
-            <Grid item xs={12} sm={5} className={classes.end}>
+            {(formik.touched.studentId && formik.errors.studentId) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error1}>
+             {formik.errors.studentId}  
+            </FormHelperText>
+            </Grid>
+            )}
+            <Grid item xs={12} className={classes.end}>
               <TextField
                 size="small"
                 label="Tel"
@@ -313,6 +381,13 @@ function StudentRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
+            {(formik.touched.phone && formik.errors.phone) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error3}>
+             {formik.errors.phone}  
+            </FormHelperText>
+            </Grid>
+            )}
           </Grid>
           <Button
             variant="contained"
