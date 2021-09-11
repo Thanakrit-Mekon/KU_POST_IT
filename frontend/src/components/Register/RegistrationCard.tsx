@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) =>
         width: "80%",
         [theme.breakpoints.down("xs")]: {
           width: "50%",
-          marginTop: "10px",
+          margin: "20px 0",
         },
         objectFit: "cover",
       },

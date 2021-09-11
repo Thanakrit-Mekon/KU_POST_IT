@@ -12,6 +12,8 @@ import {
   Theme,
   Icon,
   Hidden,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -52,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: 10,
         minHeight: 180,
       },
-      padding: 20,
+      padding: "20px",
       minHeight: 220,
       display: "flex",
       alignItems: "center",
@@ -119,6 +121,10 @@ interface Subject {
 }
 
 function MyPost({ user, setUser }: MyPostProps): JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
   const [subjects, setSubjects] = useState<Subject[]>([]);
   useEffect(() => {
     axios.get(`/posts/myposts`).then((response) => {
@@ -172,13 +178,13 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
             <Box
               fontWeight="bold"
               color="primary.main"
-              style={{ marginTop: 50, marginBottom: 50 }}
+              style={{ margin: isMobile ? "20px 0" : "50px 0" }}
             >
               My Post
             </Box>
           </Typography>
         </Hidden>
-        <Grid container spacing={5}>
+        <Grid container spacing={isMobile ? 2 : 5}>
           {subjects.map((obj) => {
             return (
               <Grid item xs={12} md={6}>
@@ -286,11 +292,10 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             View
                           </Button>
                         </Hidden>
-                        
                       </Link>
                       {obj.is_activate ? (
                         <Link
-                          to = {`/posts/edit/${obj._id}`}
+                          to={`/posts/edit/${obj._id}`}
                           style={{ textDecoration: "none" }}
                         >
                           <Hidden xsDown>
@@ -378,30 +383,38 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       justifyContent="center"
                       alignItems="center"
                     >
-                    <Link
+                      <Link
                         to={`/myposts/${obj._id}`}
                         style={{ textDecoration: "none" }}
                       >
-                    <Hidden smUp>
+                        <Hidden smUp>
                           <Button
                             variant="contained"
-                            style={{ marginBottom: 10 ,marginLeft: 15,marginRight: 7.5 }}
+                            style={{
+                              marginBottom: 10,
+                              marginLeft: 15,
+                              marginRight: 7.5,
+                            }}
                             color="primary"
                           >
                             View
                           </Button>
                         </Hidden>
-                    </Link>
-                    {obj.is_activate ? (
+                      </Link>
+                      {obj.is_activate ? (
                         <Link
-                          to = {`/posts/edit/${obj._id}`}
+                          to={`/posts/edit/${obj._id}`}
                           style={{ textDecoration: "none" }}
                         >
                           <Hidden smUp>
                             <ColorButton
                               variant="contained"
                               color="primary"
-                              style={{ marginBottom: 10,marginRight: 7.5, marginLeft: 7.5 }}
+                              style={{
+                                marginBottom: 10,
+                                marginRight: 7.5,
+                                marginLeft: 7.5,
+                              }}
                             >
                               Edit
                             </ColorButton>
@@ -413,7 +426,11 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             <ColorButton
                               variant="contained"
                               color="primary"
-                              style={{ marginBottom: 10,marginRight: 7.5, marginLeft: 7.5 }}
+                              style={{
+                                marginBottom: 10,
+                                marginRight: 7.5,
+                                marginLeft: 7.5,
+                              }}
                               disabled
                             >
                               Edit
@@ -428,7 +445,11 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               onClick={() => handleClickOpen(obj._id)}
                               variant="contained"
                               color="secondary"
-                              style={{ marginBottom: 10,marginRight: 15, marginLeft: 7.5}}
+                              style={{
+                                marginBottom: 10,
+                                marginRight: 15,
+                                marginLeft: 7.5,
+                              }}
                             >
                               Cancel
                             </Button>
@@ -441,7 +462,11 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               onClick={() => handleClickOpen(obj._id)}
                               variant="contained"
                               color="secondary"
-                              style={{ marginBottom: 10, marginRight: 15, marginLeft: 7.5 }}
+                              style={{
+                                marginBottom: 10,
+                                marginRight: 15,
+                                marginLeft: 7.5,
+                              }}
                               disabled
                             >
                               Cancel
@@ -474,7 +499,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                           </DialogActions>
                         </Dialog>
                       )}
-                      </Grid>
+                    </Grid>
                   </Grid>
                 </Card>
               </Grid>
