@@ -9,6 +9,7 @@ import {
   createStyles,
   useMediaQuery,
   useTheme,
+  FormHelperText,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -17,17 +18,17 @@ import React from "react";
 import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
-  email: yup.string().email().required(),
-  password: yup.string().min(8).required(),
+  email: yup.string().email("Enter a valid Email").required("Enter your Email"),
+  password: yup.string().min(8,"At least 8 characters").required("Enter your password"),
   confirmPassword: yup
     .string()
     .min(8)
-    .oneOf([yup.ref("password"), null])
-    .required(),
-  companyName: yup.string().required(),
-  contact: yup.string().required(),
-  phone: yup.number().required(),
-  location: yup.string().required(),
+    .oneOf([yup.ref("password"), "Password must match"])
+    .required("Password must match"),
+  companyName: yup.string().required("Enter your Company Name"),
+  contact: yup.string().required("Enter your contact"),
+  phone: yup.number().required("Enter your phone number"),
+  location: yup.string().required("Enter your Company location"),
   aboutMe: yup.string(),
 });
 
@@ -48,6 +49,40 @@ const useStyles = makeStyles((theme) =>
       marginBottom: "1rem",
       [theme.breakpoints.down("xs")]: {
         marginBottom: "20px",
+      },
+    },
+    error3: {
+      marginTop: -12,
+      marginBottom:15, 
+      color:"red",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: -15,
+      },
+    },
+
+    error2: {
+      marginTop: -27,
+      marginBottom:15, 
+      color:"red",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: -15,
+      },
+    },
+
+    error1: {
+      marginTop: -12,
+      marginBottom:15, 
+      color:"red",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: -5,
+      },
+    },
+    error4: {
+      marginTop: 3,
+      color:"red",
+      [theme.breakpoints.down("xs")]: {
+        marginTop: 5,
+        marginBottom: -5,
       },
     },
   })
@@ -130,6 +165,13 @@ function CompanyRegistrationForm(): JSX.Element {
               }
               fullWidth
             />
+            {(formik.touched.companyName && formik.errors.companyName) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error4}>
+             {formik.errors.companyName}  
+            </FormHelperText>
+            </Grid>
+            )}
           </Grid>
           <Grid item xs={12} className={classes.textField}>
             <TextField
@@ -144,6 +186,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
+          {(formik.touched.email && formik.errors.email) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error1}>
+             {formik.errors.email}  
+            </FormHelperText>
+            </Grid>
+            )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -157,6 +206,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
+          {(formik.touched.password && formik.errors.password) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error1}>
+             {formik.errors.password}  
+            </FormHelperText>
+            </Grid>
+            )}
           <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
@@ -173,6 +229,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
+          {(formik.touched.confirmPassword && formik.errors.confirmPassword) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error3}>
+             {formik.errors.confirmPassword}  
+            </FormHelperText>
+            </Grid>
+            )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -185,6 +248,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
+          {(formik.touched.location && formik.errors.location) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error1}>
+             {formik.errors.location}  
+            </FormHelperText>
+            </Grid>
+            )}
           <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
@@ -209,6 +279,13 @@ function CompanyRegistrationForm(): JSX.Element {
                 error={formik.touched.contact && Boolean(formik.errors.contact)}
                 fullWidth
               />
+              {(formik.touched.contact && formik.errors.contact) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error4}>
+             {formik.errors.contact}  
+            </FormHelperText>
+            </Grid>
+            )}
             </Grid>
             <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
@@ -222,6 +299,13 @@ function CompanyRegistrationForm(): JSX.Element {
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 fullWidth
               />
+              {(formik.touched.phone && formik.errors.phone) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error4}>
+             {formik.errors.phone}  
+            </FormHelperText>
+            </Grid>
+            )}
             </Grid>
           </Grid>
           <Button
