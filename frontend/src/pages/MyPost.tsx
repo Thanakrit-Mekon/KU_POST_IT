@@ -109,8 +109,7 @@ interface Subject {
   thisusersubmit: boolean;
   title: string;
   user_name: string;
-  first_name: string;
-  last_name: string;
+  full_name: string;
   name: string;
   quantity: string;
   isDueDate: boolean;
@@ -206,7 +205,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                           textAlign="center"
                           style={{ marginTop: 10, marginBottom: 7 }}
                         >
-                          {obj.user_name}
+                          {obj.full_name}
                         </Box>
 
                         <Typography color="primary">
