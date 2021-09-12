@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogContentText,
   Hidden,
+  FormHelperText,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
@@ -22,9 +23,9 @@ import { User } from "../../App";
 import { useState } from "react";
 
 const validationSchema = yup.object({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  phone: yup.number().required(),
+  firstName: yup.string().required("firstname"),
+  lastName: yup.string().required("lastname"),
+  phone: yup.number().required("Enter your phone number"),
 });
 
 const useStyles = makeStyles(() =>
@@ -37,6 +38,10 @@ const useStyles = makeStyles(() =>
         backgroundColor: "#D98804",
         borderColor: "#D98804",
       },
+    },
+    error: {
+      marginTop: -27,
+      color:"red",
     },
   })
 );
@@ -83,18 +88,15 @@ function StudentProfileForm({
         phone: values.phone,
         get_notify: values.getNotify,
       };
-      console.log(userDatasent);
       axios
         .patch("/user/updateuser", userDatasent)
         .then(function (response) {
-          console.log(response);
           axios.get("/user/getuser").then((response) => {
             setUser(response.data[0]);
           });
           handleOpen();
         })
         .catch(function (error) {
-          console.log(error);
         });
     },
   });
@@ -106,7 +108,7 @@ function StudentProfileForm({
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={6} style={{ marginBottom: "1rem" }}>
+          <Grid item xs={12} md={6}>
             <TextField
               size="small"
               label="First Name"
@@ -132,6 +134,19 @@ function StudentProfileForm({
               fullWidth
             />
           </Grid>
+          {((formik.touched.lastName && formik.errors.lastName) || (formik.touched.firstName && formik.errors.firstName)) &&(
+            <Grid item xs={12}>
+            <FormHelperText className={classes.error}>
+              {(formik.touched.firstName && formik.errors.firstName && formik.touched.lastName && formik.errors.lastName) ?
+              (`Enter your ${formik.errors.firstName} and ${formik.errors.lastName}`):
+              (formik.touched.firstName && formik.errors.firstName) ?
+              (`Enter your ${formik.errors.firstName}`) :
+              (formik.touched.lastName && formik.errors.lastName) ?
+              (`Enter your ${formik.errors.lastName}`) :""
+              }
+            </FormHelperText>
+            </Grid>
+          )}
           <Grid item xs={12} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
@@ -156,6 +171,13 @@ function StudentProfileForm({
               fullWidth
             />
           </Grid>
+          {(formik.touched.phone && formik.errors.phone) &&(
+            <Grid item xs={12}>
+              <FormHelperText className={classes.error}>
+              {formik.errors.phone}  
+              </FormHelperText>
+            </Grid>
+          )}
           <Grid item xs={12} md={6} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
