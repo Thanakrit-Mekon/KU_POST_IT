@@ -19,7 +19,6 @@ function ProfileImage(): JSX.Element {
   const classes = useStyles();
   const [image, _setImage] = useState(null);
   const inputFileRef = createRef();
-  // console.log(image);
   const setImage = (newImage: any) => {
     _setImage(newImage);
   };
@@ -30,7 +29,6 @@ function ProfileImage(): JSX.Element {
     if (newImage) {
       setImage(URL.createObjectURL(newImage));
 
-      console.log(URL.createObjectURL(newImage));
     }
   };
 

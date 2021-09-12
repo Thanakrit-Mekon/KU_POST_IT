@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogContentText,
   Hidden,
+  FormHelperText,
 } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
@@ -21,9 +22,10 @@ import { User } from "../../App";
 import { useState } from "react";
 
 const validationSchema = yup.object({
-  name: yup.string().required(),
-  phone: yup.number().required(),
-  location: yup.string().required(),
+  name: yup.string().required("Enter your Company Name"),
+  contact: yup.string().required("Enter your contact"),
+  phone: yup.number().required("Enter your phone number"),
+  location: yup.string().required("Enter your Company location"),
 });
 
 const useStyles = makeStyles(() =>
@@ -36,6 +38,10 @@ const useStyles = makeStyles(() =>
         backgroundColor: "#D98804",
         borderColor: "#D98804",
       },
+    },
+    error: {
+      marginTop: -27,
+      color:"red",
     },
   })
 );
@@ -79,18 +85,15 @@ function CompanyProfileForm({
         about_me: values.aboutme,
         phone: values.phone,
       };
-      console.log(userData);
       axios
         .patch("/user/updateuser", userData)
         .then(function (response) {
-          console.log(response);
           axios.get("/user/getuser").then((response) => {
             setUser(response.data[0]);
           });
           handleOpen();
         })
         .catch(function (error) {
-          console.log(error);
         });
     },
   });
@@ -114,6 +117,13 @@ function CompanyProfileForm({
               fullWidth
             />
           </Grid>
+          {(formik.touched.name && formik.errors.name) &&(
+            <Grid item xs={12}>
+              <FormHelperText className={classes.error}>
+              {formik.errors.name}  
+              </FormHelperText>
+            </Grid>
+          )}
           <Grid item xs={12} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
@@ -138,6 +148,13 @@ function CompanyProfileForm({
               fullWidth
             />
           </Grid>
+          {(formik.touched.phone && formik.errors.phone) &&(
+            <Grid item xs={12}>
+              <FormHelperText className={classes.error}>
+              {formik.errors.phone}  
+              </FormHelperText>
+            </Grid>
+          )}
           <Grid item xs={12} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
@@ -153,6 +170,13 @@ function CompanyProfileForm({
               fullWidth
             />
           </Grid>
+          {(formik.touched.location && formik.errors.location) &&(
+            <Grid item xs={12}>
+              <FormHelperText className={classes.error}>
+              {formik.errors.location}  
+              </FormHelperText>
+            </Grid>
+          )}
           <Grid item xs={12} style={{ marginBottom: "1rem" }}>
             <TextField
               size="small"
@@ -183,6 +207,13 @@ function CompanyProfileForm({
               fullWidth
             />
           </Grid>
+          {(formik.touched.contact && formik.errors.contact) &&(
+            <Grid item xs={12}>
+              <FormHelperText className={classes.error}>
+              {formik.errors.contact}  
+              </FormHelperText>
+            </Grid>
+          )}
         </Grid>
         <Box
           style={{
