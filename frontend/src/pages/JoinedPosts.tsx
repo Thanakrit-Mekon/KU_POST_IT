@@ -231,7 +231,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
   // console.log(usertype);
   useEffect(() => {
     axios
-      .get(`joinedposts/findjoinedposts`)
+      .get(`joinedposts/find`)
       .then((response) => {
         console.log(response.data);
         setSubjects(response.data);
