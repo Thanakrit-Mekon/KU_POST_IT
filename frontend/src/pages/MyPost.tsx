@@ -74,7 +74,8 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down("xs")]: {
         fontSize: 13,
       },
-      fontSize: 15,
+      fontSize: 19,
+      marginBottom :20,
     },
   })
 );
@@ -196,7 +197,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                     alignItems="center"
                     spacing={2}
                   >
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                       <Grid container direction="column" alignItems="center">
                         <Avatar
                           alt="Travis Howard"
@@ -209,11 +210,134 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         >
                           {obj.full_name}
                         </Box>
+                        <Grid
+                      container
+                      direction="row"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                        <Link
+                        to={`/myposts/${obj._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <Hidden xsDown>
+                          <Button
+                            variant="contained"
+                            style={{
+                              marginTop: 10,
+                              marginRight: 5,
+                            }}
+                            color="primary"
+                          >
+                            View
+                          </Button>
+                        </Hidden>
+                      </Link>
+                      {obj.is_activate ? (
+                        <Link
+                          to={`/posts/edit/${obj._id}`}
+                          style={{ textDecoration: "none" }}
+                        >
+                          <Hidden xsDown>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginTop: 10,
+                                marginRight: 5,
+                                marginLeft: 5,}}
+                            >
+                              Edit
+                            </ColorButton>
+                          </Hidden>
+                        </Link>
+                      ) : (
+                        <>
+                          <Hidden xsDown>
+                            <ColorButton
+                              variant="contained"
+                              color="primary"
+                              style={{ marginTop: 10,
+                                marginRight: 5,
+                                marginLeft: 5,}}
+                              disabled
+                            >
+                              Edit
+                            </ColorButton>
+                          </Hidden>
+                        </>
+                      )}
 
+                      {obj.is_activate ? (
+                        <>
+                          <Hidden xsDown>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginTop: 10 ,
+                              marginLeft: 5}}
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden>
+                        </>
+                      ) : (
+                        <>
+                          <Hidden xsDown>
+                            <Button
+                              onClick={() => handleClickOpen(obj._id)}
+                              variant="contained"
+                              color="secondary"
+                              style={{ marginTop: 10 ,
+                                marginLeft: 5}}
+                              disabled
+                            >
+                              Cancel
+                            </Button>
+                          </Hidden>
+                        </>
+                      )}
+                      {postId === obj._id && (
+                        <Dialog
+                          open={open} 
+                          onClose={handleClose} 
+                          aria-labelledby="form-dialog-title"
+                        >
+                          <DialogTitle id="form-dialog-title">
+                            {"Do you want to cancel this post?"}
+                          </DialogTitle>
+                          <DialogContent>
+                          <DialogContentText>
+                            กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้ หากไม่มีให้ใส่ "-"
+                          </DialogContentText>
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="cancel_desc"
+                            label="Reason for cancelletion"
+                            type="string"
+                            fullWidth
+                          />
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                              Decline
+                            </Button>
+                            <Button
+                              onClick={() => DeletePost(obj._id)}
+                              color="primary"
+                              autoFocus
+                            >
+                              Accept
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      )}
+                      </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item xs={7}>
-                    <Typography color="primary">
+                    <Grid item xs={6}>
+                    <Typography color="primary" variant="h4" >
                           <Box
                             className={classes.cardtitle}
                             fontWeight="bold"
@@ -276,118 +400,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                           Joined {obj.candidate} people
                         </Box>
                       </Grid>
-                      <Link
-                        to={`/myposts/${obj._id}`}
-                        style={{ textDecoration: "none" }}
-                      >
-                        <Hidden xsDown>
-                          <Button
-                            variant="contained"
-                            style={{
-                              marginTop: 20,
-                              marginLeft: 20,
-                              marginRight: 20,
-                            }}
-                            color="primary"
-                          >
-                            View
-                          </Button>
-                        </Hidden>
-                      </Link>
-                      {obj.is_activate ? (
-                        <Link
-                          to={`/posts/edit/${obj._id}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <Hidden xsDown>
-                            <ColorButton
-                              variant="contained"
-                              color="primary"
-                              style={{ marginTop: 20, marginRight: 20 }}
-                            >
-                              Edit
-                            </ColorButton>
-                          </Hidden>
-                        </Link>
-                      ) : (
-                        <>
-                          <Hidden xsDown>
-                            <ColorButton
-                              variant="contained"
-                              color="primary"
-                              style={{ marginTop: 20, marginRight: 20 }}
-                              disabled
-                            >
-                              Edit
-                            </ColorButton>
-                          </Hidden>
-                        </>
-                      )}
-
-                      {obj.is_activate ? (
-                        <>
-                          <Hidden xsDown>
-                            <Button
-                              onClick={() => handleClickOpen(obj._id)}
-                              variant="contained"
-                              color="secondary"
-                              style={{ marginTop: 20 }}
-                            >
-                              Cancel
-                            </Button>
-                          </Hidden>
-                        </>
-                      ) : (
-                        <>
-                          <Hidden xsDown>
-                            <Button
-                              onClick={() => handleClickOpen(obj._id)}
-                              variant="contained"
-                              color="secondary"
-                              style={{ marginTop: 20 }}
-                              disabled
-                            >
-                              Cancel
-                            </Button>
-                          </Hidden>
-                        </>
-                      )}
-                      {postId === obj._id && (
-                        <Dialog
-                          open={open} 
-                          onClose={handleClose} 
-                          aria-labelledby="form-dialog-title"
-                        >
-                          <DialogTitle id="form-dialog-title">
-                            {"Do you want to cancel this post?"}
-                          </DialogTitle>
-                          <DialogContent>
-                          <DialogContentText>
-                            กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้ หากไม่มีให้ใส่ "-"
-                          </DialogContentText>
-                          <TextField
-                            autoFocus
-                            margin="dense"
-                            id="cancel_desc"
-                            label="Reason for cancelletion"
-                            type="string"
-                            fullWidth
-                          />
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleClose} color="primary">
-                              Decline
-                            </Button>
-                            <Button
-                              onClick={() => DeletePost(obj._id)}
-                              color="primary"
-                              autoFocus
-                            >
-                              Accept
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                      )}
                     </Grid>
                     <Grid
                       container
