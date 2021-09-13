@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) =>
       color: "#37474F",
     },
     subtitle: {
+      fontSize: 20,
       [theme.breakpoints.down("xs")]: {
         fontSize: 15,
         textAlign: "center",
