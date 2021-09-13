@@ -1,12 +1,10 @@
 import {
   AppBar,
-  Box,
   Button,
   createStyles,
   Grid,
   Typography,
   Link,
-  Fade,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import "@fontsource/roboto";
@@ -14,10 +12,9 @@ import "@fontsource/montserrat";
 import { Link as ReactLink } from "react-router-dom";
 import GitHubIcon from "@material-ui/icons/GitHub";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     bg: {
-      // minHeight: "100vh",
       backgroundColor: "#FAFAFA",
     },
     header: {
@@ -42,13 +39,11 @@ const useStyles = makeStyles(() =>
       color: "#37474F",
     },
     nav: {
-      // backgroundColor: "#5E9EA0",
       height: "100px",
       padding: "0 86px",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      // borderBottom: "solid 1px #979797",
     },
     blueBg: {
       backgroundColor: "#BAD9DA",
@@ -67,9 +62,10 @@ const useStyles = makeStyles(() =>
 
 function LandingPage() {
   const classes = useStyles();
+
   return (
     <div className={classes.bg}>
-      <img src="/img/Vector.png" className={classes.vector} />
+      <img src="/img/vector.png" alt="vector" className={classes.vector} />
       <AppBar
         position="sticky"
         color="transparent"
@@ -82,16 +78,20 @@ function LandingPage() {
           justifyContent="flex-end"
           style={{ color: "#37474F" }}
         >
-          <Button color="primary" style={{ marginRight: "10px" }}>
-            Log-in
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginRight: "10px" }}
-          >
-            Sign-up
-          </Button>
+          <ReactLink to="/login" style={{ textDecoration: "none" }}>
+            <Button color="primary" style={{ marginRight: "10px" }}>
+              Log-in
+            </Button>
+          </ReactLink>
+          <ReactLink to="/register" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ marginRight: "10px" }}
+            >
+              Sign-up
+            </Button>
+          </ReactLink>
         </Grid>
       </AppBar>
       <Grid
@@ -111,14 +111,16 @@ function LandingPage() {
             <br /> Find work. Join post.
           </Typography>
           <Grid container alignItems="center" style={{ marginTop: "14px" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginRight: "45px" }}
-              className={classes.btn}
-            >
-              <Typography>Get Started</Typography>
-            </Button>
+            <ReactLink to="/register" style={{ textDecoration: "none" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginRight: "45px" }}
+                className={classes.btn}
+              >
+                <Typography>Get Started</Typography>
+              </Button>
+            </ReactLink>
             <Typography>Now it’s free</Typography>
           </Grid>
         </Grid>
@@ -127,23 +129,21 @@ function LandingPage() {
         </Grid>
       </Grid>
 
-      <Fade>
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          className={classes.section}
-        >
-          <Typography variant="h4">
-            Easier way to get the work or find students for work
-          </Typography>
-          <Typography variant="subtitle1" className={classes.subtitle}>
-            On KU Post-It, you can create account to find the work or post the
-            work all within 5 minutes.
-          </Typography>
-        </Grid>
-      </Fade>
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        className={classes.section}
+      >
+        <Typography variant="h4">
+          Easier way to get the work or find students for work
+        </Typography>
+        <Typography variant="subtitle1" className={classes.subtitle}>
+          On KU Post-It, you can create account to find the work or post the
+          work all within 5 minutes.
+        </Typography>
+      </Grid>
 
       <Grid
         container
@@ -208,13 +208,15 @@ function LandingPage() {
           <Typography variant="h4" color="primary">
             Create account and find work now
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ padding: "18px 10px", marginTop: "20px" }}
-          >
-            Get started for free
-          </Button>
+          <ReactLink to="/register" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ padding: "18px 10px", marginTop: "20px" }}
+            >
+              Get started for free
+            </Button>
+          </ReactLink>
         </Grid>
         <Grid
           container
