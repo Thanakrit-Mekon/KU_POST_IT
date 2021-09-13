@@ -231,7 +231,7 @@ function LandingPage() {
             <Typography
               variant={isMobile ? "h6" : "h4"}
               style={{
-                textAlign: isMobile ? "center" : "left",
+                textAlign: isMobile ? "center" : "right",
                 padding: isMobile ? "0 10%" : 0,
                 marginTop: isMobile ? -40 : 0,
               }}
@@ -300,7 +300,7 @@ function LandingPage() {
                 variant={isMobile ? "h6" : "h4"}
                 color="primary"
                 style={{
-                  textAlign: isMobile ? "center" : "left",
+                  textAlign: isMobile ? "center" : "right",
                   padding: isMobile ? "0 10%" : "0",
                   marginTop: isMobile ? -40 : 0,
                 }}
