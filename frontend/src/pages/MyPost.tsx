@@ -23,11 +23,13 @@ import { useEffect, useState } from "react";
 import axios from "../axios";
 import React from "react";
 import { Link } from "react-router-dom";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -352,15 +354,26 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       )}
                       {postId === obj._id && (
                         <Dialog
-                          open={open}
-                          onClose={handleClose}
-                          aria-labelledby="alert-dialog-title"
-                          aria-describedby="alert-dialog-description"
+                          open={open} 
+                          onClose={handleClose} 
+                          aria-labelledby="form-dialog-title"
                         >
-                          <DialogTitle id="alert-dialog-title">
+                          <DialogTitle id="form-dialog-title">
                             {"Do you want to cancel this post?"}
                           </DialogTitle>
-                          <DialogContent></DialogContent>
+                          <DialogContent>
+                          <DialogContentText>
+                            กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้ หากไม่มีให้ใส่ "-"
+                          </DialogContentText>
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="cancel_desc"
+                            label="Reason for cancelletion"
+                            type="string"
+                            fullWidth
+                          />
+                          </DialogContent>
                           <DialogActions>
                             <Button onClick={handleClose} color="primary">
                               Decline
@@ -475,28 +488,39 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       )}
                       {postId === obj._id && (
                         <Dialog
-                          open={open}
-                          onClose={handleClose}
-                          aria-labelledby="alert-dialog-title"
-                          aria-describedby="alert-dialog-description"
-                        >
-                          <DialogTitle id="alert-dialog-title">
-                            {"Do you want to cancel this post?"}
-                          </DialogTitle>
-                          <DialogContent></DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleClose} color="primary">
-                              Decline
-                            </Button>
-                            <Button
-                              onClick={() => DeletePost(obj._id)}
-                              color="primary"
-                              autoFocus
-                            >
-                              Accept
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
+                        open={open} 
+                        onClose={handleClose} 
+                        aria-labelledby="form-dialog-title"
+                      >
+                        <DialogTitle id="form-dialog-title">
+                          {"Do you want to cancel this post?"}
+                        </DialogTitle>
+                        <DialogContent>
+                        <DialogContentText>
+                          กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้ หากไม่มีให้ใส่ "-"
+                        </DialogContentText>
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id="cancel_desc"
+                          label="Reason for cancelletion"
+                          type="string"
+                          fullWidth
+                        />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose} color="primary">
+                            Decline
+                          </Button>
+                          <Button
+                            onClick={() => DeletePost(obj._id)}
+                            color="primary"
+                            autoFocus
+                          >
+                            Accept
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                       )}
                     </Grid>
                   </Grid>
