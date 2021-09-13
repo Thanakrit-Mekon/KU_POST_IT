@@ -37,6 +37,17 @@ const useStyles = makeStyles((theme: Theme) =>
         flexDirection: "column-reverse",
       },
     },
+    logo1: {
+      marginTop: 10,
+    },
+    logo2: {
+      marginTop: 8,
+      marginLeft: -14,
+    },
+    small: {
+      width: theme.spacing(4),
+      height: theme.spacing(4),
+    },
   })
 );
 
@@ -67,10 +78,15 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Grid item>
-          <img height="63" width="196" src="/img/logo.png" alt="logo" />
+        <Hidden smUp>
+        <Grid item className={classes.logo2}>
+          <img height="38" width="115" src="/img/logo.png" alt="logo" />
         </Grid>
+        </Hidden>
         <Hidden xsDown>
+          <Grid item className={classes.logo1}>
+            <img height="63" width="196" src="/img/logo.png" alt="logo" />
+          </Grid>
           <Grid item>
             <Tabs className={classes.tabs} indicatorColor="primary" centered>
               <Tab
@@ -103,6 +119,10 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
             <Hidden xsDown>
               {user ? user.first_name || user.name : "anonymous"}
               <Avatar alt="Travis Howard" src="/img/mascot.png" />
+            </Hidden>
+            <Hidden smUp>
+              {user ? user.first_name || user.name : "anonymous"}
+              <Avatar alt="Travis Howard" src="/img/mascot.png" className={classes.small}/>
             </Hidden>
             <Checkedbox user={user} setUser={setUser} />
           </Grid>
