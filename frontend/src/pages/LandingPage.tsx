@@ -5,10 +5,13 @@ import {
   createStyles,
   Grid,
   Typography,
+  Link ,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import "@fontsource/roboto";
 import "@fontsource/montserrat";
+import { Link as ReactLink } from "react-router-dom";
+import GitHubIcon from "@material-ui/icons/GitHub";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -35,6 +38,7 @@ const useStyles = makeStyles(() =>
     },
     section: {
       padding: "80px 0",
+      color: "#37474F",
     },
     nav: {
       // backgroundColor: "#979797",
@@ -47,7 +51,7 @@ const useStyles = makeStyles(() =>
     },
     blueBg: {
       backgroundColor: "#BAD9DA",
-      // padding: "20px 0",
+      color: "#37474F",
     },
     subtitle: {
       color: "#979797",
@@ -65,16 +69,21 @@ function LandingPage() {
         elevation={0}
         className={classes.nav}
       >
-        <Grid container alignItems="center" justifyContent="flex-end">
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="flex-end"
+          style={{ color: "#37474F" }}
+        >
           <Button color="primary" style={{ marginRight: "10px" }}>
-            <Typography>Log-in</Typography>
+            Log-in
           </Button>
           <Button
             variant="contained"
             color="primary"
             style={{ marginRight: "10px" }}
           >
-            <Typography>Sign-up</Typography>
+            Sign-up
           </Button>
         </Grid>
       </AppBar>
@@ -107,7 +116,7 @@ function LandingPage() {
           </Grid>
         </Grid>
         <Grid item>
-          <img src="/img/email.gif" alt="email-capture-picture" />
+          <img src="/img/email.gif" alt="email-capture" />
         </Grid>
       </Grid>
 
@@ -134,15 +143,81 @@ function LandingPage() {
         className={classes.blueBg}
       >
         <Grid item xs={5}>
-          <img src="/img/team.png" alt="email-capture-picture" width="550" />
+          <img src="/img/team.png" alt="team" width="550" />
         </Grid>
         <Grid item xs={5} style={{ textAlign: "right" }}>
           <Typography variant="h4">Just post the work</Typography>
           <Typography variant="subtitle1">
-            Create a post, write the work description and let us spread the news
-            about your post to every related students registered in KU Post-It.
+            Create a post, write the work description and let us spread
+            <br /> the news about your post to every related students
+            <br /> registered in KU Post-It.
           </Typography>
         </Grid>
+      </Grid>
+
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={5}>
+          <Typography variant="h4">Find work you want</Typography>
+          <Typography variant="subtitle1">
+            Student account can join posts and include answers for
+            <br />
+            post owner to choose students.
+          </Typography>
+        </Grid>
+        <Grid item xs={5}>
+          <img src="/img/JobHunt.png" alt="JobHunt" width="550" />
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        className={classes.blueBg}
+      >
+        <Grid item xs={5}>
+          <img src="/img/Message.png" alt="Message" width="550" />
+        </Grid>
+        <Grid item xs={5} style={{ textAlign: "right" }}>
+          <Typography variant="h4">Still have no work to join ?</Typography>
+          <Typography variant="subtitle1">
+            When there is work that related to you, we will send
+            <br />
+            notification to you email address to let you know.
+          </Typography>
+        </Grid>
+      </Grid>
+
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        className={classes.section}
+      >
+        <Typography variant="h4" color="primary">
+          Create account and find work now
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          style={{ padding: "18px 10px", marginTop: "20px" }}
+        >
+          Get started for free
+        </Button>
+      </Grid>
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        style={{ backgroundColor: "#37474F", padding: "10px 40px" }}
+      >
+        <Link href="https://storyset.com/job" style={{ color: "white" }}>
+          Job illustrations by Storyset
+        </Link>
+        <Link href="https://github.com/Thanakrit-Mekon/KU_POST_IT">
+          <GitHubIcon style={{ color: "white" }} />
+        </Link>
       </Grid>
     </div>
   );
