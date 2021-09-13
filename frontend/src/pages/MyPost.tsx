@@ -72,9 +72,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     cardtitle: {
       [theme.breakpoints.down("xs")]: {
-        fontSize: 13,
+        fontSize: 15,
       },
-      fontSize: 18,
+      fontSize: 20,
     },
   })
 );
@@ -413,12 +413,14 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         <Hidden smUp>
                           <Button
                             variant="contained"
+                            color="primary"
+                            size="small"
                             style={{
                               marginBottom: 10,
                               marginLeft: 15,
                               marginRight: 7.5,
                             }}
-                            color="primary"
+                            
                           >
                             View
                           </Button>
@@ -433,11 +435,13 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             <ColorButton
                               variant="contained"
                               color="primary"
+                              size="small"
                               style={{
                                 marginBottom: 10,
                                 marginRight: 7.5,
                                 marginLeft: 7.5,
                               }}
+                              
                             >
                               Edit
                             </ColorButton>
@@ -449,6 +453,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             <ColorButton
                               variant="contained"
                               color="primary"
+                              size="small"
                               style={{
                                 marginBottom: 10,
                                 marginRight: 7.5,
@@ -468,6 +473,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               onClick={() => handleClickOpen(obj._id)}
                               variant="contained"
                               color="secondary"
+                              size="small"
                               style={{
                                 marginBottom: 10,
                                 marginRight: 15,
@@ -485,6 +491,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               onClick={() => handleClickOpen(obj._id)}
                               variant="contained"
                               color="secondary"
+                              size="small"
                               style={{
                                 marginBottom: 10,
                                 marginRight: 15,
