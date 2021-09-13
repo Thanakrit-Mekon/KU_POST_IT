@@ -74,8 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down("xs")]: {
         fontSize: 13,
       },
-      fontSize: 19,
-      marginBottom :20,
+      fontSize: 18,
     },
   })
 );
@@ -337,7 +336,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       </Grid>
                     </Grid>
                     <Grid item xs={6}>
-                    <Typography color="primary" variant="h4" >
+                    <Typography color="primary" >
                           <Box
                             className={classes.cardtitle}
                             fontWeight="bold"
