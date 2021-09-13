@@ -5,7 +5,8 @@ import {
   createStyles,
   Grid,
   Typography,
-  Link ,
+  Link,
+  Fade,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import "@fontsource/roboto";
@@ -41,7 +42,7 @@ const useStyles = makeStyles(() =>
       color: "#37474F",
     },
     nav: {
-      // backgroundColor: "#979797",
+      // backgroundColor: "#5E9EA0",
       height: "100px",
       padding: "0 86px",
       display: "flex",
@@ -56,6 +57,11 @@ const useStyles = makeStyles(() =>
     subtitle: {
       color: "#979797",
     },
+    vector: {
+      position: "absolute",
+      top: "562px",
+      left: "353px",
+    },
   })
 );
 
@@ -63,6 +69,7 @@ function LandingPage() {
   const classes = useStyles();
   return (
     <div className={classes.bg}>
+      <img src="/img/Vector.png" className={classes.vector} />
       <AppBar
         position="sticky"
         color="transparent"
@@ -93,7 +100,7 @@ function LandingPage() {
         alignItems="center"
         className={classes.section}
       >
-        <Grid item>
+        <Grid item style={{ zIndex: 2 }}>
           <Typography variant="h1" className={classes.header}>
             KU
             <br />
@@ -120,21 +127,23 @@ function LandingPage() {
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        className={classes.section}
-      >
-        <Typography variant="h4">
-          Easier way to get the work or find students for work
-        </Typography>
-        <Typography variant="subtitle1" className={classes.subtitle}>
-          On KU Post-It, you can create account to find the work or post the
-          work all within 5 minutes.
-        </Typography>
-      </Grid>
+      <Fade>
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          className={classes.section}
+        >
+          <Typography variant="h4">
+            Easier way to get the work or find students for work
+          </Typography>
+          <Typography variant="subtitle1" className={classes.subtitle}>
+            On KU Post-It, you can create account to find the work or post the
+            work all within 5 minutes.
+          </Typography>
+        </Grid>
+      </Fade>
 
       <Grid
         container
@@ -169,56 +178,62 @@ function LandingPage() {
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        className={classes.blueBg}
-      >
-        <Grid item xs={5}>
-          <img src="/img/Message.png" alt="Message" width="550" />
-        </Grid>
-        <Grid item xs={5} style={{ textAlign: "right" }}>
-          <Typography variant="h4">Still have no work to join ?</Typography>
-          <Typography variant="subtitle1">
-            When there is work that related to you, we will send
-            <br />
-            notification to you email address to let you know.
-          </Typography>
-        </Grid>
-      </Grid>
-
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        className={classes.section}
-      >
-        <Typography variant="h4" color="primary">
-          Create account and find work now
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          style={{ padding: "18px 10px", marginTop: "20px" }}
+      <div style={{ position: "relative" }}>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          className={classes.blueBg}
         >
-          Get started for free
-        </Button>
-      </Grid>
-      <Grid
-        container
-        justifyContent="space-between"
-        alignItems="center"
-        style={{ backgroundColor: "#37474F", padding: "10px 40px" }}
-      >
-        <Link href="https://storyset.com/job" style={{ color: "white" }}>
-          Job illustrations by Storyset
-        </Link>
-        <Link href="https://github.com/Thanakrit-Mekon/KU_POST_IT">
-          <GitHubIcon style={{ color: "white" }} />
-        </Link>
-      </Grid>
+          <Grid item xs={5}>
+            <img src="/img/Message.png" alt="Message" width="550" />
+          </Grid>
+          <Grid item xs={5} style={{ textAlign: "right" }}>
+            <Typography variant="h4">Still have no work to join ?</Typography>
+            <Typography variant="subtitle1">
+              When there is work that related to you, we will send
+              <br />
+              notification to you email address to let you know.
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          className={classes.section}
+        >
+          <Typography variant="h4" color="primary">
+            Create account and find work now
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ padding: "18px 10px", marginTop: "20px" }}
+          >
+            Get started for free
+          </Button>
+        </Grid>
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          style={{
+            backgroundColor: "#37474F",
+            padding: "10px 40px",
+            zIndex: 1,
+          }}
+        >
+          <Link href="https://storyset.com/job" style={{ color: "white" }}>
+            Job illustrations by Storyset
+          </Link>
+          <Link href="https://github.com/Thanakrit-Mekon/KU_POST_IT">
+            <GitHubIcon style={{ color: "white" }} />
+          </Link>
+        </Grid>
+      </div>
     </div>
   );
 }
