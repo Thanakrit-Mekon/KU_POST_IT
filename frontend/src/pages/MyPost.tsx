@@ -210,19 +210,19 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                           {obj.full_name}
                         </Box>
 
-                        <Typography color="primary">
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={7}>
+                    <Typography color="primary">
                           <Box
                             className={classes.cardtitle}
                             fontWeight="bold"
-                            textAlign="center"
+                            textAlign="left"
                             color="primary"
                           >
                             {obj.title}
                           </Box>
                         </Typography>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={7}>
                       <Box mt={1}>
                         {obj.isDueDate
                           ? "Duedate : " +
