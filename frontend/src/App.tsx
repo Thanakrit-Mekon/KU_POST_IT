@@ -1,5 +1,9 @@
 import { Switch, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import "@fontsource/roboto";
+import { useEffect, useState } from "react";
+import axios from "./axios";
+
 import Register from "./pages/Register";
 import CreatePost from "./pages/CreatePost";
 import MyPost from "./pages/MyPost";
@@ -10,12 +14,9 @@ import Feed from "./pages/Feed";
 import PostInformation from "./pages/PostInformation";
 import ChangePassword from "./pages/ChangePassword";
 import JoinedPosts from "./pages/JoinedPosts";
-import "@fontsource/roboto";
-import { useEffect, useState } from "react";
-import axios from "./axios";
 import EditPost from "./pages/EditPost";
 import PrivateRoute from "./routes/PrivateRoute";
-// import { isLogin } from "./utils/isLogin";
+import LandingPage from "./pages/LandingPage";
 
 const theme = createTheme({
   palette: {
@@ -106,7 +107,7 @@ function App(): JSX.Element {
             <JoinedPosts user={user} setUser={setUser} />
           </PrivateRoute>
           <Route path="/" exact>
-            <Login setUser={setUser} />
+            <LandingPage />
           </Route>
         </Switch>
       </div>
