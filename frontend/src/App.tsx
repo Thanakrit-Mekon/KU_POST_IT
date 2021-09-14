@@ -44,6 +44,7 @@ export interface User {
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
@@ -51,11 +52,10 @@ function App(): JSX.Element {
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
       axios.get("/user/getuser").then((response) => {
         setUser(response.data[0]);
+        setIsLoading(false);
       });
-    }
+    } else setIsLoading(false);
   }, []);
-
-  const isAuthenticated = user;
 
   return (
     <ThemeProvider theme={theme}>
@@ -67,43 +67,34 @@ function App(): JSX.Element {
           <Route path="/register">
             <Register />
           </Route>
-          <PrivateRoute path="/myprofile" isAuthenticated={isAuthenticated}>
+          <PrivateRoute path="/myprofile" isLoading={isLoading}>
             <MyProfile user={user} setUser={setUser} />
           </PrivateRoute>
-          <PrivateRoute
-            path="/changepassword"
-            isAuthenticated={isAuthenticated}
-          >
+          <PrivateRoute path="/changepassword" isLoading={isLoading}>
             <ChangePassword user={user} setUser={setUser} />
           </PrivateRoute>
           <PrivateRoute
             path={["/ta", "/coop", "/intern"]}
-            isAuthenticated={isAuthenticated}
+            isLoading={isLoading}
           >
             <Feed user={user} setUser={setUser} />
           </PrivateRoute>
-          <PrivateRoute path="/posts/new" isAuthenticated={isAuthenticated}>
+          <PrivateRoute path="/posts/new" isLoading={isLoading}>
             <CreatePost />
           </PrivateRoute>
-          <PrivateRoute
-            path="/posts/edit/:postId"
-            isAuthenticated={isAuthenticated}
-          >
+          <PrivateRoute path="/posts/edit/:postId" isLoading={isLoading}>
             <EditPost />
           </PrivateRoute>
-          <PrivateRoute path="/posts/:postId" isAuthenticated={isAuthenticated}>
+          <PrivateRoute path="/posts/:postId" isLoading={isLoading}>
             <PostInformation />
           </PrivateRoute>
-          <PrivateRoute
-            path="/myposts/:postId"
-            isAuthenticated={isAuthenticated}
-          >
+          <PrivateRoute path="/myposts/:postId" isLoading={isLoading}>
             <CsvTable user={user} setUser={setUser} />
           </PrivateRoute>
-          <PrivateRoute path="/myposts" isAuthenticated={isAuthenticated}>
+          <PrivateRoute path="/myposts" isLoading={isLoading}>
             <MyPost user={user} setUser={setUser} />
           </PrivateRoute>
-          <PrivateRoute path="/joinedposts" isAuthenticated={isAuthenticated}>
+          <PrivateRoute path="/joinedposts" isLoading={isLoading}>
             <JoinedPosts user={user} setUser={setUser} />
           </PrivateRoute>
           <Route path="/" exact>
