@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Route, Redirect, useHistory, useLocation } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 interface PrivateRouteProps {
   children: ReactNode;
@@ -8,8 +8,6 @@ interface PrivateRouteProps {
 }
 
 function PrivateRoute({ children, isLoading, ...rest }: PrivateRouteProps) {
-  const location = useLocation();
-  console.log(location);
   const isAuthenticated = localStorage.getItem("accessToken");
   if (isLoading) return null;
 

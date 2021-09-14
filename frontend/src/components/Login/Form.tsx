@@ -14,7 +14,7 @@ import SimpleModal from "./Modal";
 import axios from "../../axios";
 import { useHistory } from "react-router-dom";
 import { LoginProps } from "../../pages/Login";
-import { Link as Router } from "react-router-dom";
+import { Link as Router, useLocation } from "react-router-dom";
 import { FormHelperText } from "@material-ui/core";
 
 const validationSchema = yup.object({
@@ -42,10 +42,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface LocationProps {
+  from: { pathname: string };
+}
+
 function Form({ setUser }: LoginProps) {
   const [oldPasswordErrorMessage, setOldPasswordErrorMessage] = useState("");
   const classes = useStyles();
   const history = useHistory();
+  const location = useLocation<LocationProps>();
+  console.log(location);
 
   const formik = useFormik({
     initialValues: {
@@ -71,10 +77,14 @@ function Form({ setUser }: LoginProps) {
         .then((response) => {
           console.log(response.data[0]);
           setUser(response.data[0]);
-          if (response.data[0].location) {
-            history.push("/intern");
-          } else {
-            history.push("/ta");
+          if (location.state !== undefined)
+            history.push(location.state.from.pathname);
+          else {
+            if (response.data[0].location) {
+              history.push("/intern");
+            } else {
+              history.push("/ta");
+            }
           }
         })
         .catch(function (error) {
@@ -128,11 +138,11 @@ function Form({ setUser }: LoginProps) {
                 }
               />
               {oldPasswordErrorMessage && (
-                  <Grid item xs={12}>
-                  <FormHelperText style={{color:"red"}}>
-                   {oldPasswordErrorMessage}  
+                <Grid item xs={12}>
+                  <FormHelperText style={{ color: "red" }}>
+                    {oldPasswordErrorMessage}
                   </FormHelperText>
-                  </Grid>
+                </Grid>
               )}
               <Grid container justifyContent="flex-end">
                 <Grid item>
