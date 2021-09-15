@@ -16,12 +16,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import * as React from "react";
-import {
-  DataGrid,
-  GridApi,
-  GridCellValue,
-  GridColDef,
-} from "@material-ui/data-grid";
+import { DataGrid,GridApi,GridCellValue,GridColDef,} from "@material-ui/data-grid";
+
 
 interface Faculty {
   id: string;
@@ -330,22 +326,22 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
           />
         </div>
         <Grid container justifyContent="center" alignItems="center">
-          <Button
-            style={{ marginTop: 50, marginBottom: 50 }}
-            className={classes.cooler2}
-            variant="contained"
-            color="primary"
-            onClick={() => handleClickOpen}
-          >
-            Submit
-          </Button>
+            <Button
+              style={{ marginTop: 50, marginBottom: 50 }}
+              className={classes.cooler2}
+              variant="contained"
+              color="primary"
+              onClick={handleClickOpen}
+            >
+              Submit
+            </Button>
           <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">"PIPI KENG JUNG"</DialogTitle>
+            <DialogTitle id="alert-dialog-title"> </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
                 submit success!!
