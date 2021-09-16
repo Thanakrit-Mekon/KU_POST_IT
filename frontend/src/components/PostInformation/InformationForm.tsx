@@ -97,6 +97,7 @@ export default function PostForm(): JSX.Element {
       });
     },
   });
+  
 
   return (
     <>
@@ -123,19 +124,19 @@ export default function PostForm(): JSX.Element {
 
       <Grid container direction="row">
         <Grid item style={{ width: "100%", margin: 30 }}>
-          <Typography variant="h6" color="primary">
-            <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
-          </Typography>
-          <Divider />
-
-          <Typography
-            variant="subtitle1"
-            style={{ marginTop: 10, marginBottom: 20 }}
-            component="p"
-          >
-            {subject.desc}
-          </Typography>
-
+          {(subject.desc && subject.desc.trim() !="") ? ( 
+          <><Typography variant="h6" color="primary">
+              <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
+            </Typography><Divider /><Typography
+              variant="subtitle1"
+              style={{ marginTop: 10, marginBottom: 20 }}
+              component="p"
+            >
+                {subject.desc}
+              </Typography></> 
+            ) : (
+            null
+            )}
           <Typography variant="h6" color="primary">
             <Box mt={3}>ช่องทางการติดต่อ</Box>
           </Typography>

@@ -170,11 +170,16 @@ function LandingPage() {
               alignItems="center"
               justifyContent={isMobile ? "center" : "flex-start"}
             >
-              <ReactLink to="/register" style={{ textDecoration: "none" }}>
+              <ReactLink
+                to="/register"
+                style={{
+                  textDecoration: "none",
+                  marginRight: isMobile ? 20 : 45,
+                }}
+              >
                 <Button
                   variant="contained"
                   color="primary"
-                  style={{ marginRight: isMobile ? 20 : 45 }}
                   className={classes.btn}
                 >
                   <Typography>Get Started</Typography>
