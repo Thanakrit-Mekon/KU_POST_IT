@@ -155,11 +155,9 @@ function FormCreatePost() {
       };
 
       if (values.type === "true") userData.qualification = [];
-      // console.log(userData);
       axios
         .post("/posts/create", userData)
         .then(function (response) {
-          // console.log(response);
           handleClickOpen();
         })
         .catch(function (error) {

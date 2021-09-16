@@ -90,7 +90,10 @@ const validationSchema = yup.object({
   more: yup.string(),
 });
 
-function FormEditPost() {
+function FormEditPost(){
+
+  const id = useParams<ParamType>();
+
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [subject, setSubject] = useState<Subject>({} as Subject);
@@ -98,6 +101,10 @@ function FormEditPost() {
   const location = useLocation();
   const classes = useStyles();
   const history = useHistory();
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   function handleClick() {
     history.goBack();
@@ -120,27 +127,23 @@ function FormEditPost() {
     onSubmit: (values) => {
       const userData = {
         title: values.title,
-        is_all: values.type,
         contact: values.contact,
         quantity: values.number,
         desc: values.more,
-        qualification: values.requirements,
         isDueDate: values.isDueDate,
         dueDate: selectedDate,
-        hasPeriod: values.hasPeriod,
-        startDate: startDate,
-        endDate: endDate,
+        post_id: id.PostId,
       };
-
-      if (String(values.type) === "true") userData.qualification = [];
+      
       axios
-        .post("/posts/create", userData)
+        .post("/posts/edit_post", userData)
         .then(function (response) {
-          if (response.status === 201) {
-            handleClickOpen();
-          }
+          console.log(response)
+          handleOpen();
         })
-        .catch(function (error) {});
+        .catch(function (error) {
+          console.log(error)
+        });
     },
   });
 
@@ -173,7 +176,7 @@ function FormEditPost() {
       })
       .catch(function (error) {});
   }, [location.pathname]);
-
+  
   useEffect(() => {
     axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
@@ -201,10 +204,6 @@ function FormEditPost() {
   };
 
   const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -238,7 +237,7 @@ function FormEditPost() {
                 <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
-                    Your edit already create.
+                    Editing has been done.
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -252,14 +251,16 @@ function FormEditPost() {
               Save
             </Button>
           </div>
-          <Button
-            variant="outlined"
-            color="secondary"
-            aria-label="outlined secondary button group"
-            onClick={() => handleClick()}
-          >
-            Cancel
-          </Button>
+          <Link to="/myposts" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              aria-label="outlined secondary button group"
+              onClick={() => handleClick}
+            >
+              Cancel
+            </Button>
+          </Link>
         </div>
       </Grid>
       <Grid container spacing={1}>
