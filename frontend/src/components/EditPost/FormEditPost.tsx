@@ -28,6 +28,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { useState } from "react";
+import { object } from "yup/lib/locale";
 
 interface ParamType {
   PostId: string;
@@ -90,9 +91,8 @@ const validationSchema = yup.object({
   more: yup.string(),
 });
 
-function FormEditPost(){
-
-  const id = useParams<ParamType>();
+function FormEditPost() {
+  const param = useParams<ParamType>();
 
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -132,17 +132,16 @@ function FormEditPost(){
         desc: values.more,
         isDueDate: values.isDueDate,
         dueDate: selectedDate,
-        post_id: id.PostId,
+        post_id: location.pathname.slice(12),
       };
-      
       axios
         .post("/posts/edit_post", userData)
         .then(function (response) {
-          console.log(response)
+          console.log(response);
           handleOpen();
         })
         .catch(function (error) {
-          console.log(error)
+          console.log(error);
         });
     },
   });
@@ -176,7 +175,7 @@ function FormEditPost(){
       })
       .catch(function (error) {});
   }, [location.pathname]);
-  
+
   useEffect(() => {
     axios.get("/dropdowns/faculties").then((response) => {
       setFaculties(response.data);
