@@ -4,12 +4,12 @@ import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Theme } from "@material-ui/core";
+import { Theme, useMediaQuery , useTheme} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -17,6 +17,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import * as React from "react";
 import { DataGrid,GridApi,GridCellValue,GridColDef,} from "@material-ui/data-grid";
+ 
 
 
 interface Faculty {
@@ -96,7 +97,7 @@ interface Subject {
   user_name: string;
   __v: number;
   _id: string;
-  numberAppli: string;
+  number_appli: string;
   Post_id: string;
   Username: string;
   Name: string;
@@ -113,6 +114,10 @@ interface ParamType {
 }
 
 function Body({ user, setUser }: Bodyprops): JSX.Element {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
   const classes = useStyles();
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -145,7 +150,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   const param = useParams<ParamType>();
   useEffect(() => {
     axios
-      .get(`/csv/headTable/${param.postId}`)
+      .get(`/datatable/heading/${param.postId}`)
       .then((response) => {
         setSubjects(response.data);
       })
@@ -156,7 +161,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
 
   useEffect(() => {
     axios
-      .get(`/csv/DataCSV/${param.postId}`)
+      .get(`/datatable/datarow/${param.postId}`)
       .then((response) => {
         setData(response.data);
       })
@@ -256,7 +261,6 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             .map((c) => c.field)
             .filter((c) => c !== "__check__" && !!c);
           const thisRow: Record<string, GridCellValue> = {};
-          console.log(params);
           fields.forEach((f) => {
             thisRow[f] = params.getValue(params.row.id, f);
           });
@@ -278,10 +282,23 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     },
   ];
 
+
+  const onSubmit = () =>
+  {  
+    axios
+        .put("/datatable/submit", selectedStudents)
+        .then(function (response) {
+          handleClickOpen();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  };
+
   return (
     <Grid className={classes.root}>
       <NavBar user={user} setUser={setUser} />
-      <Container style={{ paddingTop: 100 }} maxWidth="lg">
+      <Container style={{ paddingTop: isMobile ? 60 : 100 }} maxWidth="lg">
         <Grid
           container
           direction="row"
@@ -289,13 +306,13 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
           alignItems="flex-start"
           style={{ paddingBottom: 50 }}
         >
-          <Typography variant="h4">
-            <Grid item>
+          <Typography variant= {isMobile ? "h5" : "h4"} >
+            <Grid >
               {subjects.title}
               <Chip
                 className={classes.cooler3}
                 style={{ marginLeft: 20 }}
-                label={`${subjects.numberAppli} คน`}
+                label={`${subjects.number_appli} คน`}
               />
             </Grid>
           </Typography>
@@ -325,13 +342,15 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             {...r}
           />
         </div>
+        
         <Grid container justifyContent="center" alignItems="center">
             <Button
               style={{ marginTop: 50, marginBottom: 50 }}
               className={classes.cooler2}
               variant="contained"
               color="primary"
-              onClick={handleClickOpen}
+              //onClick={handleClickOpen}
+              onClick = { onSubmit }
             >
               Submit
             </Button>
@@ -348,13 +367,11 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose} color="primary" autoFocus>
+              <Button href="/myposts" onClick={handleClose} color="primary" autoFocus>
                 Acknowledge
               </Button>
             </DialogActions>
           </Dialog>
-
-          <Link to={`/myposts`} style={{ textDecoration: "none" }}>
             <Button
               href="/myposts"
               style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
@@ -364,7 +381,6 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             >
               Back
             </Button>
-          </Link>
         </Grid>
       </Container>
       <Dialog
