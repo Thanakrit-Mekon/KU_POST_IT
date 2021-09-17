@@ -73,9 +73,7 @@ export default function PostForm(): JSX.Element {
   };
   const [subject, setSubject] = useState<Subject>({} as Subject);
   useEffect(() => {
-    console.log(param.postId);
     axios.get(`feed/findid/${param.postId}`).then((response) => {
-      console.log(response);
       setSubject(response.data);
     });
   }, [param.postId]);
@@ -90,9 +88,7 @@ export default function PostForm(): JSX.Element {
         post_id: subject.id,
       };
       if (data.answer === "") data.answer = "-";
-      console.log(data);
       axios.post("/answers/create", data).then(function (response) {
-        console.log(response);
         handleClickOpen();
       });
     },

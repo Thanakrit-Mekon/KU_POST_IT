@@ -137,11 +137,9 @@ function QueryUser({ user, setUser }: queryuserprops) {
     axios
       .get(`feed/find${location.pathname}`)
       .then((response) => {
-        console.log(response.data);
         setSubjects(response.data);
       })
       .catch(function (error) {
-        console.log(error.message);
       });
   }, [location.pathname]);
 
