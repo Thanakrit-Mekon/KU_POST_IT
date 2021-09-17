@@ -59,8 +59,8 @@ const useStyles = makeStyles((theme) =>
     },
     icon: {
       [theme.breakpoints.down("xs")]: {
-        height: "50px",
-        width: "50px",
+        height: "43px",
+        width: "43px",
       },
       height: "75px",
       width: "75px",
@@ -96,9 +96,9 @@ const useStyles = makeStyles((theme) =>
     },
     cardtitle: {
       [theme.breakpoints.down("xs")]: {
-        fontSize: 13,
+        fontSize: 15,
       },
-      fontSize: 15,
+      fontSize: 20,
     },
   })
 );
@@ -315,20 +315,44 @@ function QueryUser({ user, setUser }: queryuserprops) {
                               {obj.first_name} {obj.last_name}
                             </Box>
                           )}
-
-                          <Typography color="primary">
-                            <Box
-                              className={classes.cardtitle}
-                              fontWeight="bold"
-                              textAlign="center"
-                              color="primary"
-                            >
-                              {obj.title}
-                            </Box>
-                          </Typography>
                         </Grid>
+                        {usertype === 1 &&
+                          (!obj.thisusersubmit ? (
+                            <Link
+                              to={`/posts/${obj.id}`}
+                              style={{ textDecoration: "none" }}
+                            >
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                style={{ marginTop: 20 }}
+                                fullWidth
+                              >
+                                Join
+                              </Button>
+                            </Link>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              style={{ marginTop: 20 }}
+                              fullWidth
+                              disabled
+                            >
+                              Join
+                            </Button>
+                          ))}
                       </Grid>
                       <Grid item xs={7}>
+                        <Typography color="primary">
+                          <Box
+                            className={classes.cardtitle}
+                            fontWeight="bold"
+                            color="primary"
+                          >
+                            {obj.title}
+                          </Box>
+                        </Typography>
                         <Box mt={1}>
                           {obj.isDueDate
                             ? "Duedate : " +
@@ -382,33 +406,6 @@ function QueryUser({ user, setUser }: queryuserprops) {
                             Joined {obj.candidate} people
                           </Box>
                         </Grid>
-
-                        {usertype === 1 &&
-                          (!obj.thisusersubmit ? (
-                            <Link
-                              to={`/posts/${obj.id}`}
-                              style={{ textDecoration: "none" }}
-                            >
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                style={{ marginTop: 20 }}
-                                fullWidth
-                              >
-                                Join
-                              </Button>
-                            </Link>
-                          ) : (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              style={{ marginTop: 20 }}
-                              fullWidth
-                              disabled
-                            >
-                              Join
-                            </Button>
-                          ))}
                       </Grid>
                     </Grid>
                   </Card>
