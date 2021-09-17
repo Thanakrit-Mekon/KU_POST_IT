@@ -142,9 +142,9 @@ const useStyles = makeStyles((theme) =>
     },
     cardtitle: {
       [theme.breakpoints.down("xs")]: {
-        fontSize: 13,
+        fontSize: 15,
       },
-      fontSize: 15,
+      fontSize: 20,
     },
     usericon: {
       [theme.breakpoints.down("xs")]: {
@@ -340,20 +340,85 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                             {obj.first_name} {obj.last_name}
                           </Box>
                         )}
-                        <Typography color="primary">
+                      </Grid>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        style={{ marginTop: 20 }}
+                        fullWidth
+                        onClick={() => handleClickOpen(obj.id)}
+                      >
+                        View
+                      </Button>
+
+                        {scroll === obj.id && (
+                          <Dialog
+                            maxWidth="lg"
+                            aria-labelledby="customized-dialog-title"
+                            open={open}
+                            onClose={handleClose}
+                          >
+                            <DialogTitle
+                              id="customized-dialog-title"
+                              onClose={handleClose}
+                            >
+                              {/* <Box>{obj.title}</Box> */}
+                              {obj.title}{" "}
+                              <Chip
+                                style={{ alignSelf: "flex-start" }}
+                                size="small"
+                                className={
+                                  obj.status
+                                    ? classes.selected
+                                    : obj.is_activate === true
+                                    ? classes.notconsider
+                                    : classes.notselected
+                                }
+                                label={
+                                  obj.status
+                                    ? "คุณได้รับเลือก"
+                                    : obj.is_activate === true
+                                    ? "ยังไม่ได้พิจารณา"
+                                    : "คุณไม่ถูกรับเลือก"
+                                }
+                              />
+                            </DialogTitle>
+                            <DialogContent dividers>
+                              <Typography variant="h6" color="primary">
+                                <Box>รายละเอียดเพิ่มเติม</Box>
+                              </Typography>
+                              <Typography variant="subtitle1">
+                                {obj.desc}
+                              </Typography>
+
+                              <Typography variant="h6" color="primary">
+                                <Box mt={3}>ช่องทางการติดต่อ</Box>
+                              </Typography>
+                              <Typography variant="subtitle1">
+                                {obj.contact}
+                              </Typography>
+
+                              <Typography variant="h6" color="primary">
+                                <Box mt={3}>คำตอบของคุณ</Box>
+                              </Typography>
+                              <Typography variant="subtitle1">
+                                {obj.answer}
+                              </Typography>
+                            </DialogContent>
+                          </Dialog>
+                        )}
+                    </Grid>
+
+                    <Grid item xs={7}>
+                      <Typography color="primary">
                           <Box
                             className={classes.cardtitle}
                             fontWeight="bold"
-                            textAlign="center"
                             color="primary"
                           >
                             {obj.title}
                           </Box>
-                        </Typography>
-                      </Grid>
-                    </Grid>
-
-                    <Grid item xs={7}>
+                      </Typography>
                       <Box mt={1}>
                         {obj.isDueDate
                           ? "Duedate : " +
@@ -407,73 +472,6 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                           Joined {obj.candidate} people
                         </Box>
                       </Grid>
-
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{ marginTop: 20 }}
-                        fullWidth
-                        onClick={() => handleClickOpen(obj.id)}
-                      >
-                        View
-                      </Button>
-
-                      {scroll === obj.id && (
-                        <Dialog
-                          maxWidth="lg"
-                          aria-labelledby="customized-dialog-title"
-                          open={open}
-                          onClose={handleClose}
-                        >
-                          <DialogTitle
-                            id="customized-dialog-title"
-                            onClose={handleClose}
-                          >
-                            {/* <Box>{obj.title}</Box> */}
-                            {obj.title}{" "}
-                            <Chip
-                              style={{ alignSelf: "flex-start" }}
-                              size="small"
-                              className={
-                                obj.status
-                                  ? classes.selected
-                                  : obj.is_activate === true
-                                  ? classes.notconsider
-                                  : classes.notselected
-                              }
-                              label={
-                                obj.status
-                                  ? "คุณได้รับเลือก"
-                                  : obj.is_activate === true
-                                  ? "ยังไม่ได้พิจารณา"
-                                  : "คุณไม่ถูกรับเลือก"
-                              }
-                            />
-                          </DialogTitle>
-                          <DialogContent dividers>
-                            <Typography variant="h6" color="primary">
-                              <Box>รายละเอียดเพิ่มเติม</Box>
-                            </Typography>
-                            <Typography variant="subtitle1">
-                              {obj.desc}
-                            </Typography>
-
-                            <Typography variant="h6" color="primary">
-                              <Box mt={3}>ช่องทางการติดต่อ</Box>
-                            </Typography>
-                            <Typography variant="subtitle1">
-                              {obj.contact}
-                            </Typography>
-
-                            <Typography variant="h6" color="primary">
-                              <Box mt={3}>คำตอบของคุณ</Box>
-                            </Typography>
-                            <Typography variant="subtitle1">
-                              {obj.answer}
-                            </Typography>
-                          </DialogContent>
-                        </Dialog>
-                      )}
                     </Grid>
                   </Grid>
                 </Card>
