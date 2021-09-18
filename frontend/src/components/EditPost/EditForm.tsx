@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     [theme.breakpoints.up(600 + theme.spacing(2) * 10)]: {
-      width: 600,
+      width: 800,
       margin: "auto",
     },
     [theme.breakpoints.down("xs")]: {
@@ -47,13 +47,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditForm(): JSX.Element {
+export default function PostForm(): JSX.Element {
   const classes = useStyles();
 
   return (
     <>
       <main className={classes.layout}>
-      <Hidden smUp>
+        <Hidden smUp>
           <Grid
             container
             justifyContent="center"

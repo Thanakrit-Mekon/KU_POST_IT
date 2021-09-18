@@ -16,6 +16,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  useTheme,
+  useMediaQuery,
+  Hidden,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -72,6 +75,12 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
     alignItems: "flex-start",
   },
+  button: {
+    [theme.breakpoints.down("xs")]: {
+      display: "block",
+      width: "100%",
+    },
+  },
 }));
 
 const GreenRadio = withStyles({
@@ -93,6 +102,7 @@ const validationSchema = yup.object({
 
 function FormEditPost() {
   const param = useParams<ParamType>();
+  const theme = useTheme();
 
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -208,6 +218,10 @@ function FormEditPost() {
     setOpen(false);
   };
 
+  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
+    defaultMatches: true,
+  });
+
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid
@@ -216,9 +230,14 @@ function FormEditPost() {
         justifyContent="space-between"
         style={{ marginBottom: 20 }}
       >
-        <Typography component="h1" variant="h4" color="primary">
+        <Typography 
+          component="h1" 
+          variant="h4" 
+          color="primary" 
+        >
           Edit Post
         </Typography>
+        <Hidden xsDown>
         <div className={classes.buttons}>
           <div>
             <Button
@@ -261,6 +280,7 @@ function FormEditPost() {
             </Button>
           </Link>
         </div>
+        </Hidden>
       </Grid>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={9}>
@@ -275,7 +295,7 @@ function FormEditPost() {
             error={formik.touched.title && Boolean(formik.errors.title)}
           />
         </Grid>
-        <Grid item sm={3} style={{ marginBottom: "1rem" }}>
+        <Grid item xs={12} sm={3} style={{ marginBottom: "1rem" }}>
           <TextField
             size="medium"
             fullWidth
@@ -496,14 +516,14 @@ function FormEditPost() {
           );
         })}
       <Grid container spacing={1}>
-        <Grid item sm={12} style={{ marginBottom: "1rem" }}>
+        <Grid item xs={12} style={{ marginBottom: "1rem" }}>
           <TextField
             size="medium"
             fullWidth
             variant="outlined"
             label="Contact"
             multiline
-            rows={2}
+            rows={1}
             name="contact"
             value={formik.values.contact}
             onChange={formik.handleChange}
@@ -525,6 +545,59 @@ function FormEditPost() {
           error={formik.touched.more && Boolean(formik.errors.more)}
         />
       </Grid>
+      <Hidden smUp>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ marginTop: isMobile ? 10 : 20 }}
+        spacing={isMobile ? 2 : 0}
+      >
+        <Grid item xs={6} sm={1} style={{ marginRight: isMobile ? 0 : 20 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    Editing has been done.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Link to="/myposts" style={{ textDecoration: "none" }}>
+                    <Button onClick={handleClose} color="primary" autoFocus>
+                      Continue
+                    </Button>
+                  </Link>
+                </DialogActions>
+              </Dialog>
+              Save
+            </Button>
+          </Grid>
+          <Grid item xs={6} sm={1}>
+          <Link to="/myposts" style={{ textDecoration: "none" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              aria-label="outlined secondary button group"
+              className={classes.button}
+              onClick={() => handleClick}
+            >
+              Cancel
+            </Button>
+          </Link>
+          </Grid>
+        </Grid>
+        </Hidden>
     </form>
   );
 }
