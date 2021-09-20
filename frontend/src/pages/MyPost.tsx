@@ -30,6 +30,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useFormik } from "formik";
+import Compress from "react-image-file-resizer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -157,7 +158,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
         postId: postId,
       };
       axios
-        .post("posts/deletePost", reason_sent)
+        .post("posts/cancel_post", reason_sent)
         .then((response) => {
           console.log(response);
           handleClose();
