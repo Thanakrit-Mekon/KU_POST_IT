@@ -24,21 +24,12 @@ import { useEffect, useState } from "react";
 import axios from "../axios";
 import React from "react";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-=======
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
->>>>>>> b02b70fabb8763b02c588149d926670c6a5a0745
 import { useFormik } from "formik";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -142,12 +133,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
       setSubjects(response.data);
     });
   }, []);
-<<<<<<< HEAD
-  // console.log(subjects);
-
-  const classes = useStyles();
-
-=======
   //console.log(subjects);
 
   const classes = useStyles();
@@ -164,7 +149,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   //   return postId
   // };
 
->>>>>>> b02b70fabb8763b02c588149d926670c6a5a0745
   const [open, setOpen] = React.useState(false);
   const [postId, setPostId] = useState("");
 
@@ -329,74 +313,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             </>
                           )}
 
-<<<<<<< HEAD
-                          {obj.is_activate ? (
-                            <>
-                              <Hidden xsDown>
-                                <Button
-                                  onClick={() => handleClickOpen(obj._id)}
-                                  variant="contained"
-                                  color="secondary"
-                                  style={{ marginTop: 10, marginLeft: 5 }}
-                                >
-                                  Cancel
-                                </Button>
-                              </Hidden>
-                            </>
-                          ) : (
-                            <>
-                              <Hidden xsDown>
-                                <Button
-                                  onClick={() => handleClickOpen(obj._id)}
-                                  variant="contained"
-                                  color="secondary"
-                                  style={{ marginTop: 10, marginLeft: 5 }}
-                                  disabled
-                                >
-                                  Cancel
-                                </Button>
-                              </Hidden>
-                            </>
-                          )}
-                          {postId === obj._id && (
-                            <form onSubmit={formik.handleSubmit}>
-                              <Dialog
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="form-dialog-title"
-                              >
-                                <DialogTitle id="form-dialog-title">
-                                  {"Do you want to cancel this post?"}
-                                </DialogTitle>
-                                <DialogContent>
-                                  <DialogContentText>
-                                    กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้
-                                    หากไม่มีให้ใส่ "-"
-                                  </DialogContentText>
-                                  <TextField
-                                    margin="dense"
-                                    id="cancel_desc"
-                                    label="Reason for cancelletion"
-                                    type="string"
-                                    name="desc"
-                                    value={formik.values.desc}
-                                    onChange={formik.handleChange}
-                                    fullWidth
-                                  />
-                                </DialogContent>
-                                <DialogActions>
-                                  <Button onClick={handleClose} color="primary">
-                                    Decline
-                                  </Button>
-                                  <Button type="submit" color="primary">
-                                    Accept
-                                  </Button>
-                                </DialogActions>
-                              </Dialog>
-                            </form>
-                          )}
-                        </Grid>
-=======
                       {obj.is_activate ? (
                         <>
                           <Hidden xsDown>
@@ -470,7 +386,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         
                       )}
                       </Grid>
->>>>>>> b02b70fabb8763b02c588149d926670c6a5a0745
                       </Grid>
                     </Grid>
                     <Grid item xs={6}>
@@ -643,41 +558,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       {postId === obj._id && (
                         
                         <Dialog
-<<<<<<< HEAD
-                          open={open}
-                          onClose={handleClose}
-                          aria-labelledby="form-dialog-title"
-                        >
-                          <DialogTitle id="form-dialog-title">
-                            {"Do you want to cancel this post?"}
-                          </DialogTitle>
-                          <DialogContent>
-                            <DialogContentText>
-                              กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้
-                              หากไม่มีให้ใส่ "-"
-                            </DialogContentText>
-                            <TextField
-                              autoFocus
-                              margin="dense"
-                              id="cancel_desc"
-                              label="Reason for cancelletion"
-                              type="string"
-                              name="desc"
-                              value={formik.values.desc}
-                              onChange={formik.handleChange}
-                              fullWidth
-                            />
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleClose} color="primary">
-                              Decline
-                            </Button>
-                            <Button type="submit" color="primary">
-                              Accept
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-=======
                         open={open} 
                         onClose={handleClose} 
                         aria-labelledby="form-dialog-title"
@@ -715,7 +595,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         </DialogActions>
                         </form>
                       </Dialog>
->>>>>>> b02b70fabb8763b02c588149d926670c6a5a0745
                       )}
                     </Grid>
                   </Grid>
