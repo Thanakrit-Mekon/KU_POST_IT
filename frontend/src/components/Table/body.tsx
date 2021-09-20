@@ -337,6 +337,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             pageSize={10}
             checkboxSelection
             disableSelectionOnClick
+            isCellEditable={() => false}
             onSelectionModelChange={(ids) => {
               let student: any[] = [];
               const selectedIDs = new Set(ids);

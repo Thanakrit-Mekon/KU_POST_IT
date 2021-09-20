@@ -21,7 +21,11 @@ import {
   GridApi,
   GridCellValue,
   GridColDef,
-  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
 } from "@material-ui/data-grid";
 
 interface Faculty {
@@ -244,6 +248,23 @@ function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
     },
   ];
 
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+        <GridToolbarExport
+          csvOptions={{
+            fileName: `${subjects.title}_${
+              new Date().toISOString().split("T")[0]
+            }`,
+          }}
+        />
+      </GridToolbarContainer>
+    );
+  }
+
   return (
     <Grid className={classes.root}>
       <NavBar user={user} setUser={setUser} />
@@ -271,8 +292,10 @@ function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
             rows={r}
             columns={c}
             pageSize={10}
+            disableSelectionOnClick
+            isCellEditable={() => false}
             components={{
-              Toolbar: GridToolbar,
+              Toolbar: CustomToolbar,
             }}
           />
         </div>
