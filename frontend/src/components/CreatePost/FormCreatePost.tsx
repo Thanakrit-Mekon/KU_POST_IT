@@ -86,6 +86,7 @@ const validationSchema = yup.object({
   contact: yup.string().required("Contact cannot be empty"),
   number: yup
     .number()
+    .min(1)
     .typeError("you must specify a number")
     .required("Cannot be empty"),
   more: yup.string(),
@@ -219,6 +220,7 @@ function FormCreatePost() {
   };
 
   const handleClose = () => {
+    history.goBack();
     setOpen(false);
   };
 
