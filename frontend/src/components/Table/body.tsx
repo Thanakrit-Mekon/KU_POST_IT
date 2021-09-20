@@ -311,7 +311,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   return (
     <Grid className={classes.root}>
       <NavBar user={user} setUser={setUser} />
-      <Container style={{ paddingTop: isMobile ? 60 : 100 }} maxWidth="lg">
+      <Container style={{ paddingTop: 60 }} maxWidth="lg">
         <Grid
           container
           direction="row"

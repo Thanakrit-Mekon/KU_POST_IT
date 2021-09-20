@@ -23,19 +23,11 @@ import {
   GridColDef,
   GridToolbar,
 } from "@material-ui/data-grid";
-import { CsvBuilder } from "filefy";
 
 interface Faculty {
   id: string;
   faculty_name: string;
   faculty_code: string;
-}
-
-interface StudentProps {
-  post_id: string;
-  student: {
-    email: string;
-  }[];
 }
 
 interface Department {
@@ -102,17 +94,8 @@ function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [Data, setData] = useState<Data[]>([]);
-  const [open, setOpen] = React.useState(false);
   const [answer, setAnswer] = useState("");
   const [openAnswer, setOpenAnswer] = React.useState(false);
-  const [selectedStudents, setSelectedStudents] = useState<StudentProps>(
-    {} as StudentProps
-  );
-  const [SelectedRow, setSelectedRow] = useState<any[]>([]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClickOpenAnswer = (answer: string) => {
     setAnswer(answer);
@@ -130,19 +113,6 @@ function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
       .get(`datatable/heading_qualified/${param.postId}`)
       .then((response) => {
         setSubjects(response.data);
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error.message);
-      });
-  }, [param.postId]);
-
-  useEffect(() => {
-    axios
-      .get(`datatable/qualified/${param.postId}`)
-      .then((response) => {
-        setData(response.data);
-        console.log(Data);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -162,18 +132,31 @@ function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
   }, []);
 
   const facultyCodeToFacultyName = (facultyCode: string) => {
-    const facultyName = faculties.find(
+    const foundFaculty = faculties.find(
       ({ faculty_code }) => faculty_code === facultyCode
-    )?.faculty_name;
-    return facultyName;
+    );
+    if (foundFaculty) return foundFaculty.faculty_name;
+    return "";
   };
 
   const departmentCodeToDepartmentName = (departmentCode: string) => {
-    const departmentName = departments.find(
+    const foundDepartment = departments.find(
       ({ department_code }) => department_code === departmentCode
-    )?.department_name;
-    return departmentName;
+    );
+    if (foundDepartment) return foundDepartment.department_name;
+    return "";
   };
+
+  useEffect(() => {
+    axios
+      .get(`datatable/qualified/${param.postId}`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  }, [param.postId]);
 
   const r = Data.map((data, i) => {
     return {
@@ -261,19 +244,10 @@ function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
     },
   ];
 
-  const exportSelectedRows = () => {
-    new CsvBuilder(
-      `${subjects.title}_${new Date().toISOString().split("T")[0]}.csv`
-    )
-      .setColumns(c.map((col) => col.field))
-      .addRows(SelectedRow.map((rowData) => c.map((col) => rowData[col.field])))
-      .exportFile();
-  };
-
   return (
     <Grid className={classes.root}>
       <NavBar user={user} setUser={setUser} />
-      <Container style={{ paddingTop: isMobile ? 60 : 100 }} maxWidth="lg">
+      <Container style={{ paddingTop: 60 }} maxWidth="lg">
         <Grid
           container
           direction="row"
@@ -305,17 +279,8 @@ function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
 
         <Grid container justifyContent="center" alignItems="center">
           <Button
-            style={{ marginTop: 50, marginBottom: 50 }}
-            className={classes.cooler2}
-            variant="contained"
-            color="primary"
-            onClick={exportSelectedRows}
-          >
-            Download CSV
-          </Button>
-          <Button
             href="/myposts"
-            style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
+            style={{ marginTop: 50, marginBottom: 50 }}
             className={classes.cooler}
             variant="contained"
             color="primary"
