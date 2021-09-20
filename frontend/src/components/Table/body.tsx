@@ -4,21 +4,26 @@ import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Theme, useMediaQuery , useTheme} from "@material-ui/core";
+import { Theme, useMediaQuery, useTheme } from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import { User } from "../../App";
 import axios from "../../axios";
 import { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import * as React from "react";
-import { DataGrid,GridApi,GridCellValue,GridColDef,} from "@material-ui/data-grid";
- 
-
+import {
+  DataGrid,
+  GridApi,
+  GridCellValue,
+  GridColDef,
+  GridToolbar,
+} from "@material-ui/data-grid";
+import { CsvBuilder } from "filefy";
 
 interface Faculty {
   id: string;
@@ -128,6 +133,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   const [selectedStudents, setSelectedStudents] = useState<StudentProps>(
     {} as StudentProps
   );
+  const [SelectedRow, setSelectedRow] = useState<any[]>([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -282,17 +288,25 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     },
   ];
 
+  const exportSelectedRows = () => {
+    new CsvBuilder(
+      `${subjects.title}_${new Date().toISOString().split("T")[0]}.csv`
+    )
+      .setColumns(c.map((col) => col.field))
+      .addRows(SelectedRow.map((rowData) => c.map((col) => rowData[col.field])))
+      .exportFile();
+  };
 
-  const onSubmit = () =>
-  {  
+  const onSubmit = () => {
     axios
-        .put("/datatable/submit", selectedStudents)
-        .then(function (response) {
-          handleClickOpen();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      .put("/datatable/submit", selectedStudents)
+      .then(function (response) {
+        exportSelectedRows();
+        handleClickOpen();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -306,8 +320,8 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
           alignItems="flex-start"
           style={{ paddingBottom: 50 }}
         >
-          <Typography variant= {isMobile ? "h5" : "h4"} >
-            <Grid >
+          <Typography variant={isMobile ? "h5" : "h4"}>
+            <Grid>
               {subjects.title}
               <Chip
                 className={classes.cooler3}
@@ -337,23 +351,23 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
                 post_id: param.postId,
                 student: student,
               };
+              setSelectedRow(selectedRowData);
               setSelectedStudents(ans);
             }}
             {...r}
           />
         </div>
-        
+
         <Grid container justifyContent="center" alignItems="center">
-            <Button
-              style={{ marginTop: 50, marginBottom: 50 }}
-              className={classes.cooler2}
-              variant="contained"
-              color="primary"
-              //onClick={handleClickOpen}
-              onClick = { onSubmit }
-            >
-              Submit
-            </Button>
+          <Button
+            style={{ marginTop: 50, marginBottom: 50 }}
+            className={classes.cooler2}
+            variant="contained"
+            color="primary"
+            onClick={onSubmit}
+          >
+            Submit
+          </Button>
           <Dialog
             open={open}
             onClose={handleClose}
@@ -367,20 +381,25 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button href="/myposts" onClick={handleClose} color="primary" autoFocus>
-                Acknowledge
+              <Button
+                href="/myposts"
+                onClick={handleClose}
+                color="primary"
+                autoFocus
+              >
+                OK
               </Button>
             </DialogActions>
           </Dialog>
-            <Button
-              href="/myposts"
-              style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
-              className={classes.cooler}
-              variant="contained"
-              color="primary"
-            >
-              Back
-            </Button>
+          <Button
+            href="/myposts"
+            style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
+            className={classes.cooler}
+            variant="contained"
+            color="primary"
+          >
+            Back
+          </Button>
         </Grid>
       </Container>
       <Dialog
