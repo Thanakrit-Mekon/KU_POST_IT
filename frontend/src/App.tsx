@@ -17,6 +17,7 @@ import JoinedPosts from "./pages/JoinedPosts";
 import EditPost from "./pages/EditPost";
 import PrivateRoute from "./routes/PrivateRoute";
 import LandingPage from "./pages/LandingPage";
+import PostTable from "./pages/PostTable";
 
 const theme = createTheme({
   palette: {
@@ -87,6 +88,9 @@ function App(): JSX.Element {
           </PrivateRoute>
           <PrivateRoute path="/posts/:postId" isLoading={isLoading}>
             <PostInformation />
+          </PrivateRoute>
+          <PrivateRoute path="/myposts/closed/:postId" isLoading={isLoading}>
+            <PostTable user={user} setUser={setUser} />
           </PrivateRoute>
           <PrivateRoute path="/myposts/:postId" isLoading={isLoading}>
             <CsvTable user={user} setUser={setUser} />

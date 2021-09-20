@@ -21,6 +21,7 @@ import {
   GridApi,
   GridCellValue,
   GridColDef,
+  GridToolbar,
 } from "@material-ui/data-grid";
 import { CsvBuilder } from "filefy";
 
@@ -61,18 +62,15 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       height: "100vh",
     },
-
     cooler: {
       zindex: "-1",
       color: "white",
       backgroundColor: "#F9A41A",
     },
-
     cooler2: {
       color: "white",
       backgroundColor: "#DB524E",
     },
-
     cooler3: {
       color: "white",
       background: "#83D2D4",
@@ -86,38 +84,16 @@ export interface Bodyprops {
 }
 
 interface Subject {
-  contact: string;
-  create: string;
-  desc: string;
-  is_activate: string;
-  is_all: boolean;
-  last_modify: string;
-  post_type: string;
-  qualification: {
-    year: string;
-  }[];
-  quantity: string;
   title: string;
-  user_name: string;
-  __v: number;
-  _id: string;
   number_appli: string;
   Post_id: string;
-  Username: string;
-  Name: string;
-  Surname: string;
-  Email: string;
-  Faculty: string;
-  Department: string;
-  Year: string;
-  Answer: string;
 }
 
 interface ParamType {
   postId: string;
 }
 
-function Body({ user, setUser }: Bodyprops): JSX.Element {
+function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
     defaultMatches: true,
@@ -138,10 +114,6 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleClickOpenAnswer = (answer: string) => {
     setAnswer(answer);
     setOpenAnswer(true);
@@ -155,9 +127,10 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   const param = useParams<ParamType>();
   useEffect(() => {
     axios
-      .get(`/datatable/heading/${param.postId}`)
+      .get(`datatable/heading_qualified/${param.postId}`)
       .then((response) => {
         setSubjects(response.data);
+        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -166,9 +139,10 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
 
   useEffect(() => {
     axios
-      .get(`/datatable/datarow/${param.postId}`)
+      .get(`datatable/qualified/${param.postId}`)
       .then((response) => {
         setData(response.data);
+        console.log(Data);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -296,18 +270,6 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
       .exportFile();
   };
 
-  const onSubmit = () => {
-    axios
-      .put("/datatable/submit", selectedStudents)
-      .then(function (response) {
-        exportSelectedRows();
-        handleClickOpen();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
   return (
     <Grid className={classes.root}>
       <NavBar user={user} setUser={setUser} />
@@ -335,25 +297,9 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             rows={r}
             columns={c}
             pageSize={10}
-            checkboxSelection
-            disableSelectionOnClick
-            onSelectionModelChange={(ids) => {
-              let student: any[] = [];
-              const selectedIDs = new Set(ids);
-              const selectedRowData = r.filter((row) =>
-                selectedIDs.has(row.id)
-              );
-              selectedRowData.forEach((row) => {
-                student.push({ email: row.email });
-              });
-              const ans = {
-                post_id: param.postId,
-                student: student,
-              };
-              setSelectedRow(selectedRowData);
-              setSelectedStudents(ans);
+            components={{
+              Toolbar: GridToolbar,
             }}
-            {...r}
           />
         </div>
 
@@ -363,33 +309,10 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             className={classes.cooler2}
             variant="contained"
             color="primary"
-            onClick={onSubmit}
+            onClick={exportSelectedRows}
           >
-            Submit
+            Download CSV
           </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title"> </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                submit success!!
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                href="/myposts"
-                onClick={handleClose}
-                color="primary"
-                autoFocus
-              >
-                OK
-              </Button>
-            </DialogActions>
-          </Dialog>
           <Button
             href="/myposts"
             style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
@@ -423,4 +346,4 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   );
 }
 
-export default Body;
+export default PostActivate;
