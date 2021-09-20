@@ -181,26 +181,6 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
     },
   });
 
-  const formik = useFormik({
-    initialValues: {
-      desc: "",
-    },
-    onSubmit: (values) => {
-      const userData = {
-        postId: postId,
-        cancel_desc: values.desc,
-      };
-      axios
-        .post("/user/student", userData)
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-  });
-
   return (
     <div>
       
