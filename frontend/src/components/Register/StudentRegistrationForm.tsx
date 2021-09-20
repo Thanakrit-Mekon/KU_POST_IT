@@ -14,16 +14,17 @@ import {
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "../../axios";
-import React from "react";
 import AlertDialog from "./AlertDialog";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const validationSchema = yup.object({
+  // recaptcha: yup.string().required(),
   email: yup.string().email("Enter a valid Email").required("Enter your Email"),
   password: yup
     .string()
-    .min(8,"At least 8 characters")
+    .min(8, "At least 8 characters")
     // .matches(
     //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
     // )
@@ -36,7 +37,7 @@ const validationSchema = yup.object({
   lastName: yup.string().required("lastname"),
   studentId: yup
     .string()
-    .matches(/^['b']\d{10}/,"Must be bxxxxxxxxxx")
+    .matches(/^['b']\d{10}/, "Must be bxxxxxxxxxx")
     .required("Enter your student ID"),
   phone: yup.number().required("Enter your phone number"),
 });
@@ -76,8 +77,8 @@ const useStyles = makeStyles((theme) =>
 
     error3: {
       marginTop: -12,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -15,
       },
@@ -85,8 +86,8 @@ const useStyles = makeStyles((theme) =>
 
     error2: {
       marginTop: -27,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -15,
       },
@@ -94,8 +95,8 @@ const useStyles = makeStyles((theme) =>
 
     error1: {
       marginTop: -12,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -5,
       },
@@ -125,6 +126,10 @@ function StudentRegistrationForm(): JSX.Element {
     setOpen(true);
   };
 
+  function onChange(value: any) {
+    console.log("Captcha value:", value);
+  }
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -140,6 +145,7 @@ function StudentRegistrationForm(): JSX.Element {
     validationSchema,
     onSubmit: (values) => {
       const userData = {
+        // recaptcha: formik.values.recaptcha,
         profile_url: "url_link",
         email: values.email,
         password: values.password,
@@ -151,6 +157,7 @@ function StudentRegistrationForm(): JSX.Element {
         get_notify: true,
         phone: values.phone,
       };
+      console.log(userData);
       axios
         .post("/user/student", userData)
         .then(function (response) {
@@ -215,17 +222,21 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {((formik.touched.lastName && formik.errors.lastName) || (formik.touched.firstName && formik.errors.firstName)) &&(
+          {((formik.touched.lastName && formik.errors.lastName) ||
+            (formik.touched.firstName && formik.errors.firstName)) && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error2}>
-              {(formik.touched.firstName && formik.errors.firstName && formik.touched.lastName && formik.errors.lastName) ?
-              (`Enter your ${formik.errors.firstName} and ${formik.errors.lastName}`):
-              (formik.touched.firstName && formik.errors.firstName) ?
-              (`Enter your ${formik.errors.firstName}`) :
-              (formik.touched.lastName && formik.errors.lastName) ?
-              (`Enter your ${formik.errors.lastName}`) :""
-              }
-            </FormHelperText>
+              <FormHelperText className={classes.error2}>
+                {formik.touched.firstName &&
+                formik.errors.firstName &&
+                formik.touched.lastName &&
+                formik.errors.lastName
+                  ? `Enter your ${formik.errors.firstName} and ${formik.errors.lastName}`
+                  : formik.touched.firstName && formik.errors.firstName
+                  ? `Enter your ${formik.errors.firstName}`
+                  : formik.touched.lastName && formik.errors.lastName
+                  ? `Enter your ${formik.errors.lastName}`
+                  : ""}
+              </FormHelperText>
             </Grid>
           )}
         </Grid>
@@ -242,14 +253,14 @@ function StudentRegistrationForm(): JSX.Element {
               error={formik.touched.email && Boolean(formik.errors.email)}
               fullWidth
             />
-            </Grid>
-            {(formik.touched.email && formik.errors.email) &&(
+          </Grid>
+          {formik.touched.email && formik.errors.email && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.email}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.email}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -263,13 +274,13 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.password && formik.errors.password) &&(
+          {formik.touched.password && formik.errors.password && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.password}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.password}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
@@ -286,13 +297,13 @@ function StudentRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.confirmPassword && formik.errors.confirmPassword) &&(
+          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error3}>
-             {formik.errors.confirmPassword}  
-            </FormHelperText>
+              <FormHelperText className={classes.error3}>
+                {formik.errors.confirmPassword}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid container spacing={isMobile ? 0 : 2}>
             <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField
@@ -340,10 +351,7 @@ function StudentRegistrationForm(): JSX.Element {
               </TextField>
             </Grid>
           </Grid>
-          <Grid
-            container
-            style={{ marginBottom: 5 }}
-          >
+          <Grid container style={{ marginBottom: 5 }}>
             <Grid item xs={12} className={classes.textField}>
               <TextField
                 size="small"
@@ -359,12 +367,12 @@ function StudentRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
-            {(formik.touched.studentId && formik.errors.studentId) &&(
-            <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.studentId}  
-            </FormHelperText>
-            </Grid>
+            {formik.touched.studentId && formik.errors.studentId && (
+              <Grid item xs={12}>
+                <FormHelperText className={classes.error1}>
+                  {formik.errors.studentId}
+                </FormHelperText>
+              </Grid>
             )}
             <Grid item xs={12} className={classes.end}>
               <TextField
@@ -379,14 +387,21 @@ function StudentRegistrationForm(): JSX.Element {
                 fullWidth
               />
             </Grid>
-            {(formik.touched.phone && formik.errors.phone) &&(
-            <Grid item xs={12}>
-            <FormHelperText className={classes.error3}>
-             {formik.errors.phone}  
-            </FormHelperText>
-            </Grid>
+            {formik.touched.phone && formik.errors.phone && (
+              <Grid item xs={12}>
+                <FormHelperText className={classes.error3}>
+                  {formik.errors.phone}
+                </FormHelperText>
+              </Grid>
             )}
           </Grid>
+          {/* <Grid container justifyContent="center" alignItems="center"> */}
+          <ReCAPTCHA
+            sitekey="6Le3O3wcAAAAAB5D_5TKpNmsgYg9R2bn30elzSex"
+            size="invisible"
+            onChange={onChange}
+          />
+          {/* </Grid> */}
           <Button
             variant="contained"
             size="large"
