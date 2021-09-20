@@ -14,6 +14,7 @@ import {
   Hidden,
   useMediaQuery,
   useTheme,
+  FormHelperText,
 } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
@@ -29,7 +30,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import { useFormik } from "formik";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -132,20 +133,21 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
       setSubjects(response.data);
     });
   }, []);
-  console.log(subjects);
+  //console.log(subjects);
 
   const classes = useStyles();
 
-  const DeletePost = (postId: string) => {
-    axios
-      .post("posts/deletePost", {
-        postId: postId,
-      })
-      .then((response) => {
-        console.log(response);
-        handleClose();
-      });
-  };
+  // const DeletePost = (postId: string) => {
+  //   axios
+  //     .post("posts/deletePost", {
+  //       postId: postId,
+  //     })
+  //     .then((response) => {
+  //       console.log(response);
+  //       handleClose();
+  //     });
+  //   return postId
+  // };
 
   const [open, setOpen] = React.useState(false);
   const [postId, setPostId] = useState("");
@@ -158,9 +160,30 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   const handleClose = () => {
     setOpen(false);
   };
+  
+  const formik = useFormik({
+    initialValues: {
+      canceldesc: "",
+    },
+    onSubmit: (values) => {
+      const reason_sent = {
+        cancel_desc: values.canceldesc,
+        postId: postId,
+      };
+      axios
+        .post("posts/deletePost",reason_sent)
+        .then((response) => {
+          console.log(response);
+          handleClose();
+          window.location.reload();
+        })
+        .catch(function (error) {console.log(error)});
+    },
+  });
 
   return (
     <div>
+      
       <NavBar user={user} setUser={setUser} />
       <Container maxWidth="lg">
         <Hidden xsDown>
@@ -297,24 +320,27 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         </>
                       )}
                       {postId === obj._id && (
+                        
                         <Dialog
                           open={open} 
                           onClose={handleClose} 
                           aria-labelledby="form-dialog-title"
                         >
+                          <form onSubmit={formik.handleSubmit}>
                           <DialogTitle id="form-dialog-title">
                             {"Do you want to cancel this post?"}
                           </DialogTitle>
                           <DialogContent>
                           <DialogContentText>
-                            กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้ หากไม่มีให้ใส่ "-"
+                            Please provide the reason for cancellation. If does not have, enter "-".
                           </DialogContentText>
                           <TextField
                             autoFocus
                             margin="dense"
-                            id="cancel_desc"
-                            label="Reason for cancelletion"
-                            type="string"
+                            name="canceldesc"
+                            label="Reason for cancellation"
+                            value={formik.values.canceldesc}
+                            onChange = {formik.handleChange}
                             fullWidth
                           />
                           </DialogContent>
@@ -323,14 +349,17 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               Decline
                             </Button>
                             <Button
-                              onClick={() => DeletePost(obj._id)}
+                              // onClick={() => DeletePost(obj._id)}
                               color="primary"
+                              type="submit"
                               autoFocus
                             >
                               Accept
                             </Button>
                           </DialogActions>
+                          </form>
                         </Dialog>
+                        
                       )}
                       </Grid>
                       </Grid>
@@ -505,24 +534,27 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         </>
                       )}
                       {postId === obj._id && (
+                        
                         <Dialog
                         open={open} 
                         onClose={handleClose} 
                         aria-labelledby="form-dialog-title"
                       >
+                        <form onSubmit={formik.handleSubmit}>
                         <DialogTitle id="form-dialog-title">
                           {"Do you want to cancel this post?"}
                         </DialogTitle>
                         <DialogContent>
                         <DialogContentText>
-                          กรุณาใส่เหตุผลที่ต้องการยกเลิกโพสต์นี้ หากไม่มีให้ใส่ "-"
+                        Please provide the reason for cancellation. If does not have, enter "-".
                         </DialogContentText>
                         <TextField
                           autoFocus
                           margin="dense"
-                          id="cancel_desc"
-                          label="Reason for cancelletion"
-                          type="string"
+                          name="canceldesc"
+                          label="Reason for cancellation"
+                          value={formik.values.canceldesc}
+                          onChange = {formik.handleChange}
                           fullWidth
                         />
                         </DialogContent>
@@ -531,13 +563,15 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                             Decline
                           </Button>
                           <Button
-                            onClick={() => DeletePost(obj._id)}
+                            // onClick={() => DeletePost(obj._id)}
                             color="primary"
+                            type="submit"
                             autoFocus
                           >
                             Accept
                           </Button>
                         </DialogActions>
+                        </form>
                       </Dialog>
                       )}
                     </Grid>
