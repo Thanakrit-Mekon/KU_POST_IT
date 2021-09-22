@@ -278,7 +278,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
         </Hidden>
         <Grid container spacing={3}>
           {subjects.map((obj) => {
-            if (state.checkedA && obj.thisusersubmit) {
+            if ((state.checkedA && obj.thisusersubmit) ||(obj.user_name == user?.email )) {
               return <></>;
             } else {
               return (

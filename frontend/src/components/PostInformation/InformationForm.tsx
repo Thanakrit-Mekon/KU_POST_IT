@@ -8,6 +8,7 @@ import {
   TextField,
   Divider,
   makeStyles,
+  Icon,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import axios from "../../axios";
@@ -18,6 +19,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Link as Routerlink } from "react-router-dom";
+import { Subject } from "@material-ui/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -40,6 +44,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
   },
+  usericon: {
+    [theme.breakpoints.down("xs")]: {
+      marginRight: 5,
+      fontSize: 13,
+    },
+    marginRight: 10,
+  },
 }));
 
 interface Subject {
@@ -58,11 +69,18 @@ interface Subject {
     year: string;
   }[];
   title: string;
+  isDueDate: boolean;
+  dueDate: string;
+  startDate: string;
+  endDate: string;
+  hasPeriod: boolean;
+  quantity: string;
 }
 
 interface ParamType {
   postId: string;
 }
+
 
 export default function PostForm(): JSX.Element {
   const param = useParams<ParamType>();
@@ -77,7 +95,7 @@ export default function PostForm(): JSX.Element {
       setSubject(response.data);
     });
   }, [param.postId]);
-
+    
   const formik = useFormik({
     initialValues: {
       feedback: "",
@@ -116,9 +134,63 @@ export default function PostForm(): JSX.Element {
           );
         })}
       </Grid>
-
+        <Grid
+          container
+          justifyContent="center"
+          style={{ marginTop: 10 }}
+        >
+          <Box mr={4}>
+            <Icon
+              fontSize="small"
+              color="primary"
+              className={classes.usericon}
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </Icon>
+            Need {subject.quantity} people
+          </Box>
+          <Box>
+            <Icon
+              fontSize="small"
+              color="primary"
+              className={classes.usericon}
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </Icon>
+            Joined {subject.candidate} people
+          </Box>
+        </Grid>
       <Grid container direction="row">
         <Grid item style={{ width: "100%", margin: 30 }}>
+        
+          <Box mt={1}>
+          {subject.isDueDate
+            ? "Duedate : " +
+            subject.dueDate.slice(8, 10) +
+              "/" +
+              subject.dueDate.slice(5, 7) +
+              "/" +
+              subject.dueDate.slice(0, 4)
+            : "No Duedate"}
+        </Box>
+        <Box mt={1}>
+          {subject.hasPeriod
+            ? "Work peroid : " +
+            subject.startDate.slice(8, 10) +
+              "/" +
+              subject.startDate.slice(5, 7) +
+              "/" +
+              subject.startDate.slice(0, 4) +
+              " - " +
+              subject.endDate.slice(8, 10) +
+              "/" +
+              subject.endDate.slice(5, 7) +
+              "/" +
+              subject.endDate.slice(0, 4)
+            : "No Work period"}
+        </Box>
+
+        
           {subject.desc && subject.desc.trim() != "" ? (
             <>
               <Typography variant="h6" color="primary">
@@ -134,6 +206,8 @@ export default function PostForm(): JSX.Element {
               </Typography>
             </>
           ) : null}
+
+          
           <Typography variant="h6" color="primary">
             <Box mt={3}>ช่องทางการติดต่อ</Box>
           </Typography>

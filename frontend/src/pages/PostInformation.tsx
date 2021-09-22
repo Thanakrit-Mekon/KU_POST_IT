@@ -5,7 +5,7 @@ import PostinforForm from "../components/PostInformation/PostinforForm";
 const useStyles = makeStyles((theme) =>
   createStyles({
     bg: {
-      height: "100vh",
+      minHeight: "100vh",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
