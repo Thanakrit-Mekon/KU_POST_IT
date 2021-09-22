@@ -21,20 +21,17 @@ import {
   GridApi,
   GridCellValue,
   GridColDef,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
+  GridToolbarFilterButton,
 } from "@material-ui/data-grid";
-import { CsvBuilder } from "filefy";
 
 interface Faculty {
   id: string;
   faculty_name: string;
   faculty_code: string;
-}
-
-interface StudentProps {
-  post_id: string;
-  student: {
-    email: string;
-  }[];
 }
 
 interface Department {
@@ -61,18 +58,15 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       height: "100vh",
     },
-
     cooler: {
       zindex: "-1",
       color: "white",
       backgroundColor: "#F9A41A",
     },
-
     cooler2: {
       color: "white",
       backgroundColor: "#DB524E",
     },
-
     cooler3: {
       color: "white",
       background: "#83D2D4",
@@ -86,38 +80,16 @@ export interface Bodyprops {
 }
 
 interface Subject {
-  contact: string;
-  create: string;
-  desc: string;
-  is_activate: string;
-  is_all: boolean;
-  last_modify: string;
-  post_type: string;
-  qualification: {
-    year: string;
-  }[];
-  quantity: string;
   title: string;
-  user_name: string;
-  __v: number;
-  _id: string;
   number_appli: string;
   Post_id: string;
-  Username: string;
-  Name: string;
-  Surname: string;
-  Email: string;
-  Faculty: string;
-  Department: string;
-  Year: string;
-  Answer: string;
 }
 
 interface ParamType {
   postId: string;
 }
 
-function Body({ user, setUser }: Bodyprops): JSX.Element {
+function PostActivate({ user, setUser }: Bodyprops): JSX.Element {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
     defaultMatches: true,
@@ -126,21 +98,8 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   const [faculties, setFaculties] = useState<Faculty[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [Data, setData] = useState<Data[]>([]);
-  const [open, setOpen] = React.useState(false);
   const [answer, setAnswer] = useState("");
   const [openAnswer, setOpenAnswer] = React.useState(false);
-  const [selectedStudents, setSelectedStudents] = useState<StudentProps>(
-    {} as StudentProps
-  );
-  const [SelectedRow, setSelectedRow] = useState<any[]>([]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleClickOpenAnswer = (answer: string) => {
     setAnswer(answer);
@@ -155,20 +114,9 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   const param = useParams<ParamType>();
   useEffect(() => {
     axios
-      .get(`/datatable/heading/${param.postId}`)
+      .get(`datatable/heading_qualified/${param.postId}`)
       .then((response) => {
         setSubjects(response.data);
-      })
-      .catch(function (error) {
-        console.log(error.message);
-      });
-  }, [param.postId]);
-
-  useEffect(() => {
-    axios
-      .get(`/datatable/datarow/${param.postId}`)
-      .then((response) => {
-        setData(response.data);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -188,18 +136,31 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   }, []);
 
   const facultyCodeToFacultyName = (facultyCode: string) => {
-    const facultyName = faculties.find(
+    const foundFaculty = faculties.find(
       ({ faculty_code }) => faculty_code === facultyCode
-    )?.faculty_name;
-    return facultyName;
+    );
+    if (foundFaculty) return foundFaculty.faculty_name;
+    return "";
   };
 
   const departmentCodeToDepartmentName = (departmentCode: string) => {
-    const departmentName = departments.find(
+    const foundDepartment = departments.find(
       ({ department_code }) => department_code === departmentCode
-    )?.department_name;
-    return departmentName;
+    );
+    if (foundDepartment) return foundDepartment.department_name;
+    return "";
   };
+
+  useEffect(() => {
+    axios
+      .get(`datatable/qualified/${param.postId}`)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  }, [param.postId]);
 
   const r = Data.map((data, i) => {
     return {
@@ -287,26 +248,22 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     },
   ];
 
-  const exportSelectedRows = () => {
-    new CsvBuilder(
-      `${subjects.title}_${new Date().toISOString().split("T")[0]}.csv`
-    )
-      .setColumns(c.map((col) => col.field))
-      .addRows(SelectedRow.map((rowData) => c.map((col) => rowData[col.field])))
-      .exportFile();
-  };
-
-  const onSubmit = () => {
-    axios
-      .put("/datatable/submit", selectedStudents)
-      .then(function (response) {
-        exportSelectedRows();
-        handleClickOpen();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector />
+        <GridToolbarExport
+          csvOptions={{
+            fileName: `${subjects.title}_${
+              new Date().toISOString().split("T")[0]
+            }`,
+          }}
+        />
+      </GridToolbarContainer>
+    );
+  }
 
   return (
     <Grid className={classes.root}>
@@ -335,65 +292,18 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             rows={r}
             columns={c}
             pageSize={10}
-            checkboxSelection
             disableSelectionOnClick
             isCellEditable={() => false}
-            onSelectionModelChange={(ids) => {
-              let student: any[] = [];
-              const selectedIDs = new Set(ids);
-              const selectedRowData = r.filter((row) =>
-                selectedIDs.has(row.id)
-              );
-              selectedRowData.forEach((row) => {
-                student.push({ email: row.email });
-              });
-              const ans = {
-                post_id: param.postId,
-                student: student,
-              };
-              setSelectedRow(selectedRowData);
-              setSelectedStudents(ans);
+            components={{
+              Toolbar: CustomToolbar,
             }}
-            {...r}
           />
         </div>
 
         <Grid container justifyContent="center" alignItems="center">
           <Button
-            style={{ marginTop: 50, marginBottom: 50 }}
-            className={classes.cooler2}
-            variant="contained"
-            color="primary"
-            onClick={onSubmit}
-          >
-            Submit
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title"> </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                submit success!!
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                href="/myposts"
-                onClick={handleClose}
-                color="primary"
-                autoFocus
-              >
-                OK
-              </Button>
-            </DialogActions>
-          </Dialog>
-          <Button
             href="/myposts"
-            style={{ marginTop: 50, marginLeft: 20, marginBottom: 50 }}
+            style={{ marginTop: 50, marginBottom: 50 }}
             className={classes.cooler}
             variant="contained"
             color="primary"
@@ -424,4 +334,4 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
   );
 }
 
-export default Body;
+export default PostActivate;
