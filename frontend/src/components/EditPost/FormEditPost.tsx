@@ -147,11 +147,9 @@ function FormEditPost() {
       axios
         .post("/posts/edit_post", userData)
         .then(function (response) {
-          console.log(response);
           handleOpen();
         })
         .catch(function (error) {
-          console.log(error);
         });
     },
   });
@@ -176,7 +174,7 @@ function FormEditPost() {
 
   useEffect(() => {
     axios
-      .get(`/posts/specificPost/${location.pathname.slice(12)}`)
+      .get(`/posts/specific_post/${location.pathname.slice(12)}`)
       .then((response) => {
         setSubject(response.data);
         setSelectedDate(response.data.dueDate);

@@ -4,7 +4,7 @@ import EditForm from "../components/EditPost/EditForm";
 const useStyles = makeStyles(() =>
   createStyles({
     bg: {
-      height: "100vh",
+      minheight: "100vh",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
