@@ -120,6 +120,7 @@ interface Subject {
   startDate: string;
   endDate: string;
   hasPeriod: boolean;
+  profile_image: string;
 }
 
 function MyPost({ user, setUser }: MyPostProps): JSX.Element {
@@ -211,7 +212,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       <Grid container direction="column" alignItems="center">
                         <Avatar
                           alt="Travis Howard"
-                          src="/img/mascot.png"
+                          src={obj.profile_image}
                           className={classes.icon}
                         />
                         <Box
