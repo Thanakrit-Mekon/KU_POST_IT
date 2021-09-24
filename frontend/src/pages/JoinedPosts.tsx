@@ -50,6 +50,7 @@ interface Subject {
   }[];
   thisusersubmit: boolean;
   title: string;
+  profile_url: string;
   user_name: string;
   first_name: string;
   last_name: string;
@@ -325,7 +326,7 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                         />
                         <Avatar
                           alt="Travis Howard"
-                          src="/img/mascot.png"
+                          src={obj.profile_url!=="url_link"? obj.profile_url : "/img/mascot.png"}
                           className={classes.icon}
                         />
                         {obj.name ? (
