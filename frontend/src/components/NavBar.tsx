@@ -6,6 +6,7 @@ import {
   Grid,
   Theme,
   Hidden,
+  Box,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
@@ -68,6 +69,10 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
   } else {
     usertype = 2;
   }
+  var image = "/img/mascot.png";
+  if(user?.profile_url){
+    image = user.profile_url;
+  }
 
   return (
     <Paper className={classes.root} square>
@@ -115,14 +120,18 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
         </Hidden>
 
         <Grid item>
-          <Grid container direction="row" alignItems="center">
+          <Grid container direction="row" alignItems="center" spacing={3}>
             <Hidden xsDown>
-              {user ? user.first_name || user.name : "anonymous"}
-              <Avatar alt="Travis Howard" src="/img/mascot.png" />
+              <Box >
+                {user ? user.first_name || user.name : "anonymous"}
+              </Box>
+              <Avatar alt="Travis Howard" src={image} style={{marginLeft:"200"}}/>
             </Hidden>
             <Hidden smUp>
-              {user ? user.first_name || user.name : "anonymous"}
-              <Avatar alt="Travis Howard" src="/img/mascot.png" className={classes.small}/>
+              <Box>
+                {user ? user.first_name || user.name : "anonymous"}
+              </Box>
+              <Avatar alt="Travis Howard" src={image} className={classes.small}/>
             </Hidden>
             <Checkedbox user={user} setUser={setUser} />
           </Grid>
