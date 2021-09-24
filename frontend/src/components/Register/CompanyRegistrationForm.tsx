@@ -123,7 +123,7 @@ function CompanyRegistrationForm(): JSX.Element {
     validationSchema,
     onSubmit: (values) => {
       const userData = {
-        profile_image: "/img/mascot.png",
+        profile_url: "/img/mascot.png",
         email: values.email,
         password: values.password,
         phone: values.phone,
