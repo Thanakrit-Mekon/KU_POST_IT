@@ -146,7 +146,7 @@ function StudentRegistrationForm(): JSX.Element {
     onSubmit: (values) => {
       const userData = {
         // recaptcha: formik.values.recaptcha,
-        profile_url: "url_link",
+        profile_image: "/img/mascot.png",
         email: values.email,
         password: values.password,
         first_name: values.firstName,

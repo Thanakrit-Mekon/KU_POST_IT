@@ -19,7 +19,10 @@ import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
   email: yup.string().email("Enter a valid Email").required("Enter your Email"),
-  password: yup.string().min(8,"At least 8 characters").required("Enter your password"),
+  password: yup
+    .string()
+    .min(8, "At least 8 characters")
+    .required("Enter your password"),
   confirmPassword: yup
     .string()
     .min(8)
@@ -53,8 +56,8 @@ const useStyles = makeStyles((theme) =>
     },
     error3: {
       marginTop: -12,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -15,
       },
@@ -62,8 +65,8 @@ const useStyles = makeStyles((theme) =>
 
     error2: {
       marginTop: -27,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -15,
       },
@@ -71,15 +74,15 @@ const useStyles = makeStyles((theme) =>
 
     error1: {
       marginTop: -12,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -5,
       },
     },
     error4: {
       marginTop: 3,
-      color:"red",
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: 5,
         marginBottom: -5,
@@ -120,7 +123,7 @@ function CompanyRegistrationForm(): JSX.Element {
     validationSchema,
     onSubmit: (values) => {
       const userData = {
-        profile_url: "url_link",
+        profile_image: "/img/mascot.png",
         email: values.email,
         password: values.password,
         phone: values.phone,
@@ -165,12 +168,12 @@ function CompanyRegistrationForm(): JSX.Element {
               }
               fullWidth
             />
-            {(formik.touched.companyName && formik.errors.companyName) &&(
-            <Grid item xs={12}>
-            <FormHelperText className={classes.error4}>
-             {formik.errors.companyName}  
-            </FormHelperText>
-            </Grid>
+            {formik.touched.companyName && formik.errors.companyName && (
+              <Grid item xs={12}>
+                <FormHelperText className={classes.error4}>
+                  {formik.errors.companyName}
+                </FormHelperText>
+              </Grid>
             )}
           </Grid>
           <Grid item xs={12} className={classes.textField}>
@@ -186,13 +189,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.email && formik.errors.email) &&(
+          {formik.touched.email && formik.errors.email && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.email}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.email}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -206,13 +209,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.password && formik.errors.password) &&(
+          {formik.touched.password && formik.errors.password && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.password}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.password}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
@@ -229,13 +232,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.confirmPassword && formik.errors.confirmPassword) &&(
+          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error3}>
-             {formik.errors.confirmPassword}  
-            </FormHelperText>
+              <FormHelperText className={classes.error3}>
+                {formik.errors.confirmPassword}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -248,13 +251,13 @@ function CompanyRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.location && formik.errors.location) &&(
+          {formik.touched.location && formik.errors.location && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.location}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.location}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
@@ -279,13 +282,13 @@ function CompanyRegistrationForm(): JSX.Element {
                 error={formik.touched.contact && Boolean(formik.errors.contact)}
                 fullWidth
               />
-              {(formik.touched.contact && formik.errors.contact) &&(
-            <Grid item xs={12}>
-            <FormHelperText className={classes.error4}>
-             {formik.errors.contact}  
-            </FormHelperText>
-            </Grid>
-            )}
+              {formik.touched.contact && formik.errors.contact && (
+                <Grid item xs={12}>
+                  <FormHelperText className={classes.error4}>
+                    {formik.errors.contact}
+                  </FormHelperText>
+                </Grid>
+              )}
             </Grid>
             <Grid item xs={12} sm={5} className={classes.end}>
               <TextField
@@ -299,13 +302,13 @@ function CompanyRegistrationForm(): JSX.Element {
                 error={formik.touched.phone && Boolean(formik.errors.phone)}
                 fullWidth
               />
-              {(formik.touched.phone && formik.errors.phone) &&(
-            <Grid item xs={12}>
-            <FormHelperText className={classes.error4}>
-             {formik.errors.phone}  
-            </FormHelperText>
-            </Grid>
-            )}
+              {formik.touched.phone && formik.errors.phone && (
+                <Grid item xs={12}>
+                  <FormHelperText className={classes.error4}>
+                    {formik.errors.phone}
+                  </FormHelperText>
+                </Grid>
+              )}
             </Grid>
           </Grid>
           <Button

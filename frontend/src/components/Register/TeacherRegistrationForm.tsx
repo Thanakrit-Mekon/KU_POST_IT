@@ -23,7 +23,7 @@ const validationSchema = yup.object({
   email: yup.string().email("Enter a valid Email").required("Enter your Email"),
   password: yup
     .string()
-    .min(8,"At least 8 characters")
+    .min(8, "At least 8 characters")
     // .matches(
     //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
     // )
@@ -73,8 +73,8 @@ const useStyles = makeStyles((theme) =>
 
     error3: {
       marginTop: -12,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -15,
       },
@@ -82,8 +82,8 @@ const useStyles = makeStyles((theme) =>
 
     error2: {
       marginTop: -27,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -15,
       },
@@ -91,8 +91,8 @@ const useStyles = makeStyles((theme) =>
 
     error1: {
       marginTop: -12,
-      marginBottom:15, 
-      color:"red",
+      marginBottom: 15,
+      color: "red",
       [theme.breakpoints.down("xs")]: {
         marginTop: -5,
       },
@@ -136,7 +136,7 @@ function TeacherRegistrationForm(): JSX.Element {
     validationSchema,
     onSubmit: (values) => {
       const userData = {
-        profile_url: "url_link",
+        profile_image: "/img/mascot.png",
         email: values.email,
         password: values.password,
         first_name: values.firstName,
@@ -209,17 +209,21 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {((formik.touched.lastName && formik.errors.lastName) || (formik.touched.firstName && formik.errors.firstName)) &&(
+          {((formik.touched.lastName && formik.errors.lastName) ||
+            (formik.touched.firstName && formik.errors.firstName)) && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error2}>
-              {(formik.touched.firstName && formik.errors.firstName && formik.touched.lastName && formik.errors.lastName) ?
-              (`Enter your ${formik.errors.firstName} and ${formik.errors.lastName}`):
-              (formik.touched.firstName && formik.errors.firstName) ?
-              (`Enter your ${formik.errors.firstName}`) :
-              (formik.touched.lastName && formik.errors.lastName) ?
-              (`Enter your ${formik.errors.lastName}`) :""
-              }
-            </FormHelperText>
+              <FormHelperText className={classes.error2}>
+                {formik.touched.firstName &&
+                formik.errors.firstName &&
+                formik.touched.lastName &&
+                formik.errors.lastName
+                  ? `Enter your ${formik.errors.firstName} and ${formik.errors.lastName}`
+                  : formik.touched.firstName && formik.errors.firstName
+                  ? `Enter your ${formik.errors.firstName}`
+                  : formik.touched.lastName && formik.errors.lastName
+                  ? `Enter your ${formik.errors.lastName}`
+                  : ""}
+              </FormHelperText>
             </Grid>
           )}
         </Grid>
@@ -237,13 +241,13 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.email && formik.errors.email) &&(
+          {formik.touched.email && formik.errors.email && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.email}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.email}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -257,13 +261,13 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.password && formik.errors.password) &&(
+          {formik.touched.password && formik.errors.password && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.password}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.password}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.end}>
             <TextField
               size="small"
@@ -280,13 +284,13 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.confirmPassword && formik.errors.confirmPassword) &&(
+          {formik.touched.confirmPassword && formik.errors.confirmPassword && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error3}>
-             {formik.errors.confirmPassword}  
-            </FormHelperText>
+              <FormHelperText className={classes.error3}>
+                {formik.errors.confirmPassword}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid item xs={12} className={classes.textField}>
             <TextField
               size="small"
@@ -300,13 +304,13 @@ function TeacherRegistrationForm(): JSX.Element {
               fullWidth
             />
           </Grid>
-          {(formik.touched.phone && formik.errors.phone) &&(
+          {formik.touched.phone && formik.errors.phone && (
             <Grid item xs={12}>
-            <FormHelperText className={classes.error1}>
-             {formik.errors.phone}  
-            </FormHelperText>
+              <FormHelperText className={classes.error1}>
+                {formik.errors.phone}
+              </FormHelperText>
             </Grid>
-            )}
+          )}
           <Grid container spacing={isMobile ? 0 : 2}>
             <Grid item xs={12} sm={7} className={classes.textField}>
               <TextField

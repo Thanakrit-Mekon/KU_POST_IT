@@ -51,7 +51,7 @@ function Form({ setUser }: LoginProps) {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation<LocationProps>();
-  console.log(location);
+  // console.log(location);
 
   const formik = useFormik({
     initialValues: {
@@ -60,14 +60,14 @@ function Form({ setUser }: LoginProps) {
     },
     validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
       axios
         .post("/auth/login", {
           username: values.email,
           password: values.password,
         })
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           localStorage.setItem("accessToken", response.data.accessToken);
           axios.defaults.headers.common[
             "Authorization"
@@ -75,7 +75,7 @@ function Form({ setUser }: LoginProps) {
           return axios.get("/user/getuser");
         })
         .then((response) => {
-          console.log(response.data[0]);
+          // console.log(response.data[0]);
           setUser(response.data[0]);
           if (location.state !== undefined)
             history.push(location.state.from.pathname);
