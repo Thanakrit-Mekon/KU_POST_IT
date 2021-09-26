@@ -45,10 +45,6 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 8,
       marginLeft: -14,
     },
-    small: {
-      width: theme.spacing(4),
-      height: theme.spacing(4),
-    },
   })
 );
 
@@ -70,7 +66,7 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
     usertype = 2;
   }
   var image = "/img/mascot.png";
-  if(user?.profile_url){
+  if (user?.profile_url) {
     image = user.profile_url;
   }
 
@@ -84,9 +80,9 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
         alignItems="center"
       >
         <Hidden smUp>
-        <Grid item className={classes.logo2}>
-          <img height="38" width="115" src="/img/logo.png" alt="logo" />
-        </Grid>
+          <Grid item className={classes.logo2}>
+            <img height="38" width="115" src="/img/logo.png" alt="logo" />
+          </Grid>
         </Hidden>
         <Hidden xsDown>
           <Grid item className={classes.logo1}>
@@ -120,18 +116,18 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
         </Hidden>
 
         <Grid item>
-          <Grid container direction="row" alignItems="center" spacing={3}>
+          <Grid container direction="row" alignItems="center">
             <Hidden xsDown>
-              <Box >
+              <Box paddingX={2}>
                 {user ? user.first_name || user.name : "anonymous"}
               </Box>
-              <Avatar alt="Travis Howard" src={image} style={{marginLeft:"200"}}/>
+              <Avatar alt="Travis Howard" src={image} />
             </Hidden>
             <Hidden smUp>
-              <Box>
+              <Box paddingX={1}>
                 {user ? user.first_name || user.name : "anonymous"}
               </Box>
-              <Avatar alt="Travis Howard" src={image} className={classes.small}/>
+              <Avatar alt="Travis Howard" src={image} />
             </Hidden>
             <Checkedbox user={user} setUser={setUser} />
           </Grid>
