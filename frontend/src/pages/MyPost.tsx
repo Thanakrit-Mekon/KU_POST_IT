@@ -163,7 +163,9 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
         .then((response) => {
           console.log(response);
           handleClose();
-          window.location.reload();
+          axios.get(`/posts/myposts`).then((response) => {
+            setSubjects(response.data);
+          });
         })
         .catch(function (error) {
           console.log(error);
