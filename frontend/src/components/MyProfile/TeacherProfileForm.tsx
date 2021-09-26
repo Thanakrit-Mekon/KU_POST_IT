@@ -169,18 +169,11 @@ function TeacherProfileForm({
                   component="span"
                   onClick={handleClick}
                 >
-                  {image == "url_link" ? 
-                    <Avatar
-                    className={classes.large}
-                    alt="Avatar"
-                    src="/img/mascot.png"
-                  /> : 
                   <Avatar
                     className={classes.large}
                     alt="Avatar"
-                    src={image || "/img/mascot.png"}
+                    src={image}
                   />
-                  }
                 </Button>
               </label>
             </Box>

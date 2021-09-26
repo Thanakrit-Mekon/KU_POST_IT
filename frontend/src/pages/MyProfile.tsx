@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Grid, Typography, Box, Hidden } from "@material-ui/core";
+import { Grid, Typography, Box } from "@material-ui/core";
 import StudentProfileForm from "../components/MyProfile/StudentProfileForm";
 import TeacherProfileForm from "../components/MyProfile/TeacherProfileForm";
 import CompanyProfileForm from "../components/MyProfile/CompanyProfileForm";
