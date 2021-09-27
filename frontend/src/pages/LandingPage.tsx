@@ -18,7 +18,6 @@ import { Link as ReactLink } from "react-router-dom";
 import GitHubIcon from "@material-ui/icons/GitHub";
 
 let theme = createTheme();
-// theme = responsiveFontSizes(theme);
 theme.typography.h4 = {
   [theme.breakpoints.down("xs")]: {
     fontSize: "2px",

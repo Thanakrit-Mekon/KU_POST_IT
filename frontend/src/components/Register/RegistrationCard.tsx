@@ -10,6 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+
 import StudentRegistrationForm from "./StudentRegistrationForm";
 import TeacherRegistrationForm from "./TeacherRegistrationForm";
 import CompanyRegistrationForm from "./CompanyRegistrationForm";
@@ -88,6 +89,7 @@ function RegistrationCard(): JSX.Element {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
     defaultMatches: true,
   });
+
   const [tabIndex, setTabIndex] = useState<number>(0);
 
   const handleTabChange = (e: React.ChangeEvent<{}>, index: number) => {
@@ -103,7 +105,6 @@ function RegistrationCard(): JSX.Element {
             boxShadow={4}
             className={classes.content}
           >
-            {/* Form */}
             <AppBar position="static" color="default">
               <Tabs
                 value={tabIndex}

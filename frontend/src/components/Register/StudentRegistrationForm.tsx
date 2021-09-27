@@ -14,20 +14,16 @@ import {
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../../axios";
 import AlertDialog from "./AlertDialog";
 import ReCAPTCHA from "react-google-recaptcha";
 
 const validationSchema = yup.object({
-  // recaptcha: yup.string().required(),
   email: yup.string().email("Enter a valid Email").required("Enter your Email"),
   password: yup
     .string()
     .min(8, "At least 8 characters")
-    // .matches(
-    //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
-    // )
     .required("Enter your password"),
   confirmPassword: yup
     .string()
@@ -145,7 +141,6 @@ function StudentRegistrationForm(): JSX.Element {
     validationSchema,
     onSubmit: (values) => {
       const userData = {
-        // recaptcha: formik.values.recaptcha,
         profile_url: "/img/mascot.png",
         email: values.email,
         password: values.password,
@@ -395,13 +390,11 @@ function StudentRegistrationForm(): JSX.Element {
               </Grid>
             )}
           </Grid>
-          {/* <Grid container justifyContent="center" alignItems="center"> */}
           <ReCAPTCHA
             sitekey="6Le3O3wcAAAAAB5D_5TKpNmsgYg9R2bn30elzSex"
             size="invisible"
             onChange={onChange}
           />
-          {/* </Grid> */}
           <Button
             variant="contained"
             size="large"

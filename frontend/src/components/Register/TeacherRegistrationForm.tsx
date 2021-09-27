@@ -13,8 +13,7 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 import { useFormik } from "formik";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as yup from "yup";
 import axios from "../../axios";
 import AlertDialog from "./AlertDialog";
@@ -24,9 +23,6 @@ const validationSchema = yup.object({
   password: yup
     .string()
     .min(8, "At least 8 characters")
-    // .matches(
-    //   /(?=[A-Za-z0-9@#$%^&+!=]+$)^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+!=]).*$/
-    // )
     .required("Enter your password"),
   confirmPassword: yup
     .string()
