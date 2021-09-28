@@ -31,7 +31,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { useState } from "react";
-import { object } from "yup/lib/locale";
 
 interface ParamType {
   PostId: string;
