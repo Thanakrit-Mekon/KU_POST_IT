@@ -100,7 +100,6 @@ const validationSchema = yup.object({
 });
 
 function FormEditPost() {
-  const param = useParams<ParamType>();
   const theme = useTheme();
 
   const [faculties, setFaculties] = useState<Faculty[]>([]);
