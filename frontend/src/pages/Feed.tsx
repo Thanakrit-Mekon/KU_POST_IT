@@ -48,7 +48,7 @@ interface Subject {
   startDate: string;
   endDate: string;
   hasPeriod: boolean;
-  profile_image : string;
+  profile_url : string;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -295,7 +295,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
                         <Grid container direction="column" alignItems="center">
                           <Avatar
                             alt="Travis Howard"
-                            src={obj.profile_image}
+                            src={obj.profile_url}
                             className={classes.icon}
                           />
 
