@@ -7,8 +7,6 @@ import {
   Theme,
   Hidden,
   Box,
-  useMediaQuery,
-  useTheme,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles, createStyles } from "@material-ui/core/styles";
@@ -24,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     pad: {
       paddingLeft: 30,
-      //paddingRight: 50,
     },
     tabs: {
       color: theme.palette.primary.contrastText,

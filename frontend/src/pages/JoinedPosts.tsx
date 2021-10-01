@@ -18,7 +18,6 @@ import {
 import NavBar from "../components/NavBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { useLocation, Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import axios from "../axios";
@@ -27,9 +26,7 @@ import { User } from "../App";
 
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from "@material-ui/icons/Close";
-import { shadows } from "@material-ui/system";
 
 interface Subject {
   answer: string;
@@ -204,7 +201,6 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(2),
-    //width: 500,
     [theme.breakpoints.down("xs")]: {
       minWidth: 220,
     },
@@ -212,27 +208,10 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
-
 function JoinedPosts({ user, setUser }: queryuserprops) {
   const classes = useStyles();
-  const location = useLocation();
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  var usertype = -1;
-  if (user?.location) {
-    usertype = 3;
-    //3=company  2=teacher 1=student
-  } else if (user?.student_id) {
-    usertype = 1;
-  } else {
-    usertype = 2;
-  }
-  // console.log(usertype);
+  
   useEffect(() => {
     axios
       .get(`joinedposts/find`)
@@ -366,7 +345,6 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                               id="customized-dialog-title"
                               onClose={handleClose}
                             >
-                              {/* <Box>{obj.title}</Box> */}
                               {obj.title}{" "}
                               <Chip
                                 style={{ alignSelf: "flex-start" }}

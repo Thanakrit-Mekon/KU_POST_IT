@@ -3,7 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Box, Link as LinkMat } from "@material-ui/core";
+import { Link as LinkMat } from "@material-ui/core";
 import { User } from "../App";
 import { useHistory, Link } from "react-router-dom";
 import axios from "../axios";
@@ -16,8 +16,6 @@ const useStyles = makeStyles(() =>
   createStyles({
     logoutcolor: {
       color: "#FFFFFF",
-      //boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;",
-      //backgroundColor: "#d9534f"
       backgroundColor: "#F16363",
     },
   })
