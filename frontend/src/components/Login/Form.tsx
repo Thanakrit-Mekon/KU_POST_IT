@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -51,7 +51,6 @@ function Form({ setUser }: LoginProps) {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation<LocationProps>();
-  // console.log(location);
 
   const formik = useFormik({
     initialValues: {
@@ -60,14 +59,12 @@ function Form({ setUser }: LoginProps) {
     },
     validationSchema,
     onSubmit: (values) => {
-      // console.log(values);
       axios
         .post("/auth/login", {
           username: values.email,
           password: values.password,
         })
         .then((response) => {
-          // console.log(response);
           localStorage.setItem("accessToken", response.data.accessToken);
           axios.defaults.headers.common[
             "Authorization"
@@ -75,7 +72,6 @@ function Form({ setUser }: LoginProps) {
           return axios.get("/user/getuser");
         })
         .then((response) => {
-          // console.log(response.data[0]);
           setUser(response.data[0]);
           if (location.state !== undefined)
             history.push(location.state.from.pathname);
