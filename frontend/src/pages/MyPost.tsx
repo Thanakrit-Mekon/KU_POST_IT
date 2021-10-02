@@ -30,7 +30,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useFormik } from "formik";
-import Compress from "react-image-file-resizer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -96,20 +95,9 @@ export interface MyPostProps {
 
 interface Subject {
   candidate: number;
-  contact: string;
-  create: string;
-  desc: string;
   _id: string;
   is_activate: string;
-  is_all: boolean;
-  last_modify: string;
   post_type: string;
-  qualification: {
-    department_code: string;
-    faculty_code: string;
-    year: string;
-  }[];
-  thisusersubmit: boolean;
   title: string;
   user_name: string;
   full_name: string;
@@ -163,6 +151,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
         .then((response) => {
           console.log(response);
           handleClose();
+          values.canceldesc="";
           axios.get(`/posts/myposts`).then((response) => {
             setSubjects(response.data);
           });
