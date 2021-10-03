@@ -1,8 +1,7 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Grid, Box, useTheme, useMediaQuery, Hidden } from "@material-ui/core";
+import { Grid, Box, Hidden } from "@material-ui/core";
 import Form from "./Form";
 import { LoginProps } from "../../pages/Login";
-import { useState } from "react";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -55,16 +54,6 @@ const useStyles = makeStyles((theme) =>
 
 function Create({ setUser }: LoginProps): JSX.Element {
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
-    defaultMatches: true,
-  });
-  const [tabIndex, setTabIndex] = useState<number>(0);
-
-  const handleTabChange = (e: React.ChangeEvent<{}>, index: number) => {
-    setTabIndex(index);
-  };
-
   return (
     <Grid container className={classes.container}>
       <Grid item sm={7} className={classes.bgWhite}>

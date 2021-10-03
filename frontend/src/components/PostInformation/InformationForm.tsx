@@ -19,7 +19,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Link as Routerlink } from "react-router-dom";
-import { Subject } from "@material-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface Subject {
+interface SubjectType {
   candidate: number;
   contact: string;
   create: string;
@@ -81,7 +80,6 @@ interface ParamType {
   postId: string;
 }
 
-
 export default function PostForm(): JSX.Element {
   const param = useParams<ParamType>();
   const classes = useStyles();
@@ -89,13 +87,13 @@ export default function PostForm(): JSX.Element {
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const [subject, setSubject] = useState<Subject>({} as Subject);
+  const [subject, setSubject] = useState<SubjectType>({} as SubjectType);
   useEffect(() => {
     axios.get(`feed/findid/${param.postId}`).then((response) => {
       setSubject(response.data);
     });
   }, [param.postId]);
-    
+
   const formik = useFormik({
     initialValues: {
       feedback: "",
@@ -134,64 +132,50 @@ export default function PostForm(): JSX.Element {
           );
         })}
       </Grid>
-        <Grid
-          container
-          justifyContent="center"
-          style={{ marginTop: 10 }}
-        >
-          <Box mr={4}>
-            <Icon
-              fontSize="small"
-              color="primary"
-              className={classes.usericon}
-            >
-              <FontAwesomeIcon icon={faUser} />
-            </Icon>
-            Need {subject.quantity} people
-          </Box>
-          <Box>
-            <Icon
-              fontSize="small"
-              color="primary"
-              className={classes.usericon}
-            >
-              <FontAwesomeIcon icon={faUser} />
-            </Icon>
-            Joined {subject.candidate} people
-          </Box>
-        </Grid>
+      <Grid container justifyContent="center" style={{ marginTop: 10 }}>
+        <Box mr={4}>
+          <Icon fontSize="small" color="primary" className={classes.usericon}>
+            <FontAwesomeIcon icon={faUser} />
+          </Icon>
+          Need {subject.quantity} people
+        </Box>
+        <Box>
+          <Icon fontSize="small" color="primary" className={classes.usericon}>
+            <FontAwesomeIcon icon={faUser} />
+          </Icon>
+          Joined {subject.candidate} people
+        </Box>
+      </Grid>
       <Grid container direction="row">
         <Grid item style={{ width: "100%", margin: 30 }}>
-        
           <Box mt={1}>
-          {subject.isDueDate
-            ? "Duedate : " +
-            subject.dueDate.slice(8, 10) +
-              "/" +
-              subject.dueDate.slice(5, 7) +
-              "/" +
-              subject.dueDate.slice(0, 4)
-            : "No Duedate"}
-        </Box>
-        <Box mt={1}>
-          {subject.hasPeriod
-            ? "Work peroid : " +
-            subject.startDate.slice(8, 10) +
-              "/" +
-              subject.startDate.slice(5, 7) +
-              "/" +
-              subject.startDate.slice(0, 4) +
-              " - " +
-              subject.endDate.slice(8, 10) +
-              "/" +
-              subject.endDate.slice(5, 7) +
-              "/" +
-              subject.endDate.slice(0, 4)
-            : "No Work period"}
-        </Box>
+            {subject.isDueDate
+              ? "Duedate : " +
+                subject.dueDate.slice(8, 10) +
+                "/" +
+                subject.dueDate.slice(5, 7) +
+                "/" +
+                subject.dueDate.slice(0, 4)
+              : "No Duedate"}
+          </Box>
+          <Box mt={1}>
+            {subject.hasPeriod
+              ? "Work peroid : " +
+                subject.startDate.slice(8, 10) +
+                "/" +
+                subject.startDate.slice(5, 7) +
+                "/" +
+                subject.startDate.slice(0, 4) +
+                " - " +
+                subject.endDate.slice(8, 10) +
+                "/" +
+                subject.endDate.slice(5, 7) +
+                "/" +
+                subject.endDate.slice(0, 4)
+              : "No Work period"}
+          </Box>
 
-        
-          {subject.desc && subject.desc.trim() != "" ? (
+          {subject.desc && subject.desc.trim() !== "" ? (
             <>
               <Typography variant="h6" color="primary">
                 <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
@@ -207,7 +191,6 @@ export default function PostForm(): JSX.Element {
             </>
           ) : null}
 
-          
           <Typography variant="h6" color="primary">
             <Box mt={3}>ช่องทางการติดต่อ</Box>
           </Typography>

@@ -1,5 +1,4 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import InformationForm from "../components/PostInformation/InformationForm";
 import PostinforForm from "../components/PostInformation/PostinforForm";
 
 const useStyles = makeStyles((theme) =>

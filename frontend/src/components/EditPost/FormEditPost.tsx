@@ -23,7 +23,7 @@ import {
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "../../axios";
-import { useHistory, Link, useParams, useLocation } from "react-router-dom";
+import { useHistory, Link, useLocation } from "react-router-dom";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
@@ -31,10 +31,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { useState } from "react";
-
-interface ParamType {
-  PostId: string;
-}
 
 interface Faculty {
   id: string;

@@ -48,7 +48,7 @@ interface Subject {
   startDate: string;
   endDate: string;
   hasPeriod: boolean;
-  profile_url : string;
+  profile_url: string;
 }
 
 const useStyles = makeStyles((theme) =>
@@ -140,8 +140,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
       .then((response) => {
         setSubjects(response.data);
       })
-      .catch(function (error) {
-      });
+      .catch(function (error) {});
   }, [location.pathname]);
 
   return (
@@ -236,7 +235,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
           </Grid>
           <Hidden mdDown>
             <Grid item>
-              {usertype == 1 && (
+              {usertype === 1 && (
                 <FormControlLabel
                   control={
                     <Switch
@@ -261,7 +260,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
             justifyContent="flex-end"
             alignItems="flex-start"
           >
-            {usertype == 1 && (
+            {usertype === 1 && (
               <FormControlLabel
                 control={
                   <Switch
@@ -279,7 +278,10 @@ function QueryUser({ user, setUser }: queryuserprops) {
         </Hidden>
         <Grid container spacing={3}>
           {subjects.map((obj) => {
-            if ((state.checkedA && obj.thisusersubmit) ||((obj.user_name == user?.email) && (usertype === 1)) ) {
+            if (
+              (state.checkedA && obj.thisusersubmit) ||
+              (obj.user_name === user?.email && usertype === 1)
+            ) {
               return <></>;
             } else {
               return (
