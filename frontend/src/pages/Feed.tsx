@@ -20,6 +20,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "../axios";
 import { User } from "../App";
+import Loader from "react-loader-spinner";
 
 interface Subject {
   candidate: number;
@@ -113,6 +114,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
   const classes = useStyles();
   const location = useLocation();
   const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Switch
   const [state, setState] = useState({
@@ -139,6 +141,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
       .get(`feed/find${location.pathname}`)
       .then((response) => {
         setSubjects(response.data);
+        setIsLoading(false);
       })
       .catch(function (error) {});
   }, [location.pathname]);
@@ -277,143 +280,158 @@ function QueryUser({ user, setUser }: queryuserprops) {
           </Grid>
         </Hidden>
         <Grid container spacing={3}>
-          {subjects.map((obj) => {
-            if (
-              (state.checkedA && obj.thisusersubmit) ||
-              (obj.user_name === user?.email && usertype === 1)
-            ) {
-              return <></>;
-            } else {
-              return (
-                <Grid item xs={12} md={6}>
-                  <Card className={classes.card}>
-                    <Grid
-                      container
-                      direction="row"
-                      alignItems="center"
-                      spacing={2}
-                    >
-                      <Grid item xs={5}>
-                        <Grid container direction="column" alignItems="center">
-                          <Avatar
-                            alt="Travis Howard"
-                            src={obj.profile_url}
-                            className={classes.icon}
-                          />
+          {isLoading ? (
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              style={{ height: "60vh" }}
+            >
+              <Loader type="Oval" color="#5E9EA0" height={120} width={120} />
+            </Grid>
+          ) : (
+            subjects.map((obj) => {
+              if (
+                (state.checkedA && obj.thisusersubmit) ||
+                (obj.user_name === user?.email && usertype === 1)
+              ) {
+                return <></>;
+              } else {
+                return (
+                  <Grid item xs={12} md={6}>
+                    <Card className={classes.card}>
+                      <Grid
+                        container
+                        direction="row"
+                        alignItems="center"
+                        spacing={2}
+                      >
+                        <Grid item xs={5}>
+                          <Grid
+                            container
+                            direction="column"
+                            alignItems="center"
+                          >
+                            <Avatar
+                              alt="Travis Howard"
+                              src={obj.profile_url}
+                              className={classes.icon}
+                            />
 
-                          {obj.name ? (
-                            <Box
-                              textAlign="center"
-                              style={{ marginTop: 10, marginBottom: 7 }}
-                            >
-                              {obj.name}
-                            </Box>
-                          ) : (
-                            <Box
-                              textAlign="center"
-                              style={{ marginTop: 10, marginBottom: 7 }}
-                            >
-                              {obj.first_name} {obj.last_name}
-                            </Box>
-                          )}
-                        </Grid>
-                        {usertype === 1 &&
-                          (!obj.thisusersubmit ? (
-                            <Link
-                              to={`/posts/${obj.id}`}
-                              style={{ textDecoration: "none" }}
-                            >
+                            {obj.name ? (
+                              <Box
+                                textAlign="center"
+                                style={{ marginTop: 10, marginBottom: 7 }}
+                              >
+                                {obj.name}
+                              </Box>
+                            ) : (
+                              <Box
+                                textAlign="center"
+                                style={{ marginTop: 10, marginBottom: 7 }}
+                              >
+                                {obj.first_name} {obj.last_name}
+                              </Box>
+                            )}
+                          </Grid>
+                          {usertype === 1 &&
+                            (!obj.thisusersubmit ? (
+                              <Link
+                                to={`/posts/${obj.id}`}
+                                style={{ textDecoration: "none" }}
+                              >
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  style={{ marginTop: 20 }}
+                                  fullWidth
+                                >
+                                  Join
+                                </Button>
+                              </Link>
+                            ) : (
                               <Button
                                 variant="contained"
                                 color="primary"
                                 style={{ marginTop: 20 }}
                                 fullWidth
+                                disabled
                               >
                                 Join
                               </Button>
-                            </Link>
-                          ) : (
-                            <Button
-                              variant="contained"
+                            ))}
+                        </Grid>
+                        <Grid item xs={7}>
+                          <Typography color="primary">
+                            <Box
+                              className={classes.cardtitle}
+                              fontWeight="bold"
                               color="primary"
-                              style={{ marginTop: 20 }}
-                              fullWidth
-                              disabled
                             >
-                              Join
-                            </Button>
-                          ))}
-                      </Grid>
-                      <Grid item xs={7}>
-                        <Typography color="primary">
-                          <Box
-                            className={classes.cardtitle}
-                            fontWeight="bold"
-                            color="primary"
-                          >
-                            {obj.title}
+                              {obj.title}
+                            </Box>
+                          </Typography>
+                          <Box mt={1}>
+                            {obj.isDueDate
+                              ? "Duedate : " +
+                                obj.dueDate.slice(8, 10) +
+                                "/" +
+                                obj.dueDate.slice(5, 7) +
+                                "/" +
+                                obj.dueDate.slice(0, 4)
+                              : "No Duedate"}
                           </Box>
-                        </Typography>
-                        <Box mt={1}>
-                          {obj.isDueDate
-                            ? "Duedate : " +
-                              obj.dueDate.slice(8, 10) +
-                              "/" +
-                              obj.dueDate.slice(5, 7) +
-                              "/" +
-                              obj.dueDate.slice(0, 4)
-                            : "No Duedate"}
-                        </Box>
-                        <Box mt={1}>
-                          {obj.hasPeriod
-                            ? "Work peroid : " +
-                              obj.startDate.slice(8, 10) +
-                              "/" +
-                              obj.startDate.slice(5, 7) +
-                              "/" +
-                              obj.startDate.slice(0, 4) +
-                              " - " +
-                              obj.endDate.slice(8, 10) +
-                              "/" +
-                              obj.endDate.slice(5, 7) +
-                              "/" +
-                              obj.endDate.slice(0, 4)
-                            : "No Work period"}
-                        </Box>
+                          <Box mt={1}>
+                            {obj.hasPeriod
+                              ? "Work peroid : " +
+                                obj.startDate.slice(8, 10) +
+                                "/" +
+                                obj.startDate.slice(5, 7) +
+                                "/" +
+                                obj.startDate.slice(0, 4) +
+                                " - " +
+                                obj.endDate.slice(8, 10) +
+                                "/" +
+                                obj.endDate.slice(5, 7) +
+                                "/" +
+                                obj.endDate.slice(0, 4)
+                              : "No Work period"}
+                          </Box>
 
-                        <Grid
-                          container
-                          justifyContent="space-around"
-                          style={{ marginTop: 10 }}
-                        >
-                          <Box>
-                            <Icon
-                              fontSize="small"
-                              color="primary"
-                              className={classes.usericon}
-                            >
-                              <FontAwesomeIcon icon={faUser} />
-                            </Icon>
-                            Need {obj.quantity} people
-                          </Box>
-                          <Box>
-                            <Icon
-                              fontSize="small"
-                              color="primary"
-                              className={classes.usericon}
-                            >
-                              <FontAwesomeIcon icon={faUser} />
-                            </Icon>
-                            Joined {obj.candidate} people
-                          </Box>
+                          <Grid
+                            container
+                            justifyContent="space-around"
+                            style={{ marginTop: 10 }}
+                          >
+                            <Box>
+                              <Icon
+                                fontSize="small"
+                                color="primary"
+                                className={classes.usericon}
+                              >
+                                <FontAwesomeIcon icon={faUser} />
+                              </Icon>
+                              Need {obj.quantity} people
+                            </Box>
+                            <Box>
+                              <Icon
+                                fontSize="small"
+                                color="primary"
+                                className={classes.usericon}
+                              >
+                                <FontAwesomeIcon icon={faUser} />
+                              </Icon>
+                              Joined {obj.candidate} people
+                            </Box>
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
-                  </Card>
-                </Grid>
-              );
-            }
-          })}
+                    </Card>
+                  </Grid>
+                );
+              }
+            })
+          )}
         </Grid>
       </Container>
     </div>

@@ -28,6 +28,8 @@ import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
 
+import Loader from "react-loader-spinner";
+
 interface Subject {
   answer: string;
   status: string;
@@ -211,13 +213,14 @@ const DialogContent = withStyles((theme: Theme) => ({
 function JoinedPosts({ user, setUser }: queryuserprops) {
   const classes = useStyles();
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     axios
       .get(`joinedposts/find`)
       .then((response) => {
-        console.log(response.data);
         setSubjects(response.data);
+        setIsLoading(false);
       })
       .catch(function (error) {
         console.log(error.message);
@@ -275,64 +278,80 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
         </Grid>
 
         <Grid container spacing={3}>
-          {subjects.map((obj) => {
-            return (
-              <Grid item xs={12} md={6}>
-                <Card
-                  className={
-                    obj.is_activate === false
-                      ? classes.submitted
-                      : classes.unsubmitted
-                  }
-                >
-                  <Grid
-                    container
-                    direction="row"
-                    alignItems="center"
-                    spacing={2}
+          {isLoading ? (
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              style={{ height: "60vh" }}
+            >
+              <Loader type="Oval" color="#5E9EA0" height={120} width={120} />
+            </Grid>
+          ) : (
+            subjects.map((obj) => {
+              return (
+                <Grid item xs={12} md={6}>
+                  <Card
+                    className={
+                      obj.is_activate === false
+                        ? classes.submitted
+                        : classes.unsubmitted
+                    }
                   >
-                    <Grid item xs={5}>
-                      <Grid container direction="column" alignItems="center">
-                        <Chip
-                          style={{ alignSelf: "flex-start" }}
-                          size="small"
-                          className={
-                            obj.is_activate === false
-                              ? classes.closed
-                              : classes.open
-                          }
-                          label={obj.is_activate === false ? "closed" : "open"}
-                        />
-                        <Avatar
-                          alt="Travis Howard"
-                          src={obj.profile_url!=="url_link"? obj.profile_url : "/img/mascot.png"}
-                          className={classes.icon}
-                        />
-                        {obj.name ? (
-                          <Box
-                            textAlign="center"
-                            style={{ marginTop: 10, marginBottom: 7 }}
-                          >
-                            {obj.name}
-                          </Box>
-                        ) : (
-                          <Box
-                            textAlign="center"
-                            style={{ marginTop: 10, marginBottom: 7 }}
-                          >
-                            {obj.first_name} {obj.last_name}
-                          </Box>
-                        )}
-                      </Grid>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{ marginTop: 20 }}
-                        fullWidth
-                        onClick={() => handleClickOpen(obj.id)}
-                      >
-                        View
-                      </Button>
+                    <Grid
+                      container
+                      direction="row"
+                      alignItems="center"
+                      spacing={2}
+                    >
+                      <Grid item xs={5}>
+                        <Grid container direction="column" alignItems="center">
+                          <Chip
+                            style={{ alignSelf: "flex-start" }}
+                            size="small"
+                            className={
+                              obj.is_activate === false
+                                ? classes.closed
+                                : classes.open
+                            }
+                            label={
+                              obj.is_activate === false ? "closed" : "open"
+                            }
+                          />
+                          <Avatar
+                            alt="Travis Howard"
+                            src={
+                              obj.profile_url !== "url_link"
+                                ? obj.profile_url
+                                : "/img/mascot.png"
+                            }
+                            className={classes.icon}
+                          />
+                          {obj.name ? (
+                            <Box
+                              textAlign="center"
+                              style={{ marginTop: 10, marginBottom: 7 }}
+                            >
+                              {obj.name}
+                            </Box>
+                          ) : (
+                            <Box
+                              textAlign="center"
+                              style={{ marginTop: 10, marginBottom: 7 }}
+                            >
+                              {obj.first_name} {obj.last_name}
+                            </Box>
+                          )}
+                        </Grid>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          style={{ marginTop: 20 }}
+                          fullWidth
+                          onClick={() => handleClickOpen(obj.id)}
+                        >
+                          View
+                        </Button>
 
                         {scroll === obj.id && (
                           <Dialog
@@ -389,10 +408,10 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                             </DialogContent>
                           </Dialog>
                         )}
-                    </Grid>
+                      </Grid>
 
-                    <Grid item xs={7}>
-                      <Typography color="primary">
+                      <Grid item xs={7}>
+                        <Typography color="primary">
                           <Box
                             className={classes.cardtitle}
                             fontWeight="bold"
@@ -400,66 +419,67 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                           >
                             {obj.title}
                           </Box>
-                      </Typography>
-                      <Box mt={1}>
-                        {obj.isDueDate
-                          ? "Duedate : " +
-                            obj.dueDate.slice(8, 10) +
-                            "/" +
-                            obj.dueDate.slice(5, 7) +
-                            "/" +
-                            obj.dueDate.slice(0, 4)
-                          : "No Duedate"}
-                      </Box>
-                      <Box mt={1}>
-                        {obj.hasPeriod
-                          ? "Work peroid : " +
-                            obj.startDate.slice(8, 10) +
-                            "/" +
-                            obj.startDate.slice(5, 7) +
-                            "/" +
-                            obj.startDate.slice(0, 4) +
-                            " - " +
-                            obj.endDate.slice(8, 10) +
-                            "/" +
-                            obj.endDate.slice(5, 7) +
-                            "/" +
-                            obj.endDate.slice(0, 4)
-                          : "No Work period"}
-                      </Box>
+                        </Typography>
+                        <Box mt={1}>
+                          {obj.isDueDate
+                            ? "Duedate : " +
+                              obj.dueDate.slice(8, 10) +
+                              "/" +
+                              obj.dueDate.slice(5, 7) +
+                              "/" +
+                              obj.dueDate.slice(0, 4)
+                            : "No Duedate"}
+                        </Box>
+                        <Box mt={1}>
+                          {obj.hasPeriod
+                            ? "Work peroid : " +
+                              obj.startDate.slice(8, 10) +
+                              "/" +
+                              obj.startDate.slice(5, 7) +
+                              "/" +
+                              obj.startDate.slice(0, 4) +
+                              " - " +
+                              obj.endDate.slice(8, 10) +
+                              "/" +
+                              obj.endDate.slice(5, 7) +
+                              "/" +
+                              obj.endDate.slice(0, 4)
+                            : "No Work period"}
+                        </Box>
 
-                      <Grid
-                        container
-                        justifyContent="space-around"
-                        style={{ marginTop: 10 }}
-                      >
-                        <Box>
-                          <Icon
-                            fontSize="small"
-                            color="primary"
-                            className={classes.usericon}
-                          >
-                            <FontAwesomeIcon icon={faUser} />
-                          </Icon>
-                          Need {obj.quantity} people
-                        </Box>
-                        <Box>
-                          <Icon
-                            fontSize="small"
-                            color="primary"
-                            className={classes.usericon}
-                          >
-                            <FontAwesomeIcon icon={faUser} />
-                          </Icon>
-                          Joined {obj.candidate} people
-                        </Box>
+                        <Grid
+                          container
+                          justifyContent="space-around"
+                          style={{ marginTop: 10 }}
+                        >
+                          <Box>
+                            <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                            >
+                              <FontAwesomeIcon icon={faUser} />
+                            </Icon>
+                            Need {obj.quantity} people
+                          </Box>
+                          <Box>
+                            <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                            >
+                              <FontAwesomeIcon icon={faUser} />
+                            </Icon>
+                            Joined {obj.candidate} people
+                          </Box>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </Card>
-              </Grid>
-            );
-          })}
+                  </Card>
+                </Grid>
+              );
+            })
+          )}
         </Grid>
       </Container>
     </div>

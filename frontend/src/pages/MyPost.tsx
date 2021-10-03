@@ -30,6 +30,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useFormik } from "formik";
+import Loader from "react-loader-spinner";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -116,10 +117,13 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"), {
     defaultMatches: true,
   });
+  const [isLoading, setIsLoading] = useState(true);
+
   const [subjects, setSubjects] = useState<Subject[]>([]);
   useEffect(() => {
     axios.get(`/posts/myposts`).then((response) => {
       setSubjects(response.data);
+      setIsLoading(false);
     });
   }, []);
 
@@ -149,9 +153,8 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
       axios
         .post("posts/cancel_post", reason_sent)
         .then((response) => {
-          console.log(response);
           handleClose();
-          values.canceldesc="";
+          values.canceldesc = "";
           axios.get(`/posts/myposts`).then((response) => {
             setSubjects(response.data);
           });
@@ -189,383 +192,397 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
           </Typography>
         </Hidden>
         <Grid container spacing={isMobile ? 2 : 5}>
-          {subjects.map((obj) => {
-            return (
-              <Grid item xs={12} md={6}>
-                <Card className={classes.card}>
-                  <Grid
-                    container
-                    direction="row"
-                    alignItems="center"
-                    spacing={2}
-                  >
-                    <Grid item xs={6}>
-                      <Grid container direction="column" alignItems="center">
-                        <Avatar
-                          alt="Travis Howard"
-                          src={obj.profile_image}
-                          className={classes.icon}
-                        />
-                        <Box
-                          textAlign="center"
-                          style={{ marginTop: 10, marginBottom: 7 }}
-                        >
-                          {obj.full_name}
-                        </Box>
-                        <Grid
-                          container
-                          direction="row"
-                          justifyContent="center"
-                          alignItems="center"
-                        >
-                          <Link
-                            to={
-                              obj.is_activate
-                                ? `/myposts/${obj._id}`
-                                : `/myposts/closed/${obj._id}`
-                            }
-                            style={{ textDecoration: "none" }}
-                          >
-                            <Hidden xsDown>
-                              <Button
-                                variant="contained"
-                                style={{
-                                  marginTop: 10,
-                                  marginRight: 5,
-                                }}
-                                color="primary"
-                              >
-                                View
-                              </Button>
-                            </Hidden>
-                          </Link>
-                          {obj.is_activate ? (
-                            <Link
-                              to={`/posts/edit/${obj._id}`}
-                              style={{ textDecoration: "none" }}
-                            >
-                              <Hidden xsDown>
-                                <ColorButton
-                                  variant="contained"
-                                  color="primary"
-                                  style={{
-                                    marginTop: 10,
-                                    marginRight: 5,
-                                    marginLeft: 5,
-                                  }}
-                                >
-                                  Edit
-                                </ColorButton>
-                              </Hidden>
-                            </Link>
-                          ) : (
-                            <>
-                              <Hidden xsDown>
-                                <ColorButton
-                                  variant="contained"
-                                  color="primary"
-                                  style={{
-                                    marginTop: 10,
-                                    marginRight: 5,
-                                    marginLeft: 5,
-                                  }}
-                                  disabled
-                                >
-                                  Edit
-                                </ColorButton>
-                              </Hidden>
-                            </>
-                          )}
-
-                          {obj.is_activate ? (
-                            <>
-                              <Hidden xsDown>
-                                <Button
-                                  onClick={() => handleClickOpen(obj._id)}
-                                  variant="contained"
-                                  color="secondary"
-                                  style={{ marginTop: 10, marginLeft: 5 }}
-                                >
-                                  Cancel
-                                </Button>
-                              </Hidden>
-                            </>
-                          ) : (
-                            <>
-                              <Hidden xsDown>
-                                <Button
-                                  onClick={() => handleClickOpen(obj._id)}
-                                  variant="contained"
-                                  color="secondary"
-                                  style={{ marginTop: 10, marginLeft: 5 }}
-                                  disabled
-                                >
-                                  Cancel
-                                </Button>
-                              </Hidden>
-                            </>
-                          )}
-                          {postId === obj._id && (
-                            <Dialog
-                              open={open}
-                              onClose={handleClose}
-                              aria-labelledby="form-dialog-title"
-                            >
-                              <form onSubmit={formik.handleSubmit}>
-                                <DialogTitle id="form-dialog-title">
-                                  {"Do you want to cancel this post?"}
-                                </DialogTitle>
-                                <DialogContent>
-                                  <DialogContentText>
-                                    Please provide the reason for cancellation.
-                                    If does not have, enter "-".
-                                  </DialogContentText>
-                                  <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    name="canceldesc"
-                                    label="Reason for cancellation"
-                                    value={formik.values.canceldesc}
-                                    onChange={formik.handleChange}
-                                    fullWidth
-                                  />
-                                </DialogContent>
-                                <DialogActions>
-                                  <Button onClick={handleClose} color="primary">
-                                    Decline
-                                  </Button>
-                                  <Button
-                                    color="primary"
-                                    type="submit"
-                                    autoFocus
-                                  >
-                                    Accept
-                                  </Button>
-                                </DialogActions>
-                              </form>
-                            </Dialog>
-                          )}
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Typography color="primary">
-                        <Box
-                          className={classes.cardtitle}
-                          fontWeight="bold"
-                          textAlign="left"
-                          color="primary"
-                        >
-                          {obj.title}
-                        </Box>
-                      </Typography>
-                      <Box mt={1}>
-                        {obj.isDueDate
-                          ? "Duedate : " +
-                            obj.dueDate.slice(8, 10) +
-                            "/" +
-                            obj.dueDate.slice(5, 7) +
-                            "/" +
-                            obj.dueDate.slice(0, 4)
-                          : "No Duedate"}
-                      </Box>
-                      <Box mt={1}>
-                        {obj.hasPeriod
-                          ? "Work peroid : " +
-                            obj.startDate.slice(8, 10) +
-                            "/" +
-                            obj.startDate.slice(5, 7) +
-                            "/" +
-                            obj.startDate.slice(0, 4) +
-                            " - " +
-                            obj.endDate.slice(8, 10) +
-                            "/" +
-                            obj.endDate.slice(5, 7) +
-                            "/" +
-                            obj.endDate.slice(0, 4)
-                          : "No Work period"}
-                      </Box>
-
-                      <Grid
-                        container
-                        justifyContent="space-around"
-                        style={{ marginTop: 10 }}
-                      >
-                        <Box>
-                          <Icon
-                            fontSize="small"
-                            color="primary"
-                            className={classes.usericon}
-                          >
-                            <FontAwesomeIcon icon={faUser} />
-                          </Icon>
-                          Need {obj.quantity} people
-                        </Box>
-                        <Box>
-                          <Icon
-                            fontSize="small"
-                            color="primary"
-                            className={classes.usericon}
-                          >
-                            <FontAwesomeIcon icon={faUser} />
-                          </Icon>
-                          Joined {obj.candidate} people
-                        </Box>
-                      </Grid>
-                    </Grid>
+          {isLoading ? (
+            <Grid
+              container
+              justifyContent="center"
+              alignItems="center"
+              style={{ height: "60vh" }}
+            >
+              <Loader type="Oval" color="#5E9EA0" height={120} width={120} />
+            </Grid>
+          ) : (
+            subjects.map((obj) => {
+              return (
+                <Grid item xs={12} md={6}>
+                  <Card className={classes.card}>
                     <Grid
                       container
                       direction="row"
-                      justifyContent="center"
                       alignItems="center"
+                      spacing={2}
                     >
-                      <Link
-                        to={
-                          obj.is_activate
-                            ? `/myposts/${obj._id}`
-                            : `/myposts/closed/${obj._id}`
-                        }
-                        style={{ textDecoration: "none" }}
-                      >
-                        <Hidden smUp>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            style={{
-                              marginBottom: 10,
-                              marginLeft: 15,
-                              marginRight: 7.5,
-                            }}
+                      <Grid item xs={6}>
+                        <Grid container direction="column" alignItems="center">
+                          <Avatar
+                            alt="Travis Howard"
+                            src={obj.profile_image}
+                            className={classes.icon}
+                          />
+                          <Box
+                            textAlign="center"
+                            style={{ marginTop: 10, marginBottom: 7 }}
                           >
-                            View
-                          </Button>
-                        </Hidden>
-                      </Link>
-                      {obj.is_activate ? (
+                            {obj.full_name}
+                          </Box>
+                          <Grid
+                            container
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                          >
+                            <Link
+                              to={
+                                obj.is_activate
+                                  ? `/myposts/${obj._id}`
+                                  : `/myposts/closed/${obj._id}`
+                              }
+                              style={{ textDecoration: "none" }}
+                            >
+                              <Hidden xsDown>
+                                <Button
+                                  variant="contained"
+                                  style={{
+                                    marginTop: 10,
+                                    marginRight: 5,
+                                  }}
+                                  color="primary"
+                                >
+                                  View
+                                </Button>
+                              </Hidden>
+                            </Link>
+                            {obj.is_activate ? (
+                              <Link
+                                to={`/posts/edit/${obj._id}`}
+                                style={{ textDecoration: "none" }}
+                              >
+                                <Hidden xsDown>
+                                  <ColorButton
+                                    variant="contained"
+                                    color="primary"
+                                    style={{
+                                      marginTop: 10,
+                                      marginRight: 5,
+                                      marginLeft: 5,
+                                    }}
+                                  >
+                                    Edit
+                                  </ColorButton>
+                                </Hidden>
+                              </Link>
+                            ) : (
+                              <>
+                                <Hidden xsDown>
+                                  <ColorButton
+                                    variant="contained"
+                                    color="primary"
+                                    style={{
+                                      marginTop: 10,
+                                      marginRight: 5,
+                                      marginLeft: 5,
+                                    }}
+                                    disabled
+                                  >
+                                    Edit
+                                  </ColorButton>
+                                </Hidden>
+                              </>
+                            )}
+
+                            {obj.is_activate ? (
+                              <>
+                                <Hidden xsDown>
+                                  <Button
+                                    onClick={() => handleClickOpen(obj._id)}
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{ marginTop: 10, marginLeft: 5 }}
+                                  >
+                                    Cancel
+                                  </Button>
+                                </Hidden>
+                              </>
+                            ) : (
+                              <>
+                                <Hidden xsDown>
+                                  <Button
+                                    onClick={() => handleClickOpen(obj._id)}
+                                    variant="contained"
+                                    color="secondary"
+                                    style={{ marginTop: 10, marginLeft: 5 }}
+                                    disabled
+                                  >
+                                    Cancel
+                                  </Button>
+                                </Hidden>
+                              </>
+                            )}
+                            {postId === obj._id && (
+                              <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="form-dialog-title"
+                              >
+                                <form onSubmit={formik.handleSubmit}>
+                                  <DialogTitle id="form-dialog-title">
+                                    {"Do you want to cancel this post?"}
+                                  </DialogTitle>
+                                  <DialogContent>
+                                    <DialogContentText>
+                                      Please provide the reason for
+                                      cancellation. If does not have, enter "-".
+                                    </DialogContentText>
+                                    <TextField
+                                      autoFocus
+                                      margin="dense"
+                                      name="canceldesc"
+                                      label="Reason for cancellation"
+                                      value={formik.values.canceldesc}
+                                      onChange={formik.handleChange}
+                                      fullWidth
+                                    />
+                                  </DialogContent>
+                                  <DialogActions>
+                                    <Button
+                                      onClick={handleClose}
+                                      color="primary"
+                                    >
+                                      Decline
+                                    </Button>
+                                    <Button
+                                      color="primary"
+                                      type="submit"
+                                      autoFocus
+                                    >
+                                      Accept
+                                    </Button>
+                                  </DialogActions>
+                                </form>
+                              </Dialog>
+                            )}
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Typography color="primary">
+                          <Box
+                            className={classes.cardtitle}
+                            fontWeight="bold"
+                            textAlign="left"
+                            color="primary"
+                          >
+                            {obj.title}
+                          </Box>
+                        </Typography>
+                        <Box mt={1}>
+                          {obj.isDueDate
+                            ? "Duedate : " +
+                              obj.dueDate.slice(8, 10) +
+                              "/" +
+                              obj.dueDate.slice(5, 7) +
+                              "/" +
+                              obj.dueDate.slice(0, 4)
+                            : "No Duedate"}
+                        </Box>
+                        <Box mt={1}>
+                          {obj.hasPeriod
+                            ? "Work peroid : " +
+                              obj.startDate.slice(8, 10) +
+                              "/" +
+                              obj.startDate.slice(5, 7) +
+                              "/" +
+                              obj.startDate.slice(0, 4) +
+                              " - " +
+                              obj.endDate.slice(8, 10) +
+                              "/" +
+                              obj.endDate.slice(5, 7) +
+                              "/" +
+                              obj.endDate.slice(0, 4)
+                            : "No Work period"}
+                        </Box>
+
+                        <Grid
+                          container
+                          justifyContent="space-around"
+                          style={{ marginTop: 10 }}
+                        >
+                          <Box>
+                            <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                            >
+                              <FontAwesomeIcon icon={faUser} />
+                            </Icon>
+                            Need {obj.quantity} people
+                          </Box>
+                          <Box>
+                            <Icon
+                              fontSize="small"
+                              color="primary"
+                              className={classes.usericon}
+                            >
+                              <FontAwesomeIcon icon={faUser} />
+                            </Icon>
+                            Joined {obj.candidate} people
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <Grid
+                        container
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
                         <Link
-                          to={`/posts/edit/${obj._id}`}
+                          to={
+                            obj.is_activate
+                              ? `/myposts/${obj._id}`
+                              : `/myposts/closed/${obj._id}`
+                          }
                           style={{ textDecoration: "none" }}
                         >
                           <Hidden smUp>
-                            <ColorButton
+                            <Button
                               variant="contained"
                               color="primary"
                               size="small"
                               style={{
                                 marginBottom: 10,
+                                marginLeft: 15,
                                 marginRight: 7.5,
-                                marginLeft: 7.5,
                               }}
                             >
-                              Edit
-                            </ColorButton>
+                              View
+                            </Button>
                           </Hidden>
                         </Link>
-                      ) : (
-                        <>
-                          <Hidden smUp>
-                            <ColorButton
-                              variant="contained"
-                              color="primary"
-                              size="small"
-                              style={{
-                                marginBottom: 10,
-                                marginRight: 7.5,
-                                marginLeft: 7.5,
-                              }}
-                              disabled
-                            >
-                              Edit
-                            </ColorButton>
-                          </Hidden>
-                        </>
-                      )}
-                      {obj.is_activate ? (
-                        <>
-                          <Hidden smUp>
-                            <Button
-                              onClick={() => handleClickOpen(obj._id)}
-                              variant="contained"
-                              color="secondary"
-                              size="small"
-                              style={{
-                                marginBottom: 10,
-                                marginRight: 15,
-                                marginLeft: 7.5,
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          </Hidden>
-                        </>
-                      ) : (
-                        <>
-                          <Hidden smUp>
-                            <Button
-                              onClick={() => handleClickOpen(obj._id)}
-                              variant="contained"
-                              color="secondary"
-                              size="small"
-                              style={{
-                                marginBottom: 10,
-                                marginRight: 15,
-                                marginLeft: 7.5,
-                              }}
-                              disabled
-                            >
-                              Cancel
-                            </Button>
-                          </Hidden>
-                        </>
-                      )}
-                      {postId === obj._id && (
-                        <Dialog
-                          open={open}
-                          onClose={handleClose}
-                          aria-labelledby="form-dialog-title"
-                        >
-                          <form onSubmit={formik.handleSubmit}>
-                            <DialogTitle id="form-dialog-title">
-                              {"Do you want to cancel this post?"}
-                            </DialogTitle>
-                            <DialogContent>
-                              <DialogContentText>
-                                Please provide the reason for cancellation. If
-                                does not have, enter "-".
-                              </DialogContentText>
-                              <TextField
-                                autoFocus
-                                margin="dense"
-                                name="canceldesc"
-                                label="Reason for cancellation"
-                                value={formik.values.canceldesc}
-                                onChange={formik.handleChange}
-                                fullWidth
-                              />
-                            </DialogContent>
-                            <DialogActions>
-                              <Button onClick={handleClose} color="primary">
-                                Decline
-                              </Button>
-                              <Button
-                                // onClick={() => DeletePost(obj._id)}
+                        {obj.is_activate ? (
+                          <Link
+                            to={`/posts/edit/${obj._id}`}
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Hidden smUp>
+                              <ColorButton
+                                variant="contained"
                                 color="primary"
-                                type="submit"
-                                autoFocus
+                                size="small"
+                                style={{
+                                  marginBottom: 10,
+                                  marginRight: 7.5,
+                                  marginLeft: 7.5,
+                                }}
                               >
-                                Accept
+                                Edit
+                              </ColorButton>
+                            </Hidden>
+                          </Link>
+                        ) : (
+                          <>
+                            <Hidden smUp>
+                              <ColorButton
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                style={{
+                                  marginBottom: 10,
+                                  marginRight: 7.5,
+                                  marginLeft: 7.5,
+                                }}
+                                disabled
+                              >
+                                Edit
+                              </ColorButton>
+                            </Hidden>
+                          </>
+                        )}
+                        {obj.is_activate ? (
+                          <>
+                            <Hidden smUp>
+                              <Button
+                                onClick={() => handleClickOpen(obj._id)}
+                                variant="contained"
+                                color="secondary"
+                                size="small"
+                                style={{
+                                  marginBottom: 10,
+                                  marginRight: 15,
+                                  marginLeft: 7.5,
+                                }}
+                              >
+                                Cancel
                               </Button>
-                            </DialogActions>
-                          </form>
-                        </Dialog>
-                      )}
+                            </Hidden>
+                          </>
+                        ) : (
+                          <>
+                            <Hidden smUp>
+                              <Button
+                                onClick={() => handleClickOpen(obj._id)}
+                                variant="contained"
+                                color="secondary"
+                                size="small"
+                                style={{
+                                  marginBottom: 10,
+                                  marginRight: 15,
+                                  marginLeft: 7.5,
+                                }}
+                                disabled
+                              >
+                                Cancel
+                              </Button>
+                            </Hidden>
+                          </>
+                        )}
+                        {postId === obj._id && (
+                          <Dialog
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="form-dialog-title"
+                          >
+                            <form onSubmit={formik.handleSubmit}>
+                              <DialogTitle id="form-dialog-title">
+                                {"Do you want to cancel this post?"}
+                              </DialogTitle>
+                              <DialogContent>
+                                <DialogContentText>
+                                  Please provide the reason for cancellation. If
+                                  does not have, enter "-".
+                                </DialogContentText>
+                                <TextField
+                                  autoFocus
+                                  margin="dense"
+                                  name="canceldesc"
+                                  label="Reason for cancellation"
+                                  value={formik.values.canceldesc}
+                                  onChange={formik.handleChange}
+                                  fullWidth
+                                />
+                              </DialogContent>
+                              <DialogActions>
+                                <Button onClick={handleClose} color="primary">
+                                  Decline
+                                </Button>
+                                <Button
+                                  // onClick={() => DeletePost(obj._id)}
+                                  color="primary"
+                                  type="submit"
+                                  autoFocus
+                                >
+                                  Accept
+                                </Button>
+                              </DialogActions>
+                            </form>
+                          </Dialog>
+                        )}
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Card>
-              </Grid>
-            );
-          })}
+                  </Card>
+                </Grid>
+              );
+            })
+          )}
         </Grid>
       </Container>
     </div>
