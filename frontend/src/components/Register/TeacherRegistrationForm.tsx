@@ -19,7 +19,14 @@ import axios from "../../axios";
 import AlertDialog from "./AlertDialog";
 
 const validationSchema = yup.object({
-  email: yup.string().email("Enter a valid Email").required("Enter your Email"),
+  email: yup
+    .string()
+    .email("Enter a valid Email")
+    .required("Enter your Email")
+    .matches(
+      /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+.)?[a-zA-Z]+.)?(ku).th$/,
+      "Please enter email address with domain @ku.th"
+    ),
   password: yup
     .string()
     .min(8, "At least 8 characters")

@@ -17,10 +17,16 @@ import * as yup from "yup";
 import React, { useEffect, useState } from "react";
 import axios from "../../axios";
 import AlertDialog from "./AlertDialog";
-import ReCAPTCHA from "react-google-recaptcha";
 
 const validationSchema = yup.object({
-  email: yup.string().email("Enter a valid Email").required("Enter your Email"),
+  email: yup
+    .string()
+    .email("Enter a valid Email")
+    .required("Enter your Email")
+    .matches(
+      /^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+.)?[a-zA-Z]+.)?(ku).th$/,
+      "Please enter email address with domain @ku.th"
+    ),
   password: yup
     .string()
     .min(8, "At least 8 characters")
@@ -390,11 +396,6 @@ function StudentRegistrationForm(): JSX.Element {
               </Grid>
             )}
           </Grid>
-          <ReCAPTCHA
-            sitekey="6Le3O3wcAAAAAB5D_5TKpNmsgYg9R2bn30elzSex"
-            size="invisible"
-            onChange={onChange}
-          />
           <Button
             variant="contained"
             size="large"
