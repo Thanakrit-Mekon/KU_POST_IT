@@ -19,6 +19,7 @@ import {
   useTheme,
   useMediaQuery,
   Hidden,
+  FormHelperText,
 } from "@material-ui/core";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -76,6 +77,10 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+  error: {
+    color: "red",
+    paddingLeft: "5px",
+  },
 }));
 
 const GreenRadio = withStyles({
@@ -91,7 +96,11 @@ const GreenRadio = withStyles({
 const validationSchema = yup.object({
   title: yup.string().required(),
   contact: yup.string().required(),
-  number: yup.number().required(),
+  number: yup
+    .number()
+    .min(1)
+    .typeError("you must specify a number")
+    .required("Cannot be empty"),
   more: yup.string(),
 });
 
@@ -297,7 +306,12 @@ function FormEditPost() {
             value={formik.values.number}
             onChange={formik.handleChange}
             error={formik.touched.number && Boolean(formik.errors.number)}
-          ></TextField>
+          />
+          {formik.touched.number && formik.errors.number && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.number}
+            </FormHelperText>
+          )}
         </Grid>
       </Grid>
 
