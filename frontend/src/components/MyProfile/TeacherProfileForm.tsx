@@ -56,6 +56,12 @@ const useStyles = makeStyles((theme) =>
         paddingLeft: 0,
         paddingRight: 0,
       },
+    },
+    pl: {
+      paddingLeft: 100,
+      [theme.breakpoints.down("md")]: {
+        paddingLeft: 0,
+      },
     }
   })
 );
@@ -182,7 +188,7 @@ function TeacherProfileForm({
               <Grid item xs={1} />
               <Grid item xs={1} />
           </Hidden>
-          <Grid item xs={10} md={6} lg={6}>
+          <Grid item xs={10} md={8} className={classes.pl}>
             <Box className={classes.marginbox}>
               <Typography align="left" variant="h5" style={{ paddingBottom: "1rem" }}>
                 <Box fontWeight="fontWeightBold">Information</Box>
@@ -406,7 +412,7 @@ function TeacherProfileForm({
               </Dialog>
             </Box>
           </Grid>
-          <Grid item xs={1} md={2} lg={3} />
+          <Grid item xs={1}/>
         </Grid>
       </form>
     </>

@@ -6,7 +6,7 @@ import ChangePasswordForm from "../components/ChangePassword/ChangePasswordForm"
 import PasswordRequirement from "../components/ChangePassword/PasswordRequirement";
 import { User } from "../App";
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       minHeight: "100vh",
@@ -20,6 +20,12 @@ const useStyles = makeStyles(() =>
     fullHeight: {
       height: "100%",
     },
+    pl: {
+      paddingLeft: 70,
+      [theme.breakpoints.down("md")]: {
+        paddingLeft: 0,
+      },
+    }
   })
 );
 
@@ -72,12 +78,12 @@ function ChangePassword({ user, setUser }: ChangePasswordProps): JSX.Element {
           <Grid item xs={1} />
           <Grid item xs={1} />
         </Hidden>
-        <Grid item xs={10} md={5}>
+        <Grid item xs={10} md={5} lg={7} className={classes.pl}>
           <Box mt={3}>
             <ChangePasswordForm />
           </Box>
         </Grid>
-        <Grid item xs={1} md={1} lg={3} />
+        <Grid item xs={1} md={1} lg={1} />
       </Grid>
       <Grid container className={classes.row}></Grid>
     </div>
