@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import SimpleModal from "./Modal";
 import axios from "../../axios";
 import { useHistory } from "react-router-dom";
 import { LoginProps } from "../../pages/Login";
@@ -140,11 +139,6 @@ function Form({ setUser }: LoginProps) {
                   </FormHelperText>
                 </Grid>
               )}
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <SimpleModal />
-                </Grid>
-              </Grid>
             </Grid>
           </Grid>
           <Button
