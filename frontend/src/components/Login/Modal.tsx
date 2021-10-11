@@ -55,9 +55,6 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <Link href="#" variant="body2" onClick={handleOpen}>
-        Forgot password?
-      </Link>
       <Modal
         open={open}
         onClose={handleClose}
