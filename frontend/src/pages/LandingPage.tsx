@@ -26,8 +26,21 @@ theme.typography.h4 = {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    btnText: {
+      [theme.breakpoints.up("xl")]: {
+        fontSize: "1.2vw",
+      },
+    },
+    btnNav: {
+      [theme.breakpoints.up("xl")]: {
+        fontSize: "1.2vw",
+      },
+    },
     bg: {
       backgroundColor: "#FAFAFA",
+      [theme.breakpoints.up("xl")]: {
+        padding: "0 15%",
+      },
     },
     header: {
       fontSize: "96px",
@@ -48,6 +61,9 @@ const useStyles = makeStyles((theme) =>
       [theme.breakpoints.down("xs")]: {
         padding: "10px 20px",
       },
+      [theme.breakpoints.up("xl")]: {
+        fontSize: "4vw",
+      },
     },
     des: {
       fontFamily: "Roboto",
@@ -58,6 +74,9 @@ const useStyles = makeStyles((theme) =>
         fontSize: "18px",
         textAlign: "center",
         padding: "0 10%",
+      },
+      [theme.breakpoints.up("xl")]: {
+        fontSize: "4vh",
       },
     },
     section: {
@@ -89,6 +108,14 @@ const useStyles = makeStyles((theme) =>
         textAlign: "center",
         padding: "0 10%",
         marginBottom: "50px",
+      },
+      [theme.breakpoints.up("xl")]: {
+        fontSize: "1vw",
+      },
+    },
+    title: {
+      [theme.breakpoints.up("xl")]: {
+        fontSize: "1.5vw",
       },
     },
     vector: {
@@ -130,7 +157,11 @@ function LandingPage() {
             style={{ color: "#37474F" }}
           >
             <ReactLink to="/login" style={{ textDecoration: "none" }}>
-              <Button color="primary" style={{ marginRight: "10px" }}>
+              <Button
+                color="primary"
+                style={{ marginRight: "10px" }}
+                className={classes.btnNav}
+              >
                 Log-in
               </Button>
             </ReactLink>
@@ -139,6 +170,7 @@ function LandingPage() {
                 variant="contained"
                 color="primary"
                 style={{ marginRight: "10px" }}
+                className={classes.btnNav}
               >
                 Sign-up
               </Button>
@@ -162,7 +194,7 @@ function LandingPage() {
             <Typography className={classes.des}>
               Platform for teacher, students, and company
               <br hidden={isMobile} />
-              &nbsp; Find work. Join post.
+              Find work. Join post.
             </Typography>
             <Grid
               container
@@ -181,10 +213,12 @@ function LandingPage() {
                   color="primary"
                   className={classes.btn}
                 >
-                  <Typography>Get Started</Typography>
+                  <Typography className={classes.btnText}>
+                    Get Started
+                  </Typography>
                 </Button>
               </ReactLink>
-              <Typography>Now it’s free</Typography>
+              <Typography className={classes.btnText}>Now it’s free</Typography>
             </Grid>
           </Grid>
           <Grid item>
@@ -198,7 +232,7 @@ function LandingPage() {
 
         <Grid
           container
-          direction="row"
+          direction="column"
           justifyContent="center"
           alignItems="center"
           className={classes.section}
@@ -215,7 +249,7 @@ function LandingPage() {
           <Typography
             variant="subtitle1"
             className={classes.subtitle}
-            style={{ color: "#979797", marginBottom: 20 }}
+            style={{ color: "#979797", marginBottom: 20, display: "block" }}
           >
             On KU Post-It, you can create account to find the work or post the
             work all within 5 minutes.
@@ -309,6 +343,7 @@ function LandingPage() {
                   padding: isMobile ? "0 10%" : "0",
                   marginTop: isMobile ? -40 : 0,
                 }}
+                className={classes.title}
               >
                 Still have no work to join ?
               </Typography>
@@ -342,6 +377,7 @@ function LandingPage() {
                 variant="contained"
                 color="primary"
                 style={{ padding: "18px 10px", marginTop: "20px" }}
+                className={classes.btnText}
               >
                 Get started for free
               </Button>
