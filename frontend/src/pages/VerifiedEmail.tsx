@@ -1,5 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Typography, Box, Hidden, Button, Link } from "@material-ui/core";
+import { Typography, Box, Hidden, Button } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -78,9 +79,9 @@ function VerifiedEmail(): JSX.Element {
                         </Box>
                     </Typography>
                     <Typography variant="subtitle1" align="center">Congratulations, Your email have successfully verified.</Typography>
-                    <Link style={{ textDecoration:"none", marginTop:20, minWidth:"100%" }}>
+                    <RouterLink to="/login" style={{ textDecoration:"none", marginTop:20, minWidth:"100%" }}>
                     <Button variant="contained" color="primary" fullWidth>Login now</Button>
-                    </Link>
+                    </RouterLink>
                 </Box>
             </Hidden>
             <Hidden xsDown>
@@ -97,9 +98,9 @@ function VerifiedEmail(): JSX.Element {
                     </Box>
                 </Typography>
                 <Typography variant="subtitle1" align="center">Congratulations, Your email have successfully verified.</Typography>
-                <Link style={{ textDecoration:"none", marginTop:20, minWidth:"100%" }}>
+                <RouterLink to="/login" style={{ textDecoration:"none", marginTop:20, minWidth:"100%" }}>
                 <Button variant="contained" color="primary" fullWidth>Login now</Button>
-                </Link>
+                </RouterLink>
             </Box>
             </Hidden>
         </div>

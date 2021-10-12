@@ -18,6 +18,7 @@ import EditPost from "./pages/EditPost";
 import PrivateRoute from "./routes/PrivateRoute";
 import LandingPage from "./pages/LandingPage";
 import PostTable from "./pages/PostTable";
+import VerifiedEmail from "./pages/VerifiedEmail";
 
 const theme = createTheme({
   palette: {
@@ -67,6 +68,9 @@ function App(): JSX.Element {
           </Route>
           <Route path="/register">
             <Register />
+          </Route>
+          <Route path="/verified">
+            <VerifiedEmail />
           </Route>
           <PrivateRoute path="/myprofile" isLoading={isLoading}>
             <MyProfile user={user} setUser={setUser} />
