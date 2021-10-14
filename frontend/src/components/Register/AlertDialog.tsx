@@ -31,12 +31,14 @@ export default function AlertDialog({ open, setOpen, err, email }: AlertDialogPr
         email: email,
       })
       .then(function (response) {
+        console.log(response);
         setDisable(true)
         setTimer("Please wait for 10 seconds to resend again.")
         setTimeout(() => setDisable(false), 10000);
         setTimeout(() => setTimer(""), 10000);
       })
       .catch(function (error) {
+        console.log(error);
       });
   }
 
@@ -44,6 +46,7 @@ export default function AlertDialog({ open, setOpen, err, email }: AlertDialogPr
   const content = err
     ? "Email already exists, you can try logging in with this email."
     : `We have sent an email to ${email}. Please click on the link in the email to verify your email address and activate your account.`;
+  const btn = "Continue";
 
   return (
     <div>
@@ -53,26 +56,42 @@ export default function AlertDialog({ open, setOpen, err, email }: AlertDialogPr
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <Box textAlign="center">
-        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-        <img src="/img/sent_email.gif" alt="" style={{ width:200, height:200 }}/>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {content}
-          </DialogContentText>
-            <Button size="large" variant="contained" color="primary" style={{ margin:10 }} onClick={Resend} disabled={disable}>
-              Resend Email
+        {err ? 
+        (<>
+          <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                {content}
+              </DialogContentText>
+            </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary" autoFocus>
+              {btn}
             </Button>
-          <DialogContentText id="alert-dialog-description">
-            {timer}
-          </DialogContentText>
-        </DialogContent>
-        </Box>
-        <DialogActions>
-        <Link href="https://lottiefiles.com/72126-email-verification" underline="none" target="_blank" style={{ color:"#bbbbbb" }}>
-          Animation by Karymee Morales on LottieFiles
-        </Link>
-        </DialogActions>
+          </DialogActions>
+        </>) :
+        (<>
+          <Box textAlign="center">
+            <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+            <img src="/img/sent_email.gif" alt="" style={{ width: 200, height: 200 }} />
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                {content}
+              </DialogContentText>
+              <Button size="large" variant="contained" color="primary" style={{ margin: 10 }} onClick={Resend} disabled={disable}>
+                Resend Email
+              </Button>
+              <DialogContentText id="alert-dialog-description">
+                {timer}
+              </DialogContentText>
+            </DialogContent>
+          </Box>
+          <DialogActions>
+            <Link href="https://lottiefiles.com/72126-email-verification" underline="none" target="_blank" style={{ color: "#bbbbbb" }}>
+              Animation by Karymee Morales on LottieFiles
+            </Link>
+          </DialogActions>
+          </>)}
       </Dialog>
     </div>
   );
