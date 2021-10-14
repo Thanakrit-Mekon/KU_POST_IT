@@ -312,7 +312,7 @@ function LandingPage() {
           </Grid>
           <Grid item xs={12} sm={5}>
             <img
-              src="/img/JobHunt.png"
+              src="/img/jobhunt.png"
               alt="JobHunt"
               width={isMobile ? 300 : 550}
             />
@@ -329,7 +329,7 @@ function LandingPage() {
           >
             <Grid item xs={12} sm={5}>
               <img
-                src="/img/Message.png"
+                src="/img/message.png"
                 alt="Message"
                 width={isMobile ? 300 : 550}
               />
