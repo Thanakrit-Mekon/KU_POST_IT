@@ -154,7 +154,6 @@ function TeacherRegistrationForm(): JSX.Element {
           handleClickOpen();
         })
         .catch(function (error) {
-          console.log(error);
           handleClickOpenWithError();
         });
     },
@@ -381,7 +380,7 @@ function TeacherRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
-        <AlertDialog open={open} setOpen={setOpen} err={err} />
+        <AlertDialog open={open} setOpen={setOpen} err={err} email={formik.values.email} />
       </form>
     </div>
   );

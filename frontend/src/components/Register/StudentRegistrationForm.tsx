@@ -128,9 +128,9 @@ function StudentRegistrationForm(): JSX.Element {
     setOpen(true);
   };
 
-  function onChange(value: any) {
-    console.log("Captcha value:", value);
-  }
+  // function onChange(value: any) {
+  //   console.log("Captcha value:", value);
+  // }
 
   const formik = useFormik({
     initialValues: {
@@ -158,14 +158,12 @@ function StudentRegistrationForm(): JSX.Element {
         get_notify: true,
         phone: values.phone,
       };
-      console.log(userData);
       axios
         .post("/user/student", userData)
         .then(function (response) {
           handleClickOpen();
         })
         .catch(function (error) {
-          console.log(error);
           handleClickOpenWithError();
         });
     },
@@ -416,7 +414,7 @@ function StudentRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
-        <AlertDialog open={open} setOpen={setOpen} err={err} />
+        <AlertDialog open={open} setOpen={setOpen} err={err} email={formik.values.email}/>
       </form>
     </div>
   );
