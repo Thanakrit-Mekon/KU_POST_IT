@@ -1,5 +1,5 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Typography, Box, Hidden, Button } from "@material-ui/core";
+import { Typography, Box, Hidden, Button, Link } from "@material-ui/core";
 import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) =>
@@ -56,6 +56,17 @@ const useStyles = makeStyles((theme) =>
         objectFit: "cover",
     },
     },
+    footer: {
+        position:"fixed",
+        bottom:0,
+        left:0,
+        right:0,
+        height:40,
+        display: "flex",
+        alignItems:"center",
+        backgroundColor:"#37474F",
+        paddingLeft:40,
+    }
   })
 );
 
@@ -103,6 +114,11 @@ function VerifiedEmail(): JSX.Element {
                 </RouterLink>
             </Box>
             </Hidden>
+            <Box className={classes.footer}>
+                <Link href="https://lottiefiles.com/78619-verified" underline="none" target="_blank" style={{ color:"#ffffff" }}>
+                    Animation by michael fadele on LottieFiles
+                </Link>
+            </Box>
         </div>
     );
 }
