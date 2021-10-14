@@ -365,6 +365,7 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
             variant="contained"
             color="primary"
             onClick={onSubmit}
+            disabled={SelectedRow.length === 0}
           >
             Submit
           </Button>
