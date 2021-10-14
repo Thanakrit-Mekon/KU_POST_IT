@@ -31,14 +31,12 @@ export default function AlertDialog({ open, setOpen, err, email }: AlertDialogPr
         email: email,
       })
       .then(function (response) {
-        console.log(response);
         setDisable(true)
         setTimer("Please wait for 10 seconds to resend again.")
         setTimeout(() => setDisable(false), 10000);
         setTimeout(() => setTimer(""), 10000);
       })
       .catch(function (error) {
-        console.log(error);
       });
   }
 
