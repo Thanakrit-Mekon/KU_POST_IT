@@ -94,14 +94,20 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const validationSchema = yup.object({
-  title: yup.string().required(),
+  title: yup
+    .string()
+    .max(200,"Title length must be at most 200 characters.")
+    .required(),
   contact: yup.string().required(),
   number: yup
     .number()
     .min(1)
+    .max(20000,"Number of students must be between 1 to 20000")
     .typeError("you must specify a number")
     .required("Cannot be empty"),
-  more: yup.string(),
+  more: yup
+    .string()
+    .max(9999),
 });
 
 function FormEditPost() {
@@ -294,6 +300,11 @@ function FormEditPost() {
             onChange={formik.handleChange}
             error={formik.touched.title && Boolean(formik.errors.title)}
           />
+          {formik.touched.title && formik.errors.title && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.title}
+            </FormHelperText>
+          )}
         </Grid>
         <Grid item xs={12} sm={3} style={{ marginBottom: "1rem" }}>
           <TextField

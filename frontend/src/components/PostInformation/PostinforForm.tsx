@@ -1,8 +1,8 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import InformationForm from "./InformationForm";
 import { Grid, Hidden } from "@material-ui/core";
+import { User } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -47,7 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PostForm(): JSX.Element {
+export interface Postinfoprops {
+  user: User | null;
+}
+
+export default function PostForm({ user }: Postinfoprops): JSX.Element {
   const classes = useStyles();
 
   return (
@@ -65,12 +69,12 @@ export default function PostForm(): JSX.Element {
         </Hidden>
         <Hidden smUp>
           <Paper className={classes.paper} elevation={-1}>
-            <InformationForm />
+            <InformationForm user={user}/>
           </Paper>
         </Hidden>
         <Hidden xsDown>
           <Paper className={classes.paper}>
-            <InformationForm />
+            <InformationForm user={user}/>
           </Paper>
         </Hidden>
       </main>

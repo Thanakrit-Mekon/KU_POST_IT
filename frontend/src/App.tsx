@@ -91,7 +91,7 @@ function App(): JSX.Element {
             <EditPost />
           </PrivateRoute>
           <PrivateRoute path="/posts/:postId" isLoading={isLoading}>
-            <PostInformation />
+            <PostInformation user={user}/>
           </PrivateRoute>
           <PrivateRoute path="/myposts/closed/:postId" isLoading={isLoading}>
             <PostTable user={user} setUser={setUser} />

@@ -334,7 +334,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
                               </Box>
                             )}
                           </Grid>
-                          {usertype === 1 &&
+                          {usertype === 1 ?
                             (!obj.thisusersubmit ? (
                               <Link
                                 to={`/posts/${obj.id}`}
@@ -359,7 +359,20 @@ function QueryUser({ user, setUser }: queryuserprops) {
                               >
                                 Join
                               </Button>
-                            ))}
+                            )) :
+                            <Link
+                                to={`/posts/${obj.id}`}
+                                style={{ textDecoration: "none" }}
+                              >
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  style={{ marginTop: 20 }}
+                                  fullWidth
+                                >
+                                  View
+                                </Button>
+                            </Link>}
                         </Grid>
                         <Grid item xs={7}>
                           <Typography color="primary">

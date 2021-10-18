@@ -21,6 +21,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { Link as Routerlink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { User } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   layout: {
@@ -80,7 +81,11 @@ interface ParamType {
   postId: string;
 }
 
-export default function PostForm(): JSX.Element {
+export interface Postinfoprops {
+  user: User | null;
+}
+
+export default function PostForm({ user }: Postinfoprops): JSX.Element {
   const param = useParams<ParamType>();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -88,6 +93,16 @@ export default function PostForm(): JSX.Element {
     setOpen(true);
   };
   const [subject, setSubject] = useState<SubjectType>({} as SubjectType);
+    //3=company  2=teacher 1=student
+    var usertype = -1;
+
+    if (user?.location) {
+      usertype = 3;
+    } else if (user?.student_id) {
+      usertype = 1;
+    } else {
+      usertype = 2;
+    }
   useEffect(() => {
     axios.get(`feed/findid/${param.postId}`).then((response) => {
       setSubject(response.data);
@@ -204,6 +219,7 @@ export default function PostForm(): JSX.Element {
           </Typography>
 
           <form onSubmit={formik.handleSubmit}>
+            {usertype === 1 && 
             <TextField
               name="feedback"
               size="small"
@@ -215,6 +231,7 @@ export default function PostForm(): JSX.Element {
               value={formik.values.feedback}
               onChange={formik.handleChange}
             />
+            }
 
             <Box mt={4}>
               <Grid
@@ -224,15 +241,17 @@ export default function PostForm(): JSX.Element {
                 alignItems="center"
                 style={{ paddingTop: "20" }}
               >
+                {usertype === 1 && 
                 <Button
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  type="submit"
-                  style={{ marginRight: 50 }}
+                variant="contained"
+                color="primary"
+                size="large"
+                type="submit"
+                style={{ marginRight: 50 }}
                 >
                   Submit
                 </Button>
+                }
                 <Dialog
                   open={open}
                   aria-labelledby="alert-dialog-title"
