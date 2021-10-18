@@ -99,7 +99,7 @@ const validationSchema = yup.object({
     .required("Cannot be empty"),
   more: yup
     .string()
-    .max(9999),
+    .max(9999,"More Requirement length must be at most 9999 characters."),
   isDueDate: yup.boolean().required(),
   hasPeriod: yup.boolean().required(),
   dueDate: yup.date().when("isDueDate", (isDueDate, schema) => {
@@ -641,6 +641,11 @@ function FormCreatePost() {
           onChange={formik.handleChange}
           error={formik.touched.more && Boolean(formik.errors.more)}
         />
+        {formik.touched.more && formik.errors.more && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.more}
+            </FormHelperText>
+          )}
       </Grid>
       <Grid
         container
