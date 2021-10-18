@@ -1,4 +1,4 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import "@fontsource/roboto";
 import { useEffect, useState } from "react";
@@ -47,17 +47,24 @@ export interface User {
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-      axios.get("/user/getuser").then((response) => {
-        setUser(response.data[0]);
-        setIsLoading(false);
-      });
+      axios
+        .get("/user/getuser")
+        .then((response) => {
+          setUser(response.data[0]);
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          history.push("/login");
+        });
     } else setIsLoading(false);
-  }, []);
+  }, [history]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -91,7 +98,7 @@ function App(): JSX.Element {
             <EditPost />
           </PrivateRoute>
           <PrivateRoute path="/posts/:postId" isLoading={isLoading}>
-            <PostInformation user={user}/>
+            <PostInformation user={user} />
           </PrivateRoute>
           <PrivateRoute path="/myposts/closed/:postId" isLoading={isLoading}>
             <PostTable user={user} setUser={setUser} />
