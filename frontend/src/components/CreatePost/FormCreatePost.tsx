@@ -99,7 +99,7 @@ const validationSchema = yup.object({
     .required("Cannot be empty"),
   more: yup
     .string()
-    .max(9999,"More Requirement length must be at most 200 characters."),
+    .max(9999,"More Requirement length must be at most 9999 characters."),
   isDueDate: yup.boolean().required(),
   hasPeriod: yup.boolean().required(),
   dueDate: yup.date().when("isDueDate", (isDueDate, schema) => {
