@@ -39,7 +39,7 @@ const validationSchema = yup.object({
   lastName: yup.string().required("lastname"),
   studentId: yup
     .string()
-    .matches(/^['b']\d{10}/, "Must be bxxxxxxxxxx")
+    .length(10, "Must be 10 characters")
     .required("Enter your student ID"),
   phone: yup.number().required("Enter your phone number"),
 });
@@ -128,10 +128,6 @@ function StudentRegistrationForm(): JSX.Element {
     setOpen(true);
   };
 
-  // function onChange(value: any) {
-  //   console.log("Captcha value:", value);
-  // }
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -152,12 +148,13 @@ function StudentRegistrationForm(): JSX.Element {
         password: values.password,
         first_name: values.firstName,
         last_name: values.lastName,
-        student_id: values.studentId,
+        student_id: "b" + values.studentId,
         faculty_code: values.faculty,
         department_code: values.department,
         get_notify: true,
         phone: values.phone,
       };
+      console.log(userData);
       axios
         .post("/user/student", userData)
         .then(function (response) {
@@ -356,7 +353,7 @@ function StudentRegistrationForm(): JSX.Element {
                 size="small"
                 label="Student ID"
                 variant="outlined"
-                placeholder="bxxxxxxxxxx"
+                placeholder="xxxxxxxxxx"
                 name="studentId"
                 value={formik.values.studentId}
                 onChange={formik.handleChange}
@@ -414,7 +411,12 @@ function StudentRegistrationForm(): JSX.Element {
             </Link>
           </Grid>
         </Grid>
-        <AlertDialog open={open} setOpen={setOpen} err={err} email={formik.values.email}/>
+        <AlertDialog
+          open={open}
+          setOpen={setOpen}
+          err={err}
+          email={formik.values.email}
+        />
       </form>
     </div>
   );
