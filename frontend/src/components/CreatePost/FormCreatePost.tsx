@@ -85,13 +85,13 @@ const GreenRadio = withStyles({
 const validationSchema = yup.object({
   title: yup
     .string()
-    .max(200)
+    .max(200,"Title length must be at most 200 characters.")
     .required("Title cannot be empty"),
   contact: yup.string().required("Contact cannot be empty"),
   number: yup
     .number()
     .min(1)
-    .max(20000)
+    .max(20000,"Number of students must be between 1 to 20000")
     .typeError("you must specify a number")
     .required("Cannot be empty"),
   more: yup
