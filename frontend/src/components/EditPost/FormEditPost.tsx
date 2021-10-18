@@ -152,8 +152,7 @@ function FormEditPost() {
         .then(function (response) {
           handleOpen();
         })
-        .catch(function (error) {
-        });
+        .catch(function (error) {});
     },
   });
 
@@ -203,6 +202,7 @@ function FormEditPost() {
     const facultyName = faculties.find(
       ({ faculty_code }) => faculty_code === facultyCode
     )?.faculty_name;
+    if (!facultyName) return "All";
     return facultyName;
   };
 
@@ -210,6 +210,7 @@ function FormEditPost() {
     const departmentName = departments.find(
       ({ department_code }) => department_code === departmentCode
     )?.department_name;
+    if (!departmentName) return "All";
     return departmentName;
   };
 
@@ -231,56 +232,54 @@ function FormEditPost() {
         justifyContent="space-between"
         style={{ marginBottom: 20 }}
       >
-        <Typography 
-          component="h1" 
-          variant="h4" 
-          color="primary" 
-        >
+        <Typography component="h1" variant="h4" color="primary">
           Edit Post
         </Typography>
         <Hidden xsDown>
-        <div className={classes.buttons}>
-          <div>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              style={{ marginRight: 10 }}
-            >
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
+          <div className={classes.buttons}>
+            <div>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={{ marginRight: 10 }}
               >
-                <DialogTitle id="alert-dialog-title">{"Success!"}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Editing has been done.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Link to="/myposts" style={{ textDecoration: "none" }}>
-                    <Button onClick={handleClose} color="primary" autoFocus>
-                      Continue
-                    </Button>
-                  </Link>
-                </DialogActions>
-              </Dialog>
-              Save
-            </Button>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Success!"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      Editing has been done.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Link to="/myposts" style={{ textDecoration: "none" }}>
+                      <Button onClick={handleClose} color="primary" autoFocus>
+                        Continue
+                      </Button>
+                    </Link>
+                  </DialogActions>
+                </Dialog>
+                Save
+              </Button>
+            </div>
+            <Link to="/myposts" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                aria-label="outlined secondary button group"
+                onClick={() => handleClick}
+              >
+                Cancel
+              </Button>
+            </Link>
           </div>
-          <Link to="/myposts" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              aria-label="outlined secondary button group"
-              onClick={() => handleClick}
-            >
-              Cancel
-            </Button>
-          </Link>
-        </div>
         </Hidden>
       </Grid>
       <Grid container spacing={1}>
@@ -514,7 +513,11 @@ function FormEditPost() {
                   variant="outlined"
                   label="Year"
                   name="year"
-                  value={formik.values.requirements[index].year}
+                  value={
+                    formik.values.requirements[index].year
+                      ? formik.values.requirements[index].year
+                      : "All"
+                  }
                   disabled
                 ></TextField>
               </Grid>
@@ -552,14 +555,14 @@ function FormEditPost() {
         />
       </Grid>
       <Hidden smUp>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{ marginTop: isMobile ? 10 : 20 }}
-        spacing={isMobile ? 2 : 0}
-      >
-        <Grid item xs={6} sm={1} style={{ marginRight: isMobile ? 0 : 20 }}>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ marginTop: isMobile ? 10 : 20 }}
+          spacing={isMobile ? 2 : 0}
+        >
+          <Grid item xs={6} sm={1} style={{ marginRight: isMobile ? 0 : 20 }}>
             <Button
               type="submit"
               variant="contained"
@@ -590,20 +593,20 @@ function FormEditPost() {
             </Button>
           </Grid>
           <Grid item xs={6} sm={1}>
-          <Link to="/myposts" style={{ textDecoration: "none" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              aria-label="outlined secondary button group"
-              className={classes.button}
-              onClick={() => handleClick}
-            >
-              Cancel
-            </Button>
-          </Link>
+            <Link to="/myposts" style={{ textDecoration: "none" }}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                aria-label="outlined secondary button group"
+                className={classes.button}
+                onClick={() => handleClick}
+              >
+                Cancel
+              </Button>
+            </Link>
           </Grid>
         </Grid>
-        </Hidden>
+      </Hidden>
     </form>
   );
 }

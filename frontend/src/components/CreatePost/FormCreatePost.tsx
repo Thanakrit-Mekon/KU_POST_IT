@@ -52,6 +52,7 @@ interface Department {
 
 const current_year = 64;
 const years = [
+  "All",
   current_year - 3,
   current_year - 2,
   current_year - 1,
@@ -68,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: "red",
     paddingLeft: "5px",
+  },
+  dateError: {
+    color: "red",
   },
 }));
 
@@ -119,6 +123,10 @@ function FormCreatePost() {
     defaultMatches: true,
   });
 
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -127,10 +135,10 @@ function FormCreatePost() {
       number: "",
       more: "",
       isDueDate: "false",
-      dueDate: new Date(),
+      dueDate: tomorrow,
       hasPeriod: "false",
-      endDate: new Date(),
-      startDate: new Date(),
+      endDate: tomorrow,
+      startDate: tomorrow,
       requirements: [
         {
           faculty: "",
@@ -156,6 +164,7 @@ function FormCreatePost() {
       };
 
       if (values.type === "true") userData.qualification = [];
+      console.log(userData);
       axios
         .post("/posts/create", userData)
         .then(function (response) {
@@ -208,9 +217,12 @@ function FormCreatePost() {
   };
 
   const getDepartmentByFaculty = (falcultyCode: string) => {
-    return departments.filter(
-      (department) => department.faculty_code === falcultyCode
+    const newDepartments = departments.filter(
+      (department) =>
+        department.faculty_code === falcultyCode ||
+        department.faculty_code === "All"
     );
+    return newDepartments;
   };
 
   const [open, setOpen] = React.useState(false);
@@ -307,29 +319,38 @@ function FormCreatePost() {
               label="Set Due Date"
             />
           </div>
-          {formik.values.isDueDate === "true" && (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="dense"
-                id="due date picker"
-                label="Due Date Picker"
-                name="dueDate"
-                value={formik.values.dueDate}
-                onChange={(value) => formik.setFieldValue("dueDate", value)}
-                error={
-                  formik.values.isDueDate &&
-                  formik.touched.dueDate &&
-                  Boolean(formik.errors.dueDate)
-                }
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </MuiPickersUtilsProvider>
-          )}
+          <div>
+            {formik.values.isDueDate === "true" && (
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="dd/MM/yyyy"
+                  margin="dense"
+                  id="due date picker"
+                  label="Due Date Picker"
+                  name="dueDate"
+                  value={formik.values.dueDate}
+                  onChange={(value) => formik.setFieldValue("dueDate", value)}
+                  error={
+                    formik.values.isDueDate &&
+                    formik.touched.dueDate &&
+                    Boolean(formik.errors.dueDate)
+                  }
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            )}
+            {formik.values.isDueDate === "true" &&
+              formik.touched.dueDate &&
+              formik.errors.dueDate && (
+                <FormHelperText className={classes.dateError}>
+                  Due date must be after the date of posting.
+                </FormHelperText>
+              )}
+          </div>
         </Grid>
       </RadioGroup>
       <Typography
@@ -354,7 +375,7 @@ function FormCreatePost() {
           marginBottom: 20,
         }}
       >
-        <Grid container justifyContent="space-between" alignItems="center">
+        <Grid container alignItems="center">
           <div>
             <FormControlLabel
               value="false"
@@ -368,49 +389,69 @@ function FormCreatePost() {
             />
           </div>
           {formik.values.hasPeriod === "true" && (
-            <Grid justifyContent="space-between">
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="dense"
-                  id="start date picker"
-                  label="Start Date Picker"
-                  name="startDate"
-                  value={formik.values.startDate}
-                  onChange={(value) => formik.setFieldValue("startDate", value)}
-                  error={
-                    formik.values.hasPeriod &&
-                    formik.touched.startDate &&
-                    Boolean(formik.errors.startDate)
-                  }
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </MuiPickersUtilsProvider>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="MM/dd/yyyy"
-                  margin="dense"
-                  id="end date picker"
-                  label="End Date Picker"
-                  name="endDate"
-                  value={formik.values.endDate}
-                  onChange={(value) => formik.setFieldValue("endDate", value)}
-                  error={
-                    formik.values.hasPeriod &&
-                    formik.touched.endDate &&
-                    Boolean(formik.errors.endDate)
-                  }
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </MuiPickersUtilsProvider>
+            <Grid container justifyContent="center">
+              <Grid item style={{ marginRight: isMobile ? "0" : "10px" }}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="dd/MM/yyyy"
+                    margin="dense"
+                    id="start date picker"
+                    label="Start Date Picker"
+                    name="startDate"
+                    value={formik.values.startDate}
+                    onChange={(value) =>
+                      formik.setFieldValue("startDate", value)
+                    }
+                    error={
+                      formik.values.hasPeriod &&
+                      formik.touched.startDate &&
+                      Boolean(formik.errors.startDate)
+                    }
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+                {formik.values.hasPeriod === "true" &&
+                  formik.touched.startDate &&
+                  formik.errors.startDate && (
+                    <FormHelperText className={classes.dateError}>
+                      Start date must be after the date of posting.
+                    </FormHelperText>
+                  )}
+              </Grid>
+              <Grid item>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    variant="inline"
+                    format="dd/MM/yyyy"
+                    margin="dense"
+                    id="end date picker"
+                    label="End Date Picker"
+                    name="endDate"
+                    value={formik.values.endDate}
+                    onChange={(value) => formik.setFieldValue("endDate", value)}
+                    error={
+                      formik.values.hasPeriod &&
+                      formik.touched.endDate &&
+                      Boolean(formik.errors.endDate)
+                    }
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+                {formik.values.hasPeriod === "true" &&
+                  formik.touched.endDate &&
+                  formik.errors.endDate && (
+                    <FormHelperText className={classes.dateError}>
+                      End date must be after start date of working period.
+                    </FormHelperText>
+                  )}
+              </Grid>
             </Grid>
           )}
         </Grid>
