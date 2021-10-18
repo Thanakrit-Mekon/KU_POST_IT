@@ -107,7 +107,7 @@ const validationSchema = yup.object({
     .required("Cannot be empty"),
   more: yup
     .string()
-    .max(9999),
+    .max(9999,"More Requirement length must be at most 200 characters."),
 });
 
 function FormEditPost() {
@@ -564,6 +564,11 @@ function FormEditPost() {
           onChange={formik.handleChange}
           error={formik.touched.more && Boolean(formik.errors.more)}
         />
+        {formik.touched.more && formik.errors.more && (
+            <FormHelperText className={classes.error}>
+              {formik.errors.more}
+            </FormHelperText>
+          )}
       </Grid>
       <Hidden smUp>
         <Grid
