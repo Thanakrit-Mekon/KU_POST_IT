@@ -94,14 +94,20 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const validationSchema = yup.object({
-  title: yup.string().required(),
+  title: yup
+    .string()
+    .max(200)
+    .required(),
   contact: yup.string().required(),
   number: yup
     .number()
     .min(1)
+    .max(20000)
     .typeError("you must specify a number")
     .required("Cannot be empty"),
-  more: yup.string(),
+  more: yup
+    .string()
+    .max(9999),
 });
 
 function FormEditPost() {
