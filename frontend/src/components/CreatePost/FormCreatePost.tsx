@@ -83,14 +83,20 @@ const GreenRadio = withStyles({
 })((props: RadioProps) => <Radio color="default" {...props} />);
 
 const validationSchema = yup.object({
-  title: yup.string().required("Title cannot be empty"),
+  title: yup
+    .string()
+    .max(200)
+    .required("Title cannot be empty"),
   contact: yup.string().required("Contact cannot be empty"),
   number: yup
     .number()
     .min(1)
+    .max(20000)
     .typeError("you must specify a number")
     .required("Cannot be empty"),
-  more: yup.string(),
+  more: yup
+    .string()
+    .max(9999),
   isDueDate: yup.boolean().required(),
   hasPeriod: yup.boolean().required(),
   dueDate: yup.date().when("isDueDate", (isDueDate, schema) => {
