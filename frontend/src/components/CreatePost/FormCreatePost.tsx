@@ -52,6 +52,7 @@ interface Department {
 
 const current_year = 64;
 const years = [
+  'ALL',
   current_year - 3,
   current_year - 2,
   current_year - 1,
