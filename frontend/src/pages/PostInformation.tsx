@@ -1,5 +1,6 @@
 import { makeStyles, createStyles } from "@material-ui/core/styles";
 import PostinforForm from "../components/PostInformation/PostinforForm";
+import { User } from "../App";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -17,11 +18,15 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function Postinfor(): JSX.Element {
+export interface Postinfoprops {
+  user: User | null;
+}
+
+function Postinfor({ user }: Postinfoprops): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.bg}>
-      <PostinforForm />
+      <PostinforForm user={user}/>
     </div>
   );
 }
