@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     width: "auto",
     height: "auto",
+    overflowX: "hidden",
     padding: theme.spacing(2),
     alignContent: "center",
     [theme.breakpoints.down("xs")]: {
