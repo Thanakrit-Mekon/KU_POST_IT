@@ -168,7 +168,9 @@ function FormCreatePost() {
         startDate: values.startDate,
         endDate: values.endDate,
       };
-
+      userData.qualification = userData.qualification.filter(
+        (q) => q.faculty !== "" && q.department !== "" && q.year !== ""
+      );
       if (userData.qualification.length > 0) {
         userData.qualification.forEach((q) => {
           if (
