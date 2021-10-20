@@ -83,7 +83,19 @@ export default function LongMenu({ user, setUser }: LongMenuProps) {
         }}
       >
         <Hidden smUp>
-          {(usertype === 1 || usertype === 2) && (
+          <Link to="/ta" style={{ textDecoration: "none", color: "black" }}>
+              <MenuItem style={{ paddingLeft: 13 }}>TA</MenuItem>
+          </Link>
+
+          <Link to="/coop" style={{ textDecoration: "none", color: "black" }}>
+              <MenuItem style={{ paddingLeft: 13 }}>Project co-op</MenuItem>
+          </Link>
+
+          <Link to="/intern" style={{ textDecoration: "none", color: "black" }}>
+              <MenuItem style={{ paddingLeft: 13 }}>Internship</MenuItem>
+          </Link>
+
+          {/* {(usertype === 1 || usertype === 2) && (
             <Link to="/ta" style={{ textDecoration: "none", color: "black" }}>
               <MenuItem style={{ paddingLeft: 13 }}>TA</MenuItem>
             </Link>
@@ -117,7 +129,7 @@ export default function LongMenu({ user, setUser }: LongMenuProps) {
             <MenuItem style={{ paddingLeft: 13 }} disabled>
               Internship
             </MenuItem>
-          )}
+          )} */}
         </Hidden>
 
         <Link
