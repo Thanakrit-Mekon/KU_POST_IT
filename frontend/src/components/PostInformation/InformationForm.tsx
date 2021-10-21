@@ -24,21 +24,11 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { User } from "../../App";
 
 const useStyles = makeStyles((theme) => ({
-  layout: {
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
-  Card: {
-    width: "100%",
-
-    padding: theme.spacing(2),
-    alignContent: "center",
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
+  title: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 20,
+      maxWidth: "calc(100vw - 32px)",
+    },
   },
   button: {
     marginTop: theme.spacing(3),
@@ -51,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
     },
     marginRight: 10,
   },
+  chip: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+  }
 }));
 
 interface SubjectType {
@@ -81,6 +76,19 @@ interface ParamType {
   postId: string;
 }
 
+interface Faculty {
+  id: string;
+  faculty_name: string;
+  faculty_code: string;
+}
+
+interface Department {
+  id: string;
+  faculty_code: string;
+  department_name: string;
+  department_code: string;
+}
+
 export interface Postinfoprops {
   user: User | null;
 }
@@ -92,6 +100,8 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const [faculties, setFaculties] = useState<Faculty[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
   const [subject, setSubject] = useState<SubjectType>({} as SubjectType);
     //3=company  2=teacher 1=student
     var usertype = -1;
@@ -109,6 +119,18 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
     });
   }, [param.postId]);
 
+  useEffect(() => {
+    axios.get("/dropdowns/faculties").then((response) => {
+      setFaculties(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get(`/dropdowns/alldepartment`).then((response) => {
+      setDepartments(response.data);
+    });
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       feedback: "",
@@ -125,22 +147,41 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
     },
   });
 
+  const facultyCodeToFacultyName = (facultyCode: string) => {
+    const facultyName = faculties.find(
+      ({ faculty_code }) => faculty_code === facultyCode
+    )?.faculty_name;
+    if (!facultyName) return "";
+    return facultyName;
+  };
+
+  const departmentCodeToDepartmentName = (departmentCode: string) => {
+    const departmentName = departments.find(
+      ({ department_code }) => department_code === departmentCode
+    )?.department_name;
+    if (!departmentName) return "";
+    return departmentName;
+  };
+
   return (
     <>
       <Grid container direction="row" justifyContent="center">
-        <Typography variant="h4" align="center">
+        <Grid item xs>
+        <Typography variant="h4" align="center" style={{ wordWrap: "break-word" }} className={classes.title}>
           <Box fontWeight="bold" my={2}>
             {subject.title}
           </Box>
         </Typography>
+        </Grid>
       </Grid>
 
       <Grid container direction="row" justifyContent="center">
         {subject.qualification?.map((obj) => {
           return (
             <Chip
+              className={classes.chip}
               style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
-              label={`${obj.faculty_code} | ${obj.department_code} | ชั้นปีที่ ${obj.year}`}
+              label={`${facultyCodeToFacultyName(obj.faculty_code)} | ${departmentCodeToDepartmentName(obj.department_code)} | ชั้นปีที่ ${obj.year}`}
               color="primary"
               key={obj.department_code}
             />

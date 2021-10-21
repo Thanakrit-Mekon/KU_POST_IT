@@ -411,13 +411,16 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                       </Grid>
 
                       <Grid item xs={7}>
-                        <Typography color="primary">
+                        <Typography color="primary"  style={{ wordWrap: "break-word" }}>
                           <Box
                             className={classes.cardtitle}
                             fontWeight="bold"
                             color="primary"
                           >
-                            {obj.title}
+                            {(obj.title.length > 40) ? 
+                              obj.title.slice(0,40) + "..." : 
+                              obj.title
+                            }
                           </Box>
                         </Typography>
                         <Box mt={1}>

@@ -92,21 +92,21 @@ function NavBar({ user, setUser }: NavBarProps): JSX.Element {
                 to="/ta"
                 className={classes.tab}
                 component={Link}
-                disabled={usertype === 3}
+                //disabled={usertype === 3}
               />
               <Tab
                 label="Project co-op"
                 to="/coop"
                 className={classes.tab}
                 component={Link}
-                disabled={usertype === 2 || usertype === 3}
+                //disabled={usertype === 2 || usertype === 3}
               />
               <Tab
                 label="Internship"
                 to="/intern"
                 className={classes.tab}
                 component={Link}
-                disabled={usertype === 2}
+                //disabled={usertype === 2}
               />
             </Tabs>
           </Grid>
