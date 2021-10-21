@@ -177,15 +177,74 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
 
       <Grid container direction="row" justifyContent="center">
         {subject.qualification?.map((obj) => {
-          return (
-            <Chip
-              className={classes.chip}
-              style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
-              label={`${facultyCodeToFacultyName(obj.faculty_code)} | ${departmentCodeToDepartmentName(obj.department_code)} | ชั้นปีที่ ${obj.year}`}
-              color="primary"
-              key={obj.department_code}
-            />
-          );
+          if (!obj.faculty_code || !obj.department_code || !obj.year) {
+            return (
+              null
+            );
+          }
+          else if (obj.faculty_code === "All") {
+            if (obj.year === "All") {
+              return (
+                null
+              );
+            }
+            else {
+              return (
+                <Chip
+                  className={classes.chip}
+                  style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
+                  label={`Year ${obj.year}`}
+                  color="primary"
+                />
+              );
+            }
+          }
+          else {
+            if (obj.department_code === "All") {
+              if (obj.year === "All") {
+                return (
+                  <Chip
+                    className={classes.chip}
+                    style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
+                    label={`${facultyCodeToFacultyName(obj.faculty_code)}`}
+                    color="primary"
+                  />
+                );
+              }
+              else {
+                return (
+                  <Chip
+                    className={classes.chip}
+                    style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
+                    label={`${facultyCodeToFacultyName(obj.faculty_code)} | Year ${obj.year}`}
+                    color="primary"
+                  />
+                );
+              }
+            }
+            else {
+              if (obj.year === "All") {
+                return (
+                  <Chip
+                    className={classes.chip}
+                    style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
+                    label={`${facultyCodeToFacultyName(obj.faculty_code)} | ${departmentCodeToDepartmentName(obj.department_code)}`}
+                    color="primary"
+                  />
+                );
+              }
+              else {
+                return (
+                  <Chip
+                    className={classes.chip}
+                    style={{ marginRight: "0.5rem", marginBottom: "0.5rem" }}
+                    label={`${facultyCodeToFacultyName(obj.faculty_code)} | ${departmentCodeToDepartmentName(obj.department_code)} | Year ${obj.year}`}
+                    color="primary"
+                  />
+                );
+              }
+            }
+          }
         })}
       </Grid>
       <Grid container justifyContent="center" style={{ marginTop: 10 }}>
@@ -234,7 +293,7 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
           {subject.desc && subject.desc.trim() !== "" ? (
             <>
               <Typography variant="h6" color="primary">
-                <Box mt={3}>รายละเอียดเพิ่มเติม</Box>
+                <Box mt={3}>More Details</Box>
               </Typography>
               <Divider />
               <Typography
@@ -248,7 +307,7 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
           ) : null}
 
           <Typography variant="h6" color="primary">
-            <Box mt={3}>ช่องทางการติดต่อ</Box>
+            <Box mt={3}>Contact</Box>
           </Typography>
           <Divider />
           <Typography
@@ -264,7 +323,7 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
             <TextField
               name="feedback"
               size="small"
-              label="ตอบคำถาม & สิ่งที่อยากบอก"
+              label="Answer & Suggestion"
               variant="outlined"
               multiline
               rows={7}
