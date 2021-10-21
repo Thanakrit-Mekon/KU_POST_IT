@@ -96,18 +96,19 @@ const GreenRadio = withStyles({
 const validationSchema = yup.object({
   title: yup
     .string()
-    .max(200,"Title length must be at most 200 characters.")
+    .max(200, "Title length must be at most 200 characters.")
     .required(),
   contact: yup.string().required(),
   number: yup
     .number()
+    .integer()
     .min(1)
-    .max(20000,"Number of students must be between 1 to 20000")
+    .max(20000, "Number of students must be between 1 to 20000")
     .typeError("you must specify a number")
     .required("Cannot be empty"),
   more: yup
     .string()
-    .max(9999,"More Requirement length must be at most 9999 characters."),
+    .max(9999, "More Requirement length must be at most 9999 characters."),
 });
 
 function FormEditPost() {
@@ -565,10 +566,10 @@ function FormEditPost() {
           error={formik.touched.more && Boolean(formik.errors.more)}
         />
         {formik.touched.more && formik.errors.more && (
-            <FormHelperText className={classes.error}>
-              {formik.errors.more}
-            </FormHelperText>
-          )}
+          <FormHelperText className={classes.error}>
+            {formik.errors.more}
+          </FormHelperText>
+        )}
       </Grid>
       <Hidden smUp>
         <Grid

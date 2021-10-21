@@ -93,6 +93,7 @@ const validationSchema = yup.object({
   contact: yup.string().required("Contact cannot be empty"),
   number: yup
     .number()
+    .integer()
     .min(1)
     .max(20000, "Number of students must be between 1 to 20000")
     .typeError("you must specify a number")
