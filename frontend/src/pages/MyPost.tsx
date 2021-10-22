@@ -210,7 +210,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                       container
                       direction="row"
                       alignItems="center"
-                      spacing={2}
+                      // spacing={2}
                     >
                       <Grid item xs={6}>
                         <Grid container direction="column" alignItems="center">
@@ -365,17 +365,19 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                         </Grid>
                       </Grid>
                       <Grid item xs={6}>
-                        <Typography color="primary" style={{ wordWrap: "break-word" }}>
+                        <Typography
+                          color="primary"
+                          style={{ wordWrap: "break-word" }}
+                        >
                           <Box
                             className={classes.cardtitle}
                             fontWeight="bold"
                             textAlign="left"
                             color="primary"
                           >
-                            {(obj.title.length > 40) ? 
-                              obj.title.slice(0,40) + "..." : 
-                              obj.title
-                            }
+                            {obj.title.length > 40
+                              ? obj.title.slice(0, 40) + "..."
+                              : obj.title}
                           </Box>
                         </Typography>
                         <Box mt={1}>
