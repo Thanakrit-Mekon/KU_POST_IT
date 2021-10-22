@@ -160,7 +160,7 @@ function FormCreatePost() {
         title: values.title,
         is_all: values.type,
         contact: values.contact,
-        quantity: values.number,
+        quantity: parseInt(values.number),
         desc: values.more,
         qualification: values.requirements,
         isDueDate: values.isDueDate,
@@ -185,7 +185,6 @@ function FormCreatePost() {
         });
         if (userData.is_all === "true") userData.qualification = [];
       }
-      console.log(userData);
       axios
         .post("/posts/create", userData)
         .then(function (response) {

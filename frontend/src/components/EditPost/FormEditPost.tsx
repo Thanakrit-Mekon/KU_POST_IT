@@ -148,7 +148,7 @@ function FormEditPost() {
       const userData = {
         title: values.title,
         contact: values.contact,
-        quantity: values.number,
+        quantity: parseInt(values.number),
         desc: values.more,
         isDueDate: values.isDueDate,
         dueDate: selectedDate,

@@ -167,7 +167,8 @@ function StudentRegistrationForm(): JSX.Element {
 
   useEffect(() => {
     axios.get("/dropdowns/faculties").then((response) => {
-      setFaculties(response.data);
+      const res = response.data;
+      setFaculties(res.slice(1));
     });
   }, []);
 
