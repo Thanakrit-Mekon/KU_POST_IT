@@ -287,20 +287,19 @@ function Body({ user, setUser }: Bodyprops): JSX.Element {
     },
   ];
 
-  const exportSelectedRows = () => {
-    new CsvBuilder(
-      `${subjects.title}_${new Date().toISOString().split("T")[0]}.csv`
-    )
-      .setColumns(c.map((col) => col.field))
-      .addRows(SelectedRow.map((rowData) => c.map((col) => rowData[col.field])))
-      .exportFile();
-  };
+  // const exportSelectedRows = () => {
+  //   new CsvBuilder(
+  //     `${subjects.title}_${new Date().toISOString().split("T")[0]}.csv`
+  //   )
+  //     .setColumns(c.map((col) => col.field))
+  //     .addRows(SelectedRow.map((rowData) => c.map((col) => rowData[col.field])))
+  //     .exportFile();
+  // };
 
   const onSubmit = () => {
     axios
       .put("/datatable/submit", selectedStudents)
       .then(function (response) {
-        exportSelectedRows();
         handleClickOpen();
       })
       .catch(function (error) {
