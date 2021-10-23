@@ -289,11 +289,29 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
             </Grid>
           ) : (
             subjects.map((obj) => {
+
+              let state = "close"
+              let statecolor = "gray"
+              const date = new Date(obj.dueDate)
+              if(obj.is_activate === true && obj.isDueDate === true &&  date <= new Date()){
+                state = "expired"
+              }else if(obj.is_activate === true){
+                state = "open"
+              }
+
+              if(state === "open"){
+                statecolor = "white"
+              }
+              console.log(obj.dueDate)
+              console.log(new Date())
+              console.log(obj.dueDate.toLocaleString())
+              console.log(new Date().toLocaleString())
+
               return (
                 <Grid item xs={12} md={6}>
                   <Card
                     className={
-                      obj.is_activate === false
+                      statecolor === "gray"
                         ? classes.submitted
                         : classes.unsubmitted
                     }
@@ -310,13 +328,11 @@ function JoinedPosts({ user, setUser }: queryuserprops) {
                             style={{ alignSelf: "flex-start" }}
                             size="small"
                             className={
-                              obj.is_activate === false
+                              statecolor === "gray"
                                 ? classes.closed
                                 : classes.open
                             }
-                            label={
-                              obj.is_activate === false ? "closed" : "open"
-                            }
+                            label={ state }
                           />
                           <Avatar
                             alt="Travis Howard"

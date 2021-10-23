@@ -32,15 +32,14 @@ export default function LongMenu({ user, setUser }: LongMenuProps) {
   const history = useHistory();
   const classes = useStyles();
 
-  var usertype = -1;
-  if (user?.location) {
-    usertype = 3;
-    //3=company  2=teacher 1=student
-  } else if (user?.student_id) {
-    usertype = 1;
-  } else {
-    usertype = 2;
-  }
+  // var usertype = -1;
+  // if (user?.location) {
+  //   usertype = 3;
+  // } else if (user?.student_id) {
+  //   usertype = 1;
+  // } else {
+  //   usertype = 2;
+  // }
 
   const onLogout = () => {
     if (setUser !== undefined) {
