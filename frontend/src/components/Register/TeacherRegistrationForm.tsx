@@ -165,7 +165,8 @@ function TeacherRegistrationForm(): JSX.Element {
 
   useEffect(() => {
     axios.get("/dropdowns/faculties").then((response) => {
-      setFaculties(response.data);
+      const res = response.data;
+      setFaculties(res.slice(1));
     });
   }, []);
 
@@ -173,7 +174,8 @@ function TeacherRegistrationForm(): JSX.Element {
     axios
       .get(`/dropdowns/department/${formik.values.faculty}`)
       .then((response) => {
-        setDepartments(response.data);
+        const res = response.data;
+        setDepartments(res.slice(1));
       });
   }, [formik.values.faculty]);
 

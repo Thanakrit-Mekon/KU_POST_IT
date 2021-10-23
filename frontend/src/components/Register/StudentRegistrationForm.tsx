@@ -180,7 +180,8 @@ function StudentRegistrationForm(): JSX.Element {
     axios
       .get(`/dropdowns/department/${formik.values.faculty}`)
       .then((response) => {
-        setDepartments(response.data);
+        const res = response.data;
+        setDepartments(res.slice(1));
       });
   }, [formik.values.faculty]);
 
