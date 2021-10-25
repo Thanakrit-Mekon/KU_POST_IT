@@ -454,6 +454,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                               color="primary"
                               size="small"
                               style={{
+                                marginTop: 10,
                                 marginBottom: 10,
                                 marginLeft: 15,
                                 marginRight: 7.5,
@@ -474,6 +475,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                                 color="primary"
                                 size="small"
                                 style={{
+                                  marginTop: 10,
                                   marginBottom: 10,
                                   marginRight: 7.5,
                                   marginLeft: 7.5,
@@ -491,6 +493,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                                 color="primary"
                                 size="small"
                                 style={{
+                                  marginTop: 10,
                                   marginBottom: 10,
                                   marginRight: 7.5,
                                   marginLeft: 7.5,
@@ -511,6 +514,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                                 color="secondary"
                                 size="small"
                                 style={{
+                                  marginTop: 10,
                                   marginBottom: 10,
                                   marginRight: 15,
                                   marginLeft: 7.5,
@@ -529,6 +533,7 @@ function MyPost({ user, setUser }: MyPostProps): JSX.Element {
                                 color="secondary"
                                 size="small"
                                 style={{
+                                  marginTop: 10,
                                   marginBottom: 10,
                                   marginRight: 15,
                                   marginLeft: 7.5,
