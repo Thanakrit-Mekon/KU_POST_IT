@@ -172,11 +172,7 @@ function FormEditPost() {
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date()
   );
-
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
-
+  
   const [startDate, setStartDate] = React.useState<Date | null>(new Date());
   const handleStartDateChange = (date: Date | null) => {
     setStartDate(date);
