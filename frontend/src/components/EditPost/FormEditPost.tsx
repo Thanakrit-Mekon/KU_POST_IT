@@ -112,6 +112,9 @@ const validationSchema = yup.object({
   more: yup
     .string()
     .max(9999, "More Requirement length must be at most 9999 characters."),
+  dueDate: yup.date().when("isDueDate", (isDueDate, schema) => {
+    if (isDueDate) return schema.min(Date());
+  }),
 });
 
 function FormEditPost() {
