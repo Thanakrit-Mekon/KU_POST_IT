@@ -81,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
     color: "red",
     paddingLeft: "5px",
   },
+  dateError: {
+    color: "red",
+  },
 }));
 
 const GreenRadio = withStyles({
@@ -361,23 +364,38 @@ function FormEditPost() {
               label="Set Due Date"
             />
           </div>
-          {String(formik.values.isDueDate) === "true" && (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="dense"
-                id="due date picker"
-                label="Due Date Picker"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </MuiPickersUtilsProvider>
-          )}
+          <div>
+            {String(formik.values.isDueDate) === "true" && (
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="dd/MM/yyyy"
+                  margin="dense"
+                  id="due date picker"
+                  label="Due Date Picker"
+                  name="dueDate"
+                  value={formik.values.dueDate}
+                  onChange={(value) => formik.setFieldValue("dueDate", value)}
+                  error={
+                    formik.values.isDueDate &&
+                    formik.touched.dueDate &&
+                    Boolean(formik.errors.dueDate)
+                  }
+                  KeyboardButtonProps={{
+                    "aria-label": "change date",
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            )}
+            {String(formik.values.isDueDate) === "true" &&
+              formik.touched.dueDate &&
+              formik.errors.dueDate && (
+                <FormHelperText className={classes.dateError}>
+                  Due date must be after the date of posting.
+                </FormHelperText>
+              )}
+          </div>
         </Grid>
       </RadioGroup>
       <Typography
