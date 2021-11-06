@@ -275,7 +275,7 @@ export default function PostForm({ user }: Postinfoprops): JSX.Element {
           </Box>
           <Box mt={1}>
             {subject.hasPeriod
-              ? "Work peroid : " +
+              ? "Work period : " +
                 subject.startDate.slice(8, 10) +
                 "/" +
                 subject.startDate.slice(5, 7) +

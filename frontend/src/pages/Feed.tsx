@@ -399,7 +399,7 @@ function QueryUser({ user, setUser }: queryuserprops) {
                           </Box>
                           <Box mt={1}>
                             {obj.hasPeriod
-                              ? "Work peroid : " +
+                              ? "Work period : " +
                                 obj.startDate.slice(8, 10) +
                                 "/" +
                                 obj.startDate.slice(5, 7) +
